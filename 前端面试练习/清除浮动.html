@@ -1,0 +1,67 @@
+<!-- https://www.cnblogs.com/wangrongxiang/p/5213603.html -->
+<!-- 使用div标签清除浮动 -->
+<!-- <!DOCTYPE html> 
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div style="background: grey;border: 1px solid gold;">
+        <div style="float: left; background:#cccccc; line-height:100px;">left</div>
+        <div style="float: right; background:#cccccc; line-height:200px;">right</div>
+        <div style="clear:both"></div>
+    </div>
+</body>
+</html> -->
+<!-- 使用overflow属性清除浮动 -->
+<!-- <!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div style="background: grey;border: 1px solid gold; overflow: hidden; zoom:1">
+    <div style="float: left; background:#cccccc; line-height:100px;">left</div>
+    <div style="float: right; background:#cccccc; line-height:200px;">right</div>
+</div>
+</body>
+</html> -->
+<!-- after伪类 -->
+<!-- <!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .text:after{
+            content:"";
+            display:block;
+            clear:both;
+            visibility:hidden;
+            height:0;
+        }
+    </style>
+</head>
+<body>
+<div class="text" style=" background: grey;border: 1px solid gold;"  >
+    <div style="float: left; background:#cccccc; line-height:100px;">left</div>
+    <div style="float: right; background:#cccccc; line-height:200px;">right</div>
+</div>
+</body>
+</html> -->
+<!-- float:left 设置width -->
+<!-- <!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div style="background: grey;border: 1px solid gold; width:500px; float: left;">
+    <div style="float: left; background:#cccccc; line-height:100px;">left</div>
+    <div style="float: right; background:#cccccc; line-height:200px;">right</div>
+</div>
+</body>
+</html> -->

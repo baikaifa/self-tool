@@ -1,0 +1,36 @@
+依赖注入 Dependency Injection简称DI
+	假设有一个方法，这个方法的参数是一个对象 
+	调用时需要传入对象实例化这个方法 
+	例如 
+	var product = new Product()
+	createShipment(product);
+	把对象当做参数传递给这个方法也可以叫做注入这个方法 
+	假如换为product的子类例如 
+	var product = new MockProduct()
+	createShipment(product);
+	假如信息有很多 
+	var product = new Product();
+	var shipCompany = new shipCompany();
+	var address = new Address();
+	var order = new Order();
+	order.setAddress(address);
+	createShipment(product,shipCompany,order);
+	能不能让某人替我们创建这些对象，以及它所依赖的这些对象 
+	我们只用写一句createShopment 
+	这就是依赖注入要解决的问题 
+控制反转 inversion of Control 简称IOC
+指将代码的控制权从代码的内部转到代码的外部 
+比如var product = new Product()决定了我们的代码依赖Product
+如果我想修改依赖为MockProduct需要修改内部的代码
+如果实现控制反转则只需要声明我需要Product 
+至于传进来的是product还是product的子类是由代码的外部决定，传给你的那个人决定 
+Angular实现控制反转的手段就是依赖注入 
+降低耦合度
+providers:[{provide:ProductService,useClass:ProductService}]
+constructor(productService:ProductService)
+提高可测试性 
+当RealLoginService组件没有写好的时候
+你已经写好了一个LoginComponent 
+可以通过一个MockLoginService组件来进行测试 
+当真正的RealLoginService写好的时候只要修改一行代码来注入到LoginComponent中实现
+实现了依赖注入

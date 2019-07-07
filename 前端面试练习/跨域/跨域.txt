@@ -1,0 +1,23 @@
+同源策略
+协议 域名 端口 同域
+
+
+
+
+为什么不支持跨域
+
+cookie Cookie就是由服务器发给客户端的特殊信息，而这些信息以文本文件的方式存放在客户端,然后客户端每次向服务器发送请求的时候都会带上这些特殊的信息.
+ LocalStorage
+DOM元素也有同源策略 iframe
+ajax也不支持跨域
+
+--实现跨域
+-jsonp
+-cors后台
+-postMessage
+-document.domain
+-window.name
+-location.hash
+-http-proxy
+-nginx
+-websocket

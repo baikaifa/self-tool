@@ -1,0 +1,7 @@
+安装react
+cnpm install -g create-react-app
+create-react-app my-app
+
+https协议的服务器上 帮助我们缓存网页
+registerServiceWorker
+    

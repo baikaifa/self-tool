@@ -1,0 +1,65 @@
+<!-- https://www.cnblogs.com/djlxs/p/5032508.html -->
+<!-- 垂直的两个DIV -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .top {
+            width: 100px;
+            height: 100px;
+            background: red;
+            margin-bottom: 20px;
+           
+        }
+
+        .bottom {
+            width: 100px;
+            height: 100px;
+            background: green;
+            margin-top: 40px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="top"></div>
+    <div class="bottom"></div>
+</body>
+</html> -->
+<!-- 包含 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .div1 {
+            width: 200px;
+            height: 200px;
+            background: red;
+            border: 1px solid transparent 
+        }
+        .div2 {
+            width: 100px;
+            height: 100px;
+            background: green;
+            margin: 50px;            
+        }
+    </style>
+</head>
+<body>
+    <div class="div1">
+        <div class="div2"></div>
+    </div>
+</body>
+</html>
+<!-- 
+解决方法有如下几种：
+overflow: hidden 
+padding: 1px 
+border: 1px solid transparent 
+display: inline-block 
+float: left 
+ -->

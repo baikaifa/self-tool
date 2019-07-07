@@ -1,0 +1,24 @@
+<html>
+
+<head>
+<title>我的第一个 HTML 页面</title>
+</head>
+
+<body>
+<iframe src="http://localhost:4000/b.html" frameborder="0" id="frame"
+    onload="load()"
+>
+</iframe>
+<script>
+    function load(){
+        let frame=document.getElementById('frame');
+        frame.contentWindow.postMessage('我爱你','http://localhost:4000');
+        window.onmessage=function name(e){
+            console.log(e.data);
+        }
+        console.log(frame);
+    }
+</script>
+</body>
+
+</html>

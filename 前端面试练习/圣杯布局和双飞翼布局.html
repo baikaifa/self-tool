@@ -1,0 +1,168 @@
+<!-- https://blog.csdn.net/wangchengiii/article/details/77926868 -->
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>实现三栏水平布局之圣杯布局</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+        .container {
+  padding: 0 300px 0 200px;
+}
+        /*3.圣杯布局法*/
+        .left, .main, .right {
+  min-height: 130px;
+  float: left;
+  position: relative;
+}
+.left {
+    left: -200px;
+    margin-left: -100%;
+  background: green;
+  width: 200px;
+  
+}
+.main {
+    width: 100%;
+  background-color: blue;
+}
+.right {
+    margin-left: -300px;
+  background-color: red;
+  width: 300px;
+  right: -300px;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        　　<div class="main">main</div>
+        　　<div class="left">left</div>
+        　　<div class="right">right</div>
+    </div>
+</body>
+</html> -->
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>实现三栏水平布局之双飞翼布局</title>
+    <style type="text/css">
+    .left, .main, .right {
+        float: left;
+        height: 130px;
+    }
+    .left {
+        margin-left: -100%;
+        background: green;
+        width: 200px;
+    }
+    .main {
+        background-color: blue;
+        width: 100%;
+    }
+    .right {
+        margin-left: -300px;
+        background-color: red;
+        width: 300px;
+    }
+    .content{
+        margin: 0 300px 0 200px;
+    }
+    </style>
+</head>
+<body>
+<div class="container"> 
+　　<div class="main">
+    　　<div class="content">main</div> 
+    </div>
+　　<div class="left">left</div> 
+　　<div class="right">right</div> 
+</div>
+</body>
+</html> -->
+<!-- flex布局 -->
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>实现三栏水平布局之Flex布局</title>
+    <style type="text/css">
+    .container{
+        display: flex;
+        height: 130px;
+    }
+    .main{
+        flex-grow: 1;
+        background-color: blue;
+    }
+    .left{
+        order: -1;
+        flex-basis: 200px;
+        background-color: green;
+
+    }
+    .right{
+        flex-basis: 300px;
+        background-color: red;
+    }
+    </style>
+</head>
+<body>
+<div class="container"> 
+　　<div class="main">main</div> 
+　　<div class="left">left</div> 
+　　<div class="right">right</div> 
+</div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>flex 三栏式布局</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .wrapper{
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 200px;
+            border: 1px solid red;
+            margin: 0 auto;
+        }
+        .middle{
+            flex: 1;
+            height: 200px;
+            background-color: gold;
+            border: 1px solid blue;
+        }
+        .left{
+            flex-basis: 100px;
+            order: -1;
+            height: 200px;
+            background-color: skyblue;
+        }
+        .right{
+            flex-basis: 100px;
+            height: 200px;
+            background-color: purple;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="middle">中间布局</div>
+    <div class="middle">中间布局</div>
+    <div class="left">左侧布局</div>
+    <div class="right">右侧布局</div>
+</div>
+</body>
+</html>

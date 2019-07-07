@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn4">123</button>
+    <script>
+        //事件监听 绑定多个事件
+        var btn4 = document.getElementById("btn4");
+        btn4.addEventListener("click", hello1);
+        btn4.addEventListener("click", hello2);
+        function hello1() {
+            alert("hello 1");
+        }
+        function hello2() {
+            alert("hello 2");
+        }
+    </script>
+</body>
+</html>

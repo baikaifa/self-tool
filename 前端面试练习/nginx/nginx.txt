@@ -1,0 +1,22 @@
+1停止防火墙
+systemctl stop firewalld.service
+2
+setenforce 0
+3依赖模块
+yum -y install gcc gcc-c++ autoconf pcre pcre-devel make automake
+yum -y install wget httpd-tools vim
+4安装nginx
+http://nginx.org/en/linux_packages.html#RHEL-CentOS
+vim /etc/yum.repos.d/nginx.repo
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/centos/7/$basearch/
+gpgcheck=0
+enabled=1
+
+yum install nginx
+修改default.conf的server_name localhost www.yangqq
+可以映射
+https配置
+https://help.aliyun.com/knowledge_detail/95491.html?spm=5176.2020520154.cas.25.355656a7j0NKaK
+添加内容到nginx.conf的server中

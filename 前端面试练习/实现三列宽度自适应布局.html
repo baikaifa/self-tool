@@ -1,0 +1,43 @@
+<!-- 1左右定位设置margin -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    html,body{ margin: 0px;width: 100%;background: red; }  
+    h3{height: 100px;margin:20px 0 0;}  
+    #left{left:0px;position: absolute}  
+    #right{right: 0px;position: absolute}  
+    #left,#right{width: 200px;height: 200px; background-color: #ffe6b8;top:120px;}  
+    #center{margin:0px 200px ;background-color: #eee;height: 200px; }  
+    </style>
+</head>
+<body>
+        <h3>实现三列宽度自适应布局</h3>  
+        
+        <div id = "left">我是左边</div>  
+        <div id = "right">我是右边</div> 
+        <div id = "center">我是中间</div>  
+        
+</body>
+</html>
+<!-- 2左右浮动，采用margin-left margin-right -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div style="width:100%; margin:0 auto;"> 
+               <div style="width:200px; float:right; background-color:#960">这是右侧的内容 固定宽度</div>
+               <div style="width:150px; float:left; background:#6FF">这是左侧的内容 固定宽度</div>
+               <div style="margin-left:150px;margin-right:200px; background-color:#9F3">中间内容，自适应宽度</div>
+    </div>
+</body>
+</html> -->

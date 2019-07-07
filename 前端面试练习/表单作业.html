@@ -1,0 +1,135 @@
+<html>
+
+<head>
+    <title>我的第一个 HTML 页面</title>
+    <style>
+        #skin{
+            font-size: 30px;
+            color: red;
+        }
+        #fie{
+            width: 80%;
+            height: 230px;
+        }
+        #txt{
+            width: 80%;
+            height: 60px;
+            border: 1px solid red;
+            float: left;
+        }
+        #blockageOne{
+            width: 30px;
+            height: 30px;
+            background-color: pink;
+            float: left;
+            margin-left: 10px;
+        }
+        #blockageTwo{
+            width: 30px;
+            height: 30px;
+            background-color: blue;
+            float: left;
+            margin-left: 10px;
+        }
+        #blockageThree{
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            float: left;
+            margin-left: 10px;
+        }
+        #blockageFour{
+            width: 30px;
+            height: 30px;
+            background-color: lightpink;
+            float: left;
+            margin-left: 10px;
+        }
+        #blockageFive{
+            width: 30px;
+            height: 30px;
+            background-color: orange;
+            float: left;
+            margin-left: 10px;
+        }
+        #blockageSix{
+            width: 30px;
+            height: 30px;
+            background-color: yellow;
+            float: left;
+            margin-left: 10px;
+        }
+        #skinColor{
+            margin-top: 80px;
+            width: 80%;
+            height: 100px;
+        }
+        input{
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <fieldset id="fie">
+            <legend id="skin">页面换肤</legend>
+                <div id="txt" >
+                    <div><input type="button" id="blockageOne"></div>
+                    <div><input type="button" id="blockageTwo" ></div>
+                    <div><input type="button" id="blockageThree"></div>
+                    <div><input type="button" id="blockageFour"></div>
+                    <div><input type="button" id="blockageFive"></div>
+                    <input type="button" id="blockageSix">
+                    <div><span id="flag"></span></div>
+                </div>
+            <div id="skinColor">
+                <p>
+                    LocalStorage将数据保存在客户端本地的硬件设备中，及时浏览器被关闭了，</p>
+                <p>该数据仍然存在，下次打开浏览器访问网站时仍然可以继续使用。</p>
+            </div>
+        </fieldset>
+    </div>
+
+    <script>
+        window.onload = function () {
+            var arr = ["pink", "blue", "red", "lightPink", "orange", "yellow"];
+            var btns = document.getElementsByTagName('input');
+            var skinColor=document.getElementById('skinColor');
+            var flag=document.getElementById('flag');
+            for (let i = 0; i < btns.length; i++) {
+                btns[i].addEventListener("click",function()
+                {
+                   localStorage.setItem(btns[i].id, arr[i]);
+                   localStorage.setItem(flag.id,arr[i]);
+                })
+            }
+            //查询默认样式
+            for(let i = 0;i < btns.length; i++)
+            {
+                // alert(localStorage.key(localStorage.length-2));
+                //  alert(localStorage.getItem(btns[i].id) );
+                if(localStorage.getItem(btns[i].id)&& localStorage.getItem(flag.id)==localStorage.getItem(btns[i].id) )
+                {
+                    skinColor.style.backgroundColor=localStorage.getItem(btns[i].id);
+                }
+            }
+           
+            //点击更换样式
+            for(let i = 0;i < btns.length; i++)
+            {
+                btns[i].addEventListener("click",function()
+                {
+                    for(let j = 0;j < btns.length; j++)
+                    {
+                         btns[j].style.marginTop="20px";
+                    }
+                    skinColor.style.backgroundColor=localStorage.getItem(btns[i].id);
+                    btns[i].style.marginTop="10px";
+                })
+            }
+        }
+    </script>
+</body>
+
+</html>
