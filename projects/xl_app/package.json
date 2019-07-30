@@ -1,0 +1,71 @@
+{
+	"name": "xile_app_web",
+	"version": "1.0.0",
+	"description": "",
+	"author": "Xunbao Tianxing",
+	"private": true,
+	"scripts": {
+		"dev": "node build/dev-server.js",
+		"start": "node build/dev-server.js",
+		"build": "node build/build.js"
+	},
+	"dependencies": {
+		"axios": "0.19.0",
+		"lib-flexible": "^0.3.2",
+		"photoswipe": "^4.1.3",
+		"qs": "6.7.0",
+		"swiper": "^4.5.0",
+		"vue": "2.6.10",
+		"vue-axios": "2.1.4",
+		"vue-clipboard2": "^0.3.0",
+		"vue-lazyload": "1.3.1",
+		"vue-navigation": "1.1.4",
+		"vue-router": "2.3.1",
+		"vue-scroller": "2.2.4"
+	},
+	"devDependencies": {
+		"@babel/core": "7.5.4",
+		"babel-loader": "8.0.6",
+		"babel-polyfill": "6.26.0",
+		"connect-history-api-fallback": "1.6.0",
+		"copy-webpack-plugin": "5.0.3",
+		"css-loader": "3.0.0",
+		"eslint": "6.0.1",
+		"eslint-loader": "2.2.1",
+		"eventsource-polyfill": "0.9.6",
+		"express": "4.17.1",
+		"extract-text-webpack-plugin": "4.0.0-beta.0",
+		"file-loader": "4.0.0",
+		"friendly-errors-webpack-plugin": "1.7.0",
+		"html-webpack-plugin": "3.2.0",
+		"http-proxy-middleware": "0.19.1",
+		"opn": "6.0.0",
+		"optimize-css-assets-webpack-plugin": "5.0.3",
+		"ora": "3.4.0",
+		"px2rem-loader": "0.1.9",
+		"shelljs": "0.8.3",
+		"style-loader": "0.23.1",
+		"swiper": "^4.5.0",
+		"terser-webpack-plugin": "1.3.0",
+		"uglifyjs-webpack-plugin": "2.1.3",
+		"url-loader": "2.0.1",
+		"vue-circleprogressbar": "^2.0.0",
+		"vue-loader": "15.7.0",
+		"vue-style-loader": "4.1.2",
+		"vue-template-compiler": "2.6.10",
+		"webpack": "4.35.3",
+		"webpack-cli": "3.3.6",
+		"webpack-dev-middleware": "3.7.0",
+		"webpack-hot-middleware": "2.25.0",
+		"webpack-merge": "4.2.1"
+	},
+	"engines": {
+		"node": ">= 4.0.0",
+		"npm": ">= 3.0.0"
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not ie <= 8"
+	]
+}

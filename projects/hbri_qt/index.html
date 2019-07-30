@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+    <title>海豹日记</title>
+    <script>
+      (function(doc,win){
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function(){
+              var clientWidth = docEl.clientWidth;
+              if(!clientWidth)return;
+              docEl.style.fontSize = 100 * (clientWidth/750) + 'px';
+            }
+            if(!doc.addEventListener)return;
+            win.addEventListener(resizeEvt,recalc,false);
+            doc.addEventListener('DOMContentLoaded',recalc,false);
+      })(document,window)
+      
+    document.addEventListener("touchstart",function(e){
+      if(e.target.tagName.toLowerCase()!="input"){
+        var inputEles=document.getElementsByTagName("input");
+        for(var i=0;i<inputEles.length;i++){
+          inputEles[i].blur();
+        }
+      }
+    });
+
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', function () {
+        history.pushState(null, null, document.URL);
+    });
+
+
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>

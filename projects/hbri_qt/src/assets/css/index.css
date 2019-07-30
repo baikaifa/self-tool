@@ -1,0 +1,102 @@
+*{
+    padding:0;
+    margin:0; 
+    box-sizing: border-box;
+    font-family: "STXihei","华文细黑";
+}
+body{
+    font-size:16px;
+}
+.iconfont {
+    cursor: pointer;
+}
+.centerTocenter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.fx{
+    display: flex;
+}
+.between{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.around{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.transTocenter{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+.wt{
+    width:100%;
+}
+.fx_end{
+    display: flex;
+    justify-content: flex-end;
+}
+.blue{
+    color:#3289ff;
+}
+.dl{
+    display: inline-block;
+}
+.bgWhite{
+    background: #fff;
+}
+.wchatBtn{
+    color:#999;
+    font-size:0.28rem;
+}
+.p20{
+    padding:0 0.2rem;
+}
+.fontgray{
+    color:#c7c7c7;
+}
+.mtop20{
+    margin-top:0.2rem;
+}
+.borderTop{
+    border-top:1px solid #f2f2f2;
+}
+.pd10{
+    padding:0.1rem 0 0.1rem 0.1rem;
+}
+.columnCenter{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.rowCenter{
+    display: flex;
+    justify-content: center;
+}
+.font24{
+    font-size:0.24rem;
+}
+.weightBlack{
+    color:#000;
+    font-weight: bold;
+}
+.font22{
+    font-size:0.22rem;
+}
+.grayBar{
+    height: 0.1rem;
+    width:100%;
+    background: #eaeaea;
+}
+.font28{
+    font-size:0.28rem;
+}
+.red{
+    color:#ff0000;
+}
