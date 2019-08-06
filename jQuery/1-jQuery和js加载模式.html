@@ -1,0 +1,44 @@
+2<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        window.onload = function (ev) {
+            //1.通过原生的JS入口函数可以拿到DOM元素
+            var img = document.getElementsByTagName('img')[0];
+            console.log(img);
+            //2.通过原生的JS入口函数可以拿到DOM元素的宽高
+            var width = window.getComputedStyle(img).width;
+            console.log('onload', width);
+        }
+        // 原生js和jQuery入口函数对的加载模式不同
+        // 原生JS会等到DOM元素加载完毕，但不会等到图片也加载完毕就会执行
+        // jQuery会等到DOM元素加载完毕，但不会等到图片也加载完毕就会执行
+
+        // 1原生的js如果编写了多个入口函数，后面编写的会覆盖前面编写的
+        //2jQuery中编写了多个入口函数,后面的不会覆盖前面的
+        window.onload = function (ev) {
+            alert("hello lnj1");
+        }
+        window.onload = function (ev) {
+            alert("hello lnj2");
+        }
+        $(document).ready(function () {
+            alert("hello lnj3");
+        })
+        $(document).ready(function () {
+            alert("hello lnj4");
+        })
+    </script>
+</head>
+
+<body>
+    <img src="http://placehold.it/800x300" alt="">
+</body>
+
+</html>
