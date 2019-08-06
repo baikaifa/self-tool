@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "request-promise-native": "^1.0.7",
+    "sha1": "^1.1.1",
+    "xml2js": "^0.4.19"
+  }
+}

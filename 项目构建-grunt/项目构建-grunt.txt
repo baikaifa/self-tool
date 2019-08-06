@@ -1,0 +1,37 @@
+全局安装grunt-cli
+cnpm i -g grunt-cli
+安装grunt
+cnpm i grunt --save-dev
+
+配置一个Gruntfile.js
+
+//初始化配置grunt 任务
+grunt.initConfig({});
+//grunt任务执行的时候去加载对应的任务插件
+grunt.loadNpmTasks('grunt-contrib-uglify);
+
+//注册grunt的默认任务
+grunt.registerTask('default',[]);
+
+.jshintrc
+{
+    "curly":true,
+    "eqeqeq":true,
+    "eqnull":true,
+    "expr":true,
+    "immed":true,
+    "newcap":true,
+    "noempty":true,
+    "noarg":true,
+    "regexp":true,
+    "browser":true,
+    "devel":true,
+    "node":true,
+    "boss":false,
+    //不能使用未定义的变量
+    "undef":true,
+    //语句后面必须有分号
+    "asi":false,
+    //预定义不检查的全局变量
+    "predef":["define","BMap","angular","BMAP+STATUS_SUCCESS"]
+}
