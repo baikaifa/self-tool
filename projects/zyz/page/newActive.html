@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>志愿服务</title>
+    <link rel="stylesheet" href="../css/date-time-picker.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/newActive.css">
+</head>
+<body style="background:#fff">
+    <header class="headerCommon">
+        <img src="../images/icon_back.png" class="headerBackImg" />
+        <em class="headerBack">返回</em>&nbsp;&nbsp;&nbsp;<span style="color:#999;">|</span>
+        <span class="pageTitle">&nbsp;活动发起</span>
+        <img src="../images/commit2.png" id="commitBtn" class="fr" onclick="commitBtn()">
+    </header>
+
+    <section class="contentCommon">
+        <ul><li class="title font16"><span>活动信息</span></li></ul>
+        <p class="font16 gray mT20">发起人联系方式<span class="fr phoneNum"></span></p>
+
+        <p class="font16 gray mT20">活动名称<img class="inputIcon" src="../images/inputIcon.png"></p>
+        <input type="text" id="activeTitle" class="input1 font14" placeholder="请输入活动名称...">
+
+        <p class="font16 gray mT20">活动地点<img class="inputIcon" src="../images/inputIcon.png"></p>
+        <input type="text" id="activeLocation" class="input1 font14" placeholder="请输入活动地点...">
+
+        <p class="font16 gray mT20">活动联系方式<img class="inputIcon" src="../images/inputIcon.png"></p>
+        <input type="text" id="activePhone" class="font14 input1" placeholder="请输入..." oninput="regNum(this)">
+
+        <p class="font16 gray mT20">活动开始时间<img class="inputIcon" src="../images/inputIcon.png"></p>
+        <input type="text" id="beginMonth" class="font14 input2" placeholder="" maxlength="2" oninput="regBM(this)">&nbsp;月
+        <input type="text" id="beginDate" class="font14 input2" placeholder="" maxlength="2" oninput="regBD(this)">&nbsp;日
+        <input type="text" id="beginHour" class="font14 input2 sameColor" placeholder="00" maxlength="2" oninput="regBH(this)">&nbsp;:&nbsp;
+        <input type="text" id="beginMinite" class="font14 input2 sameColor" placeholder="00" maxlength="2" oninput="regBMi(this)">
+        <p class="font16 gray mT20">活动结束时间<img class="inputIcon" src="../images/inputIcon.png"></p>
+        <input type="text" id="endMonth" class="font14 input2" placeholder="" maxlength="2" oninput="regEM(this)">&nbsp;月
+        <input type="text" id="endDate" class="font14 input2" placeholder="" maxlength="2" oninput="regED(this)">&nbsp;日
+        <input type="text" id="endHour" class="font14 input2 sameColor" placeholder="00" maxlength="2" oninput="regEH(this)">&nbsp;:&nbsp;
+        <input type="text" id="endMinite" class="font14 input2 sameColor" placeholder="00" maxlength="2" oninput="regEMi(this)">
+
+        <p class="font16 gray mT20">活动内容简介<img class="inputIcon" src="../images/inputIcon.png"></p>
+        <textarea maxlength="300" placeholder="内容简介..." class="text-content font14"></textarea>
+        <div class="text-count font14 gray" style="color:#aaa9a9">0/300</div>
+
+        <p class="font16 gray mT20">预计活动时长<img class="inputIcon" src="../images/inputIcon.png"><span class="font12 orange">(以0.5为单位制定)</span></p>
+        <input type="text" id="activeTime" class="input3 font14" placeholder="请输入活动时长"><span class="font14" style="color:#656566">&nbsp;/小时</span>
+
+        <p class="font16 gray mT20">活动介绍照片<img class="inputIcon" src="../images/inputIcon.png"><span class="font12 orange">(图片大小不超过4m)</span></p>
+
+        <!-- 添加封面 -->
+        <div style="clear: both; overflow: auto;">
+            <div class="addImgs font14 fl" style="color:#656566">添加封面</div>
+            <div class="imgContent fl">
+                <div id="imgList"></div>
+                <div class="imgDiv">
+                    <input type="file" id="btnFile" name="myfiles" onchange="onChangFile()" style="display: none;"/>
+                    <img src="../images/addImg.png" class="addBtn addTImg" onclick="addphotohtml()"/>
+                </div>
+            </div>
+        </div>
+
+        <!-- 其他照片 -->
+        <div style="clear: both; overflow: auto;margin-top:15px">
+            <div class="addImgs font14 fl" style="color:#656566">其他照片</div>
+            <div class="imgContent fl">
+                <div id="imgLists"></div>
+                <div class="imgDiv">
+                    <input type="file" id="btnFiles" name="myfiles" onchange="onChangFiles()" style="display: none;" multiple/>
+                    <img src="../images/addImg.png" class="addBtn" onclick="addphotohtmls()"/>
+                </div>
+            </div>
+        </div>
+
+        <ul style="margin-top:20px"><li class="title font16"><span>报名信息</span></li></ul>
+        <p class="font16 gray mT20">报名开始时间<img class="inputIcon" src="../images/inputIcon.png"></p>
+        <input type="text" id="joinStart" class="input3 font14" placeholder="请设置开始时间" readonly="readonly" onclick="setStart()">
+        <img class="canImg" src="../images/calendar.png" alt="" onclick="setStart()">
+
+        <p class="font16 gray mT20">报名结束时间<img class="inputIcon" src="../images/inputIcon.png"></p>
+        <input type="text" id="joinEnd" class="input3 font14" placeholder="请设置结束时间" readonly="readonly" onclick="setEnd()">
+        <img class="canImg" src="../images/calendar.png" alt="" onclick="setEnd()">
+
+        <p class="font16 gray mT20">报名人数<img class="inputIcon" src="../images/inputIcon.png"></p>
+        <input type="text" id="personNum" class="input3 font14" placeholder="请设置报名人数上限" oninput="regNum(this)">
+
+    </section>
+    <button id="saveBtn" onclick="commitBtn()">保存</button>
+	<script src="../js/jquery.js"></script>
+	<script src="../js/ajaxfileupload.js"></script>
+	<script src="../js/date-time-picker.min.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/newActive.js"></script>
+</body>
+</html>

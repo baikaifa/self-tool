@@ -1,0 +1,106 @@
+.chooseBg {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+}
+.contentCommon{height: 100vh}
+.chosen {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%)
+}
+
+.first_circle {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  display: inline-block;
+  margin-left: 12px;
+}
+._circle{margin-left: 20px}
+
+.selectBtn>span {
+  margin-left: 50px;
+}
+
+.borderB{
+  border-bottom:1px solid #f4f4f4;
+}
+.oneLine{
+  position: relative;
+  height: 55px;
+  align-items: center;
+  width: 90%;
+}
+.oneLine>div{
+  display: inline-block;
+}
+.nname{
+  width: 80px;
+  margin-left: 20px;
+}
+.ggender{
+  margin-left: 20px;
+}
+.troops{
+  margin-left: 55px;
+}
+.del{
+  position: fixed;
+  right: 20px;
+  bottom: 50px;
+  color: #f86647;
+  text-decoration: underline;
+}
+.add{
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  color: #f86647;
+  text-decoration: underline;
+}
+.sum_search{
+  position: fixed;
+  right:40px;
+  top: 50%;
+  transform: translate(0, -50%)
+}
+.sum_search>ul>li{
+  width: 11px;
+  height:11px;
+  text-align: center;
+  line-height: 12px;
+  margin-top: 3px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.chosen{
+  display: none;
+}
+.toastBackImg{width:10px;height:18px;display: inline-block;}
+.toastBack{vertical-align: middle;padding-left: .4rem;}
+.changeMumber{background: #fff}
+.persons{height: calc(100% - 125px);overflow: scroll}
+._persons{
+  overflow:scroll;
+  height:88%;
+  width:85%;
+  background-color:#ffffff;
+  border-radius:10px;
+  position: absolute;
+  top:0;
+  left:0;
+  right: 0;
+  bottom: 0;
+  margin: auto; 
+}
+.myButton{
+  letter-spacing:1px;color:#fff;position:fixed;left:50%;transform:translate(-50%,0%);bottom:65px;line-height:37px;border-radius:5px;width:154px;height:37px;background-color:#f67c63;text-align:center
+}
+.oneLine>div{display: inline-block}

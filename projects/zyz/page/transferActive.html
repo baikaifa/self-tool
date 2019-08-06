@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>志愿服务</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/reviewActive.css">
+    <link rel="stylesheet" href="../css/reviewSummary.css">
+    <link rel="stylesheet" href="../css/summaryMumber.css">
+    <link rel="stylesheet" href="../css/summary.css">
+    <link rel="stylesheet" href="../css/transferActive.css">
+</head>
+<body>
+    <header class="headerCommon">
+        <img src="../images/icon_back.png" class="headerBackImg" />
+        <em class="headerBack">返回</em>&nbsp;&nbsp;&nbsp;<span style="color:#999;">|</span>
+        <img src="../images/zr.png" id="commitBtn" class="fr" onclick="commitBtn()">
+    </header>
+    <section class="contentCommon" style="padding-bottom:0!important;height:auto">
+        <div class="content">
+            <div class="flex font16 title">
+                    <img src="../images/zsfk.png" alt="">转让信息
+            </div>
+            <div class="transfer font14">
+                <p style="margin-left:32px;">转让至:</p>
+                <p class="chooseText">
+                    <span id="transferName"></span>
+                    <img src="../images/down.png" class="chooseImg fr" alt="">
+                    <span class="choose fr" style="color:#5aaeef">请选择分队成员</span>
+                </p>
+            </div>
+            <div class="flex font16 title">
+                <img src="../images/zsfk.png" alt="">活动信息
+            </div>
+            <div class="container font15">
+                <p style="padding-top:15px;">原发起人<span id="empName" class="fr"></span></p>
+                <p>活动名称<span id="name" class="fr"></span></p>
+                <p>活动地点<span id="address" class="fr"></span></p>
+                <p>活动日期<span id="data_start_hd" class="fr"></span></p>
+                <p>活动内容简介</p>
+                <p style="padding-top:6px;"><span id="content"></span></p>
+                <p>活动预计时长<span class="fr" style="border:none;min-width:auto">&nbsp;&nbsp;/小时</span><span id="projectTime" class="fr"></span></p>
+            </div>
+            <div class="flex font16 title">
+                <img src="../images/zsfk.png" alt="">报名信息
+            </div>
+            <div class="container font15">
+                <p style="padding-top:15px;">报名开始时间<span id="data_start_bm" class="fr"></span></p>
+                <p>报名结束时间<span id="data_end_bm" class="fr"></span></p>
+                <p>实际报名人数/报名上限人数<span id="member" class="fr"></span></p>
+            </div>
+        </div>
+    </section>
+        <div class="toast allMumber hide" style="z-index:2000">
+        <div class="_persons">
+            <div style="line-height:50px;height:50px;text-align:center;margin-bottom: 11px;">
+                <p style="color:#f68169;font-size:14px;">请选择要转让的人员</p>
+                <hr style="margin:0 auto;height:1px;width:95%;background-color:#f68169;"/>
+            </div>
+            <ul style="height:77%;overflow:scroll" class="aList"></ul>
+            <div class="myButton font14" onclick="addConfirm()">确定</div>
+        </div>
+    </div>
+	<script src="../js/jquery.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/transferActive.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>志愿服务</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/reviewActive.css">
+    <link rel="stylesheet" href="../css/reviewSummary.css">
+    <link rel="stylesheet" href="../css/swiper.min.css">
+</head>
+<body>
+    <header class="headerCommon">
+        <img src="../images/icon_back.png" class="headerBackImg" />
+        <em class="headerBack">返回</em>&nbsp;&nbsp;<span style="color:#999;">|</span>
+    </header>
+    <section class="contentCommon">
+        <div class="content">
+            <div class="flex font16 title">
+                <img src="../images/zsfk.png" alt="">活动信息
+                <p class="showBtn changeBtn hide" onclick="showMore(this)">查看详情</p>
+                <p class="hideBtn changeBtn" onclick="hideMore(this)">收起详情</p>
+            </div>
+            <div class="container font15">
+                <p style="padding-top:15px;">发起人<span id="empName" class="fr"></span></p>
+                <p>活动名称<span id="name" class="fr"></span></p>
+                <p>活动地点<span id="address" class="fr"></span></p>
+                <p>活动日期<span id="data_start_hd" class="fr"></span></p>
+                <p>活动内容简介</p>
+                <p style="padding-top:6px;"><span id="content"></span></p>
+                <p>活动预计时长<span class="fr" style="border:none;min-width:auto">&nbsp;&nbsp;/小时</span><span id="projectTime" class="fr"></span></p>
+            </div>
+            <div class="flex font16 title borderB">
+                <img src="../images/zsfk.png" alt="">报名信息
+                <p class="showBtn changeBtn" onclick="showMore(this)">查看详情</p>
+                <p class="hideBtn changeBtn hide" onclick="hideMore(this)">收起详情</p>
+            </div>
+            <div class="container font15 hide">
+                <p style="padding-top:15px;">报名开始时间<span id="data_start_bm" class="fr"></span></p>
+                <p>报名结束时间<span id="data_end_bm" class="fr"></span></p>
+                <p>实际报名人数/报名上限人数<span id="member" class="fr"></span></p>
+            </div>
+            <div class="flex font16 title borderB">
+                <img src="../images/zsfk.png" alt="">报名人员信息
+                <p class="showBtn changeBtn" onclick="showMore(this)">查看详情</p>
+                <p class="hideBtn changeBtn hide" onclick="hideMore(this)">收起详情</p>
+            </div>
+            <div class="container font15 hide" id="mumberContainer">
+                <p class="listTitle flex">
+                    <span class="l1">姓名</span>
+                    <span class="l2">性别</span>
+                    <span class="l3">所属分队</span>
+                    <span class="l4">个人实际活动时长</span>
+                </p>
+            </div>
+            <div class="flex font16 title">
+                <img src="../images/zsfk.png" alt="">活动总结
+                <p class="showBtn changeBtn hide" onclick="showMore(this)">查看详情</p>
+                <p class="hideBtn changeBtn" onclick="hideMore(this)">收起详情</p>
+            </div>
+            <div class="container font15">
+                <p>实际活动时长<span class="fr" style="border:none;min-width:auto">&nbsp;&nbsp;/小时</span><span id="realityTime" class="fr"></span></p>
+                <p>活动小结</p>
+                <p style="padding-top:6px;"><span id="summary"></span></p>
+                <p>活动照片</p>
+                <div class="showImg flex">
+                    <div id="titleImg" onclick="showMoreImg()"></div>
+                    <p class="font14" style="color: #F86647;margin-top: 12px">点击图片查看更多</p>
+                </div>
+            </div>
+        </div>
+        <div class="bottomBtn flex">
+            <button class="leftBtn" onclick="commit(5)">驳回</button>
+            <button class="" onclick="commit(4)">通过</button>
+        </div>
+    </section>
+    <!-- 弹窗 -->
+    <div class="toast" onclick="hideImgs()">
+        <div id="moreImgs">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                </div>
+            </div>
+        </div>
+    </div>
+	<script src="../js/jquery.js"></script>
+	<script src="../js/swiper.min.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/reviewSummary.js"></script>
+</body>
+</html>

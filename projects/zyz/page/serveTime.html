@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>志愿服务</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/serveTime.css">
+</head>
+<body>
+    <header class="headerCommon">
+        <img src="../images/icon_back.png" class="headerBackImg" />
+        <em class="headerBack">返回</em>&nbsp;&nbsp;&nbsp;<span style="color:#999;">|</span>
+    </header>
+    <section class="contentCommon">
+        <div class="outDiv">
+            <div class="title font13">
+                <span class="gray1">月度合计</span>
+                <span class="fr textL orange" onclick="toMonth()">回到本月</span>
+            </div>
+            <div class="content flex font16">
+                <p class="gray2"><span id="month" class="orange font35"></span>&nbsp;月</p>
+                <p class="gray2 tCenter" style="flex:1">累计</p>
+                <p class="tRight"><span id="monthTime" class="font24"></span>&nbsp;&nbsp;小时</p>
+            </div>
+            <div class="contentBtn font13 flex">
+                <div class="leftBtn" onclick="lastMonth()" style="color: #fff">上个月</div>
+                <div class="rightBtn gray2" onclick="nextMonth()">下个月</div>
+            </div>
+        </div>
+        <div class="outDiv">
+            <div class="title font13">
+                <span class="gray1">年度合计</span>
+                <span class="fr textL orange" onclick="toYear()">回到本年</span>
+            </div>
+            <div class="content flex font16">
+                <p class="gray2"><span id="year" class="orange font35"></span>&nbsp;年</p>
+                <p class="gray2 tCenter" style="flex:1">累计</p>
+                <p class="tRight"><span id="yearTime" class="font24"></span>&nbsp;&nbsp;小时</p>
+            </div>
+            <div class="contentBtn font13 flex">
+                <div class="leftBtn" onclick="lastYear()" style="color: #fff">上年度</div>
+                <div class="rightBtn gray2" onclick="nextYear()">下年度</div>
+            </div>
+        </div>
+        <div class="outDiv flex bDiv">
+            <div class="total orange font18 tCenter" style="flex:3"></div>
+            <div class="tCenter" style="flex:2">
+                <p class="font13">累计时长</p>
+                <p style="margin-top:30px"><span id="totalTime" class="font24"></span>小时</p>
+            </div>
+        </div>
+    </section>
+	<script src="../js/jquery.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/serveTime.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+.title{margin-left: 15px;list-style-type:square;color:#f86647}
+.title span{color:#000;}
+.gray{color: #5f5f5f}
+.contentCommon{padding: 0 16px;padding-top: 10px;}
+.mT20{margin-top: 20px}
+.inputIcon{height: 12px;width: 12px;margin:0 10px}
+.orange{color:#f86647}
+.contentCommon input{padding: 0 15px;border: 1px solid #c3c0c0;border-radius: 5px;height: 45px; margin-top: 10px}
+.contentCommon .input1{width: 100%}
+.contentCommon .input2{width: 18%;text-align: center}
+.contentCommon .input3{width: 86%;}
+.text-content{width: 100%;height: 80px;margin-top: 8px;border: 1px solid #c3c0c0; border-radius: 5px;padding: 9px}
+.text-count{padding-top: 5px;text-align: right}
+.addImgs{width: 20%; margin-top: 10px;}
+.imgContent{width: 80%; padding-top: 10px}
+.imgDiv{position:relative;width: 80px;height: 80px;float: left;margin-right: 11px;margin-bottom: 10px;}
+.addBtn{width: 80px;height: 80px;}
+.canImg{width: 29px; height: 29px;position: relative;left: -42px}
+#saveBtn{width: 100vw;height: 45px;margin-top: 30px;background: #f86647; border-radius: 0;color: #fff}
+.delImg{width: 24px;height: 24px;position: absolute;right: 0;bottom: 0;transform: translate(30%, 30%)}
+input.sameColor::-webkit-input-placeholder{
+  color:#000000;
+  opacity:1
+}
+input.sameColor::-moz-placeholder{ 
+  color:#000000;
+  opacity:1
+}
+input.sameColor:-moz-placeholder{   
+  color:#000000;
+  opacity:1
+}
+input.sameColor:-ms-input-placeholder{ 
+  color:#000000;
+  opacity:1
+}
+input::-moz-placeholder{
+  opacity: 0.8;
+}

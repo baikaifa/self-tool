@@ -1,0 +1,218 @@
+
+.shareView .saveMoney{
+    margin:0.3rem 0;
+    width:100%;
+    height:0.45rem;
+    background:#3289ff;
+    color:#fff;
+    padding-left:0.2rem;
+    display: flex;
+    align-items: center;
+    font-size:0.22rem;
+}
+.shareView .saveMoney i{
+    font-size:0.22rem;
+    padding-right:0.1rem;
+}
+.shareView .goodsInfo{
+    border-bottom:1px solid #eaeaea;
+    color:#c7c7c7;
+    padding:0 0.2rem 0.2rem 0.2rem;
+    text-align: left;
+    font-size:0.24rem;
+    line-height: 1.5;
+}
+.shareView .dotlin{
+    width:1.5rem;
+    border-top:1px dashed #c7c7c7;
+    margin:0.25rem 0;
+}
+.shareView .goodsTitle{
+    color:#000;
+    font-size:0.3rem;
+    padding-top:0.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-clamp: 2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.shareView .showProfit{
+    height:0.64rem;
+    width:100%;
+    padding:0.2rem;
+    display: flex;
+    font-size:0.24rem;
+    align-items: center;
+    justify-content: space-between;
+}
+.shareView .showProfit i{
+    font-size:0.4rem;
+    vertical-align: middle;
+    padding-right:0.2rem;
+    height:0.4rem;
+}
+.shareView .bottomBar{
+    position: fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    display: flex;
+    justify-content: space-around;
+    background:#fff;
+    padding:0.1rem 0;
+}
+.shareView .shareImg{
+    color:#ff8700;
+    height:0.7rem;
+    border:1px solid #ff8700;
+    border-radius:6px;
+    font-size:0.32rem;
+    width:3.4rem;
+    line-height:0.7rem;
+}
+.shareView .copyTaoCode{
+    color:#3289ff;
+    height:0.7rem;
+    border:1px solid #3289ff;
+    border-radius:6px;
+    font-size:0.32rem;
+    width:3.4rem;
+    line-height:0.7rem;
+}
+.shareView .imgList{
+    flex:1;
+    padding-left:0.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.shareView .imgList>div{
+    position:relative;
+    border:1px solid #dadada;
+    margin-bottom:3px;
+}
+.shareView .imgList img{
+    width:1.64rem;
+    /*height:1.64rem;*/
+    border-radius: 8px;
+    margin:0.1rem 3px;
+}
+.shareView .selectBtn{
+    position:absolute;
+    right:0;
+    top:0;
+    width:0.5rem;
+    height:0.5rem;
+}
+.shareView .selectBtn .icon-danxuan{
+    font-size:0.3rem;
+}
+.shareView .selectBtn i{
+    font-size:0.4rem;
+}
+.shareView .shareBigImg{
+    height:5.24rem;
+    width:45%;
+    position: relative;
+    border:1px solid #dadada;
+}
+.shareView .shareBigImg img{
+    width:100%;
+}
+.shareView .mask{
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    height:100vh;
+    background:rgba(0, 0, 0, .6);
+    z-index:99;
+    display: flex;
+    align-items: center;
+}
+.shareView .lookImg{
+    width:100%;
+    overflow: auto;
+    z-index:100;
+    position: fixed;
+    top:50%;
+    transform: translateY(-50%)
+}
+.shareView .lookImg img{
+    width:100%;
+    height:auto;
+}
+.shareView .copyToken{
+    font-size:0.24rem;
+    color:#3289ff;
+    background:#dbeaff;
+    height:0.38rem;
+    width:1.65rem;
+    border-radius:0.19rem;
+    text-align: center;
+}
+.shareView .sharePath{
+    z-index:100;
+    position: fixed;
+    bottom:0;
+    width:100%;
+    height:3.6rem;
+    background: #fff;
+}
+.shareView .shareApp{
+    display: flex;
+    justify-content: space-around;
+}
+.shareView .shareApp>div{
+    display: flex;
+    flex-direction: column;
+    height:1.6rem;
+    width:20%;
+    justify-content: center;
+    align-items: center;
+}
+
+.shareApp .weichatBtn{
+    background:url("../img/share/wechat.png") no-repeat;  
+}
+.shareApp .circleBtn{
+    background:url("../img/share/circle.png") no-repeat;
+}
+.shareApp .qqBtn{
+    background:url("../img/share/qq.png") no-repeat;
+}
+.shareApp .qqzoneBtn{
+    background:url("../img/share/qqzone.png") no-repeat;
+}
+.shareApp .xinlangBtn{
+    background:url("../img/share/xinlang.png") no-repeat;  
+}
+.shareView .imgStyle{
+    width:0.9rem;
+    height:0.9rem;
+    background-size:100% 100%;
+    margin-bottom:0.2rem;
+}
+.shareView .shareTitle{
+    padding:0.2rem 0;
+}
+.shareView .cancleShare{
+    height:1rem;
+    width:100%;
+    background:#f7f7f7;
+    line-height:0.8rem;
+    position: absolute;
+    bottom:0;
+}
+.shareView .imgZone{
+    padding:0.2rem;
+    display: flex;
+}
+.shareView .saveImgBtn{
+    position: absolute;
+    right:0.2rem;
+    bottom:0.2rem;
+}

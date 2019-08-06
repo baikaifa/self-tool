@@ -1,0 +1,14 @@
+.contentCommon{padding: 0 25px;padding-top: 15px;}
+.outDiv{background: #f8f8f8; overflow: hidden; border-radius: 6px;margin-bottom: 18px}
+.title{padding: 12px 18px}
+.orange{color: #f86647}
+.gray1{color: #918f92}
+.gray2{color: #656566}
+.textL{text-decoration: underline}
+.content{align-items: baseline;justify-content: space-between;padding: 0 18px;margin-top: 12px}
+.content>p{flex: 2}
+.contentBtn{height: 40px; border-top: 1px solid #F0F0F0; margin-top: 25px;}
+.contentBtn div{flex:1;line-height: 40px;text-align: center;}
+.leftBtn{background-image: url("../images/btnBg.png");background-size: cover}
+.bDiv{height: 136px;align-items: center}
+.total{height:100px;line-height: 100px;border-right: 1px solid #fff}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>志愿服务</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/personalInfo.css">
+</head>
+<body style="background-color:#fff">
+    <header class="headerCommon">
+        <img src="../images/personal.png" class="headerImg" />
+        <span style="color:#fff;">个人基本信息</span>
+        <img src="../images/commit.png" id="commitBtn" class="fr">
+    </header>
+    <section class="contentCommon">
+        <div class="commonInfo">
+            <div id="name" class="font18 tCenter bold"></div>
+            <ul class="font14 detailInfo">
+                <li>员工工号：<span id="empid"></span></li>
+                <li>证件类型：<span id="idType"></span></li>
+                <li>证件号码：<span id="idno"></span><img class='idNum sBtn' src='../images/eyeClose.png'/></li>
+                <li>入司时间：<span id="hiredate"></span></li>
+                <li>政治面貌：<span id="partyname"></span><span id="educationName" class="fr"></span></li>
+                <li>手机号码：<span id="mobile"></span><img class='mNum sBtn' src='../images/eyeClose.png'/></li>
+            </ul>
+        </div>
+        <div class="otherInfo">
+            <div class="otherText font14 tCenter">补充信息</div>
+            <div class="infos font14">
+                <div>
+                    <div style="display:inline-block;width:24%">
+                        所属分队：
+                    </div>
+                    <div class="team">
+                        <span id="teamid"></span>
+                        <img src="../images/down.png" class="chooseImg fr" alt="">
+                        <span class="choose fr" style="color:#5aaeef">请选择</span>
+                    </div>
+                </div>
+                <div class="joinBnt">
+                    <span>
+                        是否参加过志愿者服务
+                    </span>
+                    <div class="selectBtn has">
+                        <img src="../images/chooseBtn.png" alt="" class="chooseBg">
+                        <img src="../images/hasChoose.png" alt="" class="chosen">
+                    </div>
+                    <span>是</span>
+                    <div class="selectBtn hasNot">
+                        <img src="../images/chooseBtn.png" alt=""class="chooseBg">
+                        <img src="../images/hasChoose.png" alt="" class="chosen">
+                    </div>
+                    <span>否</span>
+                </div>
+                <div style="margin-top: 20px;">
+                    擅长哪些志愿者服务
+                    <textarea maxlength="100" placeholder="请输入..." class="text-content font14"></textarea>
+                    <div class="text-count">0/100</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 分队选择 -->
+    <div class="toast teamToast">
+        <div class="chooseTeam">
+            <div class="teamTitle font16 tCenter">请选择分队</div>
+            <div class="teamList font14"></div>
+            <button class="confirmTeam font16">确定</button>
+        </div>
+    </div>
+    <!-- 弹窗 -->
+    <div class="toast succToast font16">
+        <div class="success">
+            <div class="succText tCenter">恭喜您，<br>已成功注册为民生志愿者</div>
+            <div id="succBtn" class="tCenter">确定</div>
+        </div>
+    </div>
+	<script src="../js/jquery.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/personalInfo.js"></script>
+</body>
+</html>

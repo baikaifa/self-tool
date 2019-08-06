@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>志愿服务</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/activeList.css">
+</head>
+<style>
+    body, .headerCommon{background: #F8F8F8}
+    .headerCommon{border: none}
+    .searchDiv{background: #fff;width: 94%;margin: 0 auto;height: 32px;align-items: center;border: 1px solid #D9D7D7;border-radius: 7px}
+    .searchDiv img{height: 19px;width: 19px;margin-left: 36%; margin-right: 10px;}
+    .lists{margin-top: 6px;background: #fff; padding: 15px 18px}
+    .title{align-items: center; justify-content: space-between}
+    .title img{width: 87px;height: 24px;}
+    p{font-size: 14px; color: #777777; margin-top: 10px}
+    .getMore{color: #999; padding: 20px}
+</style>
+<body>
+    <header class="headerCommon">
+        <img src="../images/icon_back.png" class="headerBackImg" />
+        <em class="headerBack">返回</em>&nbsp;&nbsp;
+        <span style="color:#999;">|</span>
+        <span class="pageTitle" style="display:none">&nbsp;活动参与</span>
+    </header>
+    <section class="contentCommon">
+        <div class="searchDiv flex" style="display:none">
+            <img class="searchImg" src="../images/search.png">
+            <input id="searchText" type="text" placeholder="搜索关键词">
+        </div>
+        <div id="content"></div>
+        <div class="getMore font14 tCenter">没有更多</div>
+    </section>
+</body>
+<script src="../js/jquery.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/activeList.js"></script>
+</html>

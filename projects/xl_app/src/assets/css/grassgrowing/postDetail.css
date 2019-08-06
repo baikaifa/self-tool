@@ -1,0 +1,569 @@
+
+.postDetail{
+    font-size:24px;
+    padding-bottom:90px;
+    padding-top:100px;
+}
+/* 底部按钮区域 */
+.postDetail .footer-btns{
+    position: fixed;
+    bottom:0;
+    width:100%;
+    height:83px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0 25px;
+    border-top:1px solid #d0d0d0;/*no*/
+    z-index:99;
+    background:#fff;
+}
+.postDetail .writeBox{
+    width: 312px;
+	height: 54px;
+	background-color: #f5f5f5;
+    border-radius: 27px;
+    padding-left:50px;
+    line-height:54px;
+    font-size: 24px;
+}
+.postDetail .penIcon{
+    position: absolute;
+    left:40px;
+    font-size:24px;
+    top:30%;
+}
+.postDetail .btnList{
+    display: flex;
+    padding-right:20px;
+}
+.postDetail .btnList i{
+    font-size:44px;
+}
+.postDetail .redZan{
+    color:#ff2741;  
+}
+.postDetail .zanAni{
+    -webkit-animation: scaleZanBtn 1s ease-out;
+    animation: scaleZanBtn 1s ease-out;
+}
+.postDetail .zanCom{
+    -webkit-animation: zanComAni 1s ease-out;
+    animation: zanComAni 1s ease-out;
+}
+.postDetail .cancleZan{
+    animation: cancleZanAni 1s ease-out;
+}
+.postDetail .btnList .numTxt{
+    font-size: 24px;
+    color: #232323;
+    font-weight: bold;
+    vertical-align: top;
+}
+.postDetail .btnItem{
+    width:119px;
+}
+.postDetail .storedBtn{
+    color:#fcbd54;
+}
+/* 底部按钮区域结束 */
+
+/* 评论区域 */
+.postDetail .commentList{
+    border-top:1px solid #e7e7e6;/*no*/
+    padding:30px 29px;
+}
+.postDetail .commItem{
+    padding:25px 0;
+    min-height: 105px;
+    display: flex;
+    border-bottom:1px solid #e7e7e6;/*no*/
+}
+.postDetail .fx1{
+    flex:1;
+}
+.postDetail .fx{
+    display: flex;
+}
+.postDetail .between{
+    display: flex;
+    justify-content: space-between;
+}
+.postDetail .color999{
+    color:#999;
+}
+.postDetail .avertImg{
+    width: 58px;
+	height: 58px;
+    border-radius: 29px;
+    margin-right:20px;
+}
+.postDetail .avertImg img{
+    width:100%;
+    height:100%;
+}
+.postDetail .commZan{
+    position:relative;
+    padding-left:20px;
+}
+.postDetail .commZan i{
+    font-size:36px;
+}
+.postDetail .commZan span{
+    position: absolute;
+
+}
+.postDetail .pd20{
+    padding-bottom:20px;
+}
+.postDetail .pl10{
+    padding-left:10px;
+}
+.postDetail .pr70{
+    padding-right:70px;
+}
+.postDetail .addCom{
+    width: 612px;
+	height: 60px;
+	background-color: #f5f5f5;
+    border-radius: 30px;
+    font-size:24px;
+    padding-left:20px;
+}
+.postDetail .addCommItem{
+    padding:25px 0;
+    display: flex;
+}
+.postDetail .showComBtn{
+    padding:20px 0;
+    text-align:center;
+	font-size: 24px;
+	letter-spacing: 1px;
+	color: #6583e6;
+}
+/* 评论区域结束 */
+/* 描述区域 */
+.postDetail .desCont{
+    padding:30px;
+}
+.postDetail .topicTitle{
+    padding:18px 0;
+	font-size: 28px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	color: #343434;
+}
+.postDetail .contTitle{
+	font-size: 28px;
+	letter-spacing: 1px;
+	color: #343434;
+}
+.postDetail .postTag{
+    margin:18px 0;
+    width: 160px;
+    height: 42px;
+    border-radius: 21px;
+    background:#eef2f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:0 15px;
+    box-sizing: border-box;
+    position: relative;
+}
+.postDetail .postTag img{
+    width:28px;
+    height:28px;
+    position: absolute;
+    left:15px;
+}
+/* 描述区域结束 */
+/* 滑动区域 */
+.postDetail .slideCont{
+    padding-left:30px;
+    height:200px;
+    display: flex;
+    align-items: center;
+    overflow-x:auto;
+}
+.postDetail .sameItem{
+    width: 550px;
+    height: 180px;
+    margin-right:20px;
+	background-color: #f5f5f5;
+    border-radius: 15px;
+    padding:15px 20px;
+    display: flex;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+.postDetail .sameImg{
+    width: 120px;
+	height: 120px;
+    border-radius: 15px;
+    margin-right:15px;
+    overflow: hidden;
+}
+.postDetail .sameImg img{
+    width:100%;
+    height:100%;
+}
+.postDetail .sameTitle{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp:2;
+    -webkit-box-orient: vertical;
+    letter-spacing: 1px;
+    color: #343434;
+}
+.postDetail .quanTxt{
+    height: 28px;
+    padding:5px 15px;
+    line-height:28px;
+    color:#fff;
+    background:url("../../img/grassgrowing/quan.png") no-repeat;
+    background-size:100% 100%;
+}
+.postDetail .rebateTxt{
+    height: 28px;
+    padding:5px 15px 5px 38px;
+    line-height:28px;
+    color: #fe4949;
+    letter-spacing: 1px;
+    background:url("../../img/grassgrowing/rebate.png") no-repeat;
+    background-size:100% 100%;
+}
+.postDetail .mb10{
+    margin-bottom:10px;
+}
+.postDetail .mt10{
+    margin-top:10px;
+}
+.postDetail .ml10{
+    margin-left:10px;
+}
+.postDetail .ml20{
+    margin-left:20px;
+}
+.postDetail .buyBtn{
+    width: 66px;
+	height: 36px;
+	border-radius: 18px;
+    border: solid 2px #ff314a;/*no*/
+    font-size: 22px;
+    color: #ff314a;
+    letter-spacing: 1px;
+    line-height:36px;
+    text-align: center;
+}
+.postDetail .priceTxt{
+    color: #ef4454;
+    font-weight: bold;
+}
+/* 滑动区域结束 */
+/* 头部区域开始 */
+.postDetail .followBtn{
+    width: 112px;
+	height: 46px;
+	border-radius: 23px;
+    letter-spacing: 1px;
+    font-weight: bold;
+    text-align:center;
+    line-height:46px;
+}
+.postDetail .isFollow{
+    border: solid 2px #ff314a;
+    color: #ff314a;
+}
+.postDetail .isFollowed{
+    border: solid 2px #999;
+    color: #999;
+}
+.postDetail .ft34{
+    font-size:34px;
+}
+.postDetail .topCont{
+    padding-bottom:20px;
+    height: 100px;
+    box-sizing: border-box;
+    position: fixed;
+    top:0;
+    width:100%;
+    z-index:100;
+    background:#fff;
+}
+.postDetail .backBtn{
+    padding:0 30px 0 20px;
+    cursor: pointer;
+}
+.postDetail .userTxt{
+    font-size:28px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #343434;
+    width:290px;
+}
+.postDetail .userImg{
+    width: 70px;
+	height: 70px;
+    border-radius:35px;
+    
+}
+.postDetail .relayBtn{
+    padding:0 20px;
+}
+.postDetail .ellipsisTxt{
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+/* 轮播区域 */
+.postDetail .swiper-slide{
+    display:flex;
+    height: 900px !important;
+    justify-content: center;
+    align-items: center;
+}
+.postDetail .swiper-slide img{
+    width:100%;
+    height: 100%;
+}
+.postDetail .swiper-container {
+    width: 100%;
+    height:950px;
+}
+.postDetail .swiper-pagination-bullet{
+    width:16px;
+    height:16px;
+    background:#e3dedc;
+    opacity: 1;
+}
+.postDetail .swiper-pagination-bullet-active{
+    background:#ef4454;
+}
+.postDetail .helpChoose{
+    position: absolute;
+    bottom:60px;
+    right:22px;
+    width: 116px;
+	height: 142px;
+}
+.postDetail .helpChoose img{
+    width:100%;
+    height:100%;
+}
+/* 弹窗 */
+.postDetail .monToast{
+    width: 270px;
+	height: 72px;
+	background:rgba(0,0,0,0.6);
+	border-radius: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    z-index:100;
+}
+.postDetail .monToast img{
+    width:50px;
+    height:40px;
+}
+.postDetail .monNum{
+    font-size: 32px;
+	font-weight: bold;
+    letter-spacing: 1px;
+    color: #ffd720;
+    margin-left:15px;
+}
+.postDetail .alignCen{
+    display: flex;
+    align-items: center;
+}
+.postDetail .storeToast{
+    width: 690px;
+	height: 112px;
+	background: rgba(0,0,0,0.8);
+    border-radius: 10px;
+    position: fixed;
+    bottom:112px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:100;
+    padding:18px 20px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    animation: showStoreTip 3s ease-out;
+}
+.postDetail .hideStore{
+    animation: hideStoreTip 0.5s ease-out;
+}
+.postDetail .storeToast img{
+    width:76px;
+    height:76px;
+    margin-right:20px;
+}
+.postDetail .storeTips{
+    color:#bbb;
+}
+.postDetail .successTxt{
+    font-size: 28px;
+    letter-spacing: 1px;
+    color:#fff;
+}
+.postDetail .storeTxt{
+    height:76px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+/* 倒计时悬浮框 */
+.postDetail .timeToast{
+    position: fixed;
+    bottom:163px;
+    right:32px;
+    z-index:999;
+    width: 120px;
+	height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.postDetail .circlePro{
+    position: fixed;
+    bottom:153px;
+    right:22px;
+    z-index:999;
+    width: 140px;
+    height: 140px;
+    background-color: #ffffff;
+	box-shadow: 0px 0px 11px 0px 
+		rgba(161, 161, 161, 0.11);
+    border-radius: 50%;
+}
+
+.postDetail .timeToast .content{
+    margin-left:0 !important;
+    margin-top:0 !important;
+}
+.postDetail .redPacket{
+    width: 44px;
+	height: 54px;
+}
+.postDetail .jinbiImg{
+    width: 39px;
+	height: 31px;
+}
+.postDetail .jinbiNum{
+    font-size: 22px;
+    color: #ff2741;
+    letter-spacing: 1px;
+}
+.postDetail .jinbiCont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.postDetail .jinbiAni{
+    -webkit-animation: jinbiAni 1s ease-out;
+    animation: jinbiAni 1s ease-out;
+}
+.postDetail .mask{
+    position: fixed;
+    top:0;
+    left:0;
+    bottom:80px;
+    right:0;
+    z-index:100;
+    background:rgba(0,0,0,0.6);
+}
+.postDetail .writeComCont{
+    position: fixed;
+    bottom:0;
+    z-index:999;
+    width:100%;
+    padding-left:20px;
+    height:80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background:#fff;
+    box-sizing: border-box;
+}
+.postDetail .bigInput{
+    width:600px;
+    height:60px;
+    border-radius: 30px;
+    padding-left:20px;
+    border:1px solid #ccc;/*no*/
+}
+.postDetail .sendCom{
+    padding:20px;
+}
+
+/* 动画效果 */
+/* 点赞的动画 */
+@keyframes scaleZanBtn{
+    0% {
+        transform:scale(0.5)
+    }
+    70%{
+        transform:scale(1.2)
+    }
+    100% {
+        transform:scale(1)
+    }
+}
+/* 显示收藏的动画 */
+@keyframes showStoreTip{
+    0% {
+        height:0px;
+        bottom:0;
+        opacity: 0;
+    }
+    25%{
+        height:112px;
+        bottom:112px;
+        opacity: 1;
+    }
+    75%{
+        height:112px;
+        bottom:112px;
+        opacity: 1;
+    }
+    100%{
+        height:0px;
+        bottom:0px;
+        opacity: 0;
+    }
+}
+/* 赞评论区域的动画 */
+@keyframes zanComAni{
+    0% {
+        transform:scale(0.5)
+    }
+    70%{
+        transform:scale(1.2)
+    }
+    100% {
+        transform:scale(1)
+    }
+}
+/* 倒计时金币动画 */
+@keyframes jinbiAni{
+    0% {
+        transform:scale(0);
+        opacity: 0;
+    }
+    50%{
+        transform:scale(0.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform:scale(1);
+        opacity: 1;
+    }
+}

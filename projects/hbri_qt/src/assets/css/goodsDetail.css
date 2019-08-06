@@ -1,0 +1,203 @@
+#app .gdsdetail {
+    margin-top: -0.8rem;
+}
+.gdsdetail .goodsImg {
+    position: relative;
+}
+.gdsdetail .goodsImg img {
+    width: 100%;
+}
+.gdsdetail .goodsImg .mint-swipe{
+    height: 7.5rem;
+}
+.gdsdetail .goodsImg .goBack {
+    position: absolute;
+    left: 0.2rem;
+    top: 0.4rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    text-align: center;
+    border-radius: 50%;
+    color: #fff;
+    background: rgba(0,0,0,.48);
+    z-index: 100;
+    cursor: pointer;
+}
+.gdsdetail .goodsInfo {
+    background: #fff;
+}
+.gdsdetail .goodsTitle {
+    padding: 0.2rem;
+    text-align: left;
+}
+.gdsdetail .goodsTitle .goodsBadge {
+    /* display: inline-block;
+    width: 0.6rem;
+    height: 0.3rem;
+    line-height: 0.3rem; */
+    color: #ff902c;
+    border: 1px solid #ff902c;
+    font-size: 0.11rem;
+    padding: 0.02rem 0.06rem;
+    border-radius: 2px;
+}
+.gdsdetail .goodsTitle .title {
+    font-size: 0.3rem;
+    color: #2f2f2f;
+    font-weight: bold;
+    padding-left: 0.1rem;
+}
+.gdsdetail .goodsPrice{
+    padding: 0 0.2rem 0.2rem 0.2rem;
+}
+.gdsdetail .goodsPrice .goodsPriceItem{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.24rem;
+    color: #adadad;
+}
+.gdsdetail .goodsPrice .goodsPriceItem .oldPrice{
+    text-decoration: line-through;
+}
+.gdsdetail .goodsPrice .goodsPriceItem.goodsNewPrice{
+    color: #e31212;
+    font-size: 0.26rem;
+}
+.goodsPrice .goodsPriceItem.goodsNewPrice .price{
+    font-size: 0.42rem;
+}
+.goodsPrice .goodsPriceItem.goodsNewPrice .myIncome{
+    background: rgba(255,156,156,.14);
+    padding: 0.02rem 0.06rem;
+    border-radius: 2px;
+}
+.gdsdetail .goodsShop {
+    padding: 0.1rem 0.2rem;
+    display: flex;
+    align-items: center;
+    margin-top: 0.1rem;
+    background: #fff;
+}
+.goodsShop .goodsShopImg {
+    width: 0.8rem;
+    height: 0.8rem;
+    border: 1px solid #f2f2f2;
+}
+.goodsShop .goodsShopImg img {
+    width: 100%;
+    height: 100%;
+}
+.goodsShop .goodsShopName {
+    font-size: 0.28rem;
+    color: #333132;
+    padding-left: 0.1rem;
+}
+.goodsIntro .title {
+    background: #f6f6f6;
+    font-size: 0.28rem;
+    color: #6c6c6c;
+    padding: 0.15rem 0;
+}
+.goodsIntro .goodsItemImg img {
+    width: 100%;
+}
+.gdsdetail .footerBtns .iconfont.collectActive {
+    color: #ff9c00;
+}
+.goodsIntro .goodsPic {
+    padding-bottom: 1.2rem;
+}
+
+/* 授权弹窗 */
+.gdsdetail .tbAuthModal,.scanGdsdetail .tbAuthModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.79);
+    z-index: 100;
+}
+.scanGdsdetail .tbAuthModal {
+    z-index: 120;
+}
+.gdsdetail .tbAuthModal .tbAuthWrap, .scanGdsdetail .tbAuthModal .tbAuthWrap{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #fff;
+    width: 5.7rem;
+    padding: 0.4rem;
+    border-radius: 15px;
+    margin-left: -2.85rem;
+    margin-top: -3rem;
+}
+.tbAuthWrap .closeWrap {
+    text-align: right;
+}
+.tbAuthWrap .closeWrap > i {
+    font-size: 0.33rem;
+    color: #bfbfbf;
+}
+.tbAuthWrap .tbLogo{
+    height: 1.4rem;
+    margin: 0.25rem 0;
+}
+.tbAuthWrap .tbLogo > img{
+    height: 100%;
+}
+.tbAuthWrap .authText{
+    font-size: 0.34rem;
+    color: #141414;
+}
+.tbAuthWrap .authText .authDescText{
+    font-size: 0.33rem;
+    color: #8d8d8d;
+    padding: 0.5rem 0 0.65rem 0;
+}
+.tbAuthWrap .authBtn{
+    font-size: 0.4rem;
+    color: #fff;
+    width: 100%;
+    background:url("../img/goodsDetail/bgImg.png") no-repeat;
+    background-size:100% 100%;
+    height: 1rem;
+    line-height: 1;
+    border: 0;
+    border-radius: 40px;
+}
+/* 授权失败页面 */
+.tbAuthErrorModal {
+    z-index: 101;
+}
+.tbAuthErrorWrap .authErrorText{
+    font-size: 0.34rem;
+    color: #141414;
+}
+.tbAuthErrorWrap .authErrorText .authDescText{
+    font-size: 0.33rem;
+    color: #8d8d8d;
+    padding: 0.5rem 0 0.65rem 0;
+}
+.tbAuthErrorWrap .authActionWrap {
+    padding: 0 0.32rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.tbAuthErrorWrap .authActionWrap > button{
+    border: 1px solid #3289ff;
+    color: #3289ff;
+    font-size: 0.3rem;
+    width: 1.8rem;
+    padding: 0.1rem;
+    border-radius: 20px;
+    background: #fff;
+    text-align: center;
+}
+.tbAuthErrorWrap .authActionWrap > button.toAuthBtn{
+    color: #fff;
+    background: #3289ff;
+}

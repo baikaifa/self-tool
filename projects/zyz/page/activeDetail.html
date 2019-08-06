@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>志愿服务</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/reviewActive.css">
+    <link rel="stylesheet" href="../css/activeDetail.css">
+    <link rel="stylesheet" href="../css/swiper.min.css">
+</head>
+<body>
+    <header class="headerCommon">
+        <img src="../images/icon_back.png" class="headerBackImg" />
+        <em class="headerBack">返回</em>&nbsp;&nbsp;&nbsp;<span style="color:#999;">|</span>
+    </header>
+    <section class="contentCommon">
+        <div class="content">
+            <div class="flex font16 title">
+                <img src="../images/zsfk.png" alt="">活动信息
+            </div>
+            <div class="container font15">
+                <p style="padding-top:15px;">发起人<span id="empName" class="fr"></span></p>
+                <p>发起人联系方式<span id="empmobile" class="fr"> </span></p>
+                <p>活动联系方式<span id="mobile" class="fr"> </span></p>
+                <p>活动名称<span id="name" class="fr"> </span></p>
+                <p>活动地点<span id="address" class="fr"> </span></p>
+                <p>活动时间<span id="data_start_hd" class="fr"> </span></p>
+                <p>活动内容简介</p>
+                <p style="padding-top:10px;"><span id="content"> </span></p>
+                <p>活动预计时长<span class="fr" style="border:none;min-width:auto">&nbsp;&nbsp;/小时</span><span id="projectTime" class="fr"> </span></p>
+            </div>
+            <div class="flex font16 title">
+                <img src="../images/zsfk.png" alt="">报名信息
+            </div>
+            <div class="container font15">
+                <p style="padding-top:15px;">报名开始时间<span id="data_start_bm" class="fr"></span></p>
+                <p>报名结束时间<span id="data_end_bm" class="fr"></span></p>
+                <p>实际报名人数/报名上限人数<span id="member" class="fr"></span></p>
+            </div>
+            <div class="flex font16 title">
+                <img src="../images/zsfk.png" alt="">活动介绍照片
+            </div>
+            <div class="showImg flex">
+                <div id="titleImg"></div>
+                <p class="font14" style="color: #F86647;margin-top: 12px">点击图片查看更多</p>
+            </div>
+        </div>
+        <div class="bottomBtn flex">
+            <button class="joinBtn">我要参加</button>
+        </div>
+    </section>
+    <!-- 弹窗 -->
+    <div class="toast">
+        <div id="moreImgs">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="../js/jquery.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/activeDetail.js"></script>
+<script src="../js/swiper.min.js"></script>

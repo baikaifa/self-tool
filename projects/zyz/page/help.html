@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>志愿服务</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <style>
+        .swiper-container {
+            width: 100vw;
+            height: auto;
+        }
+        img{
+            width: 100vw;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header class="headerCommon">
+        <img src="../images/icon_back.png" class="headerBackImg" />
+        <em class="headerBack">返回</em>&nbsp;&nbsp;&nbsp;<span style="color:#999;">|</span>
+    </header>
+    <section class="contentCommon">
+        <div class="swiper-container" style="margin-top: -10px">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="../images/help1.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="../images/help2.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="../images/help3.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="../images/help4.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="../images/help5.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="../images/help6.png" alt="">
+                </div>
+            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+    <script>
+        window.onload = function(){
+            var swiper = new Swiper('.swiper-container', {
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+            });
+            $('.headerBackImg,.headerBack').on('click',function(){
+                window.history.go(-1);  //返回上一页
+            })
+        }
+    </script>
+	<script src="../js/jquery.js"></script>
+	<script src="../js/swiper.min.js"></script>
+	<script src="../js/common.js"></script>
+</body>
+</html>

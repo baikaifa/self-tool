@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>志愿服务</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/reviewActive.css">
+    <link rel="stylesheet" href="../css/reviewSummary.css">
+    <link rel="stylesheet" href="../css/summaryMumber.css">
+    <link rel="stylesheet" href="../css/summary.css">
+</head>
+<body>
+    <header class="headerCommon">
+        <img src="../images/icon_back.png" class="headerBackImg" />
+        <em class="headerBack">返回</em>&nbsp;&nbsp;&nbsp;<span style="color:#999;">|</span>
+        <img src="../images/commit2.png" id="commitBtn" class="fr" onclick="saveBtn()">
+    </header>
+    <section class="contentCommon" style="height:auto;">
+        <div class="content">
+            <div class="flex font16 title">
+                <img src="../images/zsfk.png" alt="">活动信息
+                <p class="showBtn changeBtn hide"  onclick="showMore(this)">查看详情</p>
+                <p class="hideBtn changeBtn"  onclick="hideMore(this)">收起详情</p>
+            </div>
+            <div class="container font15">
+                <p style="padding-top:15px;">发起人<span id="empName" class="fr"></span></p>
+                <p>发起人联系方式<span id="empmobile" class="fr"></span></p>
+                <p>活动联系方式<span id="mobile" class="fr"></span></p>
+                <p>活动名称<span id="name" class="fr"></span></p>
+                <p>活动地点<span id="address" class="fr"></span></p>
+                <p>活动时间<span id="data_start_hd" class="fr"></span></p>
+                <p>活动内容简介</p>
+                <p style="padding-top:6px;"><span id="content"></span></p>
+                <p>活动预计时长<span class="fr" style="border:none;min-width:auto">&nbsp;&nbsp;/小时</span><span id="projectTime" class="fr"></span></p>
+            </div>
+            <div class="flex font16 title borderB">
+                <img src="../images/zsfk.png" alt="">报名信息
+                <p class="showBtn changeBtn" onclick="showMore(this)">查看详情</p>
+                <p class="hideBtn changeBtn hide" onclick="hideMore(this)">收起详情</p>
+            </div>
+            <div class="container font15 hide">
+                <p style="padding-top:15px;">报名开始时间<span id="data_start_bm" class="fr"></span></p>
+                <p>报名结束时间<span id="data_end_bm" class="fr"></span></p>
+                <p>实际报名人数/报名上限人数<span id="member" class="fr"></span></p>
+            </div>
+            <div class="flex font16 title">
+                <img src="../images/zsfk.png" alt="">报名人员信息
+                <p class="showBtn changeBtn" onclick="showMoreM(this)">查看人员详情</p>
+                <p class="hideBtn changeBtn hide" onclick="hideMoreM(this)">收起人员详情</p>
+            </div>
+            <div class="container font15 hide" id="mumberContainer">
+                <p class="listTitle flex">
+                    <span class="l1">姓名</span>
+                    <span class="l2">性别</span>
+                    <span class="l3">所属分队</span>
+                    <span class="l4">个人实际活动时长</span>
+                </p>
+                <div id="_container"></div>
+                <div class="orange font13 changeMem" onclick="changeMember()" id="_addMumber">调整报名人员 >></div>
+            </div>
+            <div class="container font15" id="mumberTitle">
+                <p class="listTitle flex">
+                    <span class="l1">姓名</span>
+                    <span class="l2">性别</span>
+                    <span class="l3">所属分队</span>
+                    <span class="l4">个人实际活动时长</span>
+                </p>
+            </div>
+            <div class="orange font13 changeMem changeMem1" onclick="changeMember()" >调整报名人员 >></div>
+            <div class="flex font16 title">
+                <img src="../images/zsfk.png" alt="">实际活动时长
+            </div>
+            <div class="container font15" style="background:#fff">
+                <input type="text" id="realityTime" class="font14 input1" placeholder="请输入实际活动时长" oninput="value=value.replace(/[^\d]/g,'')">小时
+            </div>
+
+            <div class="flex font16 title">
+                <img src="../images/zsfk.png" alt="">活动总结照片<span class="orange font13">&nbsp;&nbsp;(图片大小不超过4m)</span>
+            </div>
+            <div class="container font15" style="clear: both; overflow: auto;">
+                <!-- 已上传图片列表 -->
+                <div id="imgList"></div>
+                <!-- 添加图片按钮 -->
+                <div class="imgDiv fl">
+                    <input type="file" id="btnFile" name="myfiles" onchange="onChangFiles()" style="display: none;" multiple/>
+                    <img src="../images/addImg.png" class="addBtn" onclick="addphotohtmls()"/>
+                </div>
+            </div>
+
+            <div class="flex font16 title">
+                <img src="../images/zsfk.png" alt="">活动小结
+            </div>
+            <div class="container font15" style="background: #fff;margin-top:0;padding:0">
+                <textarea maxlength="300" placeholder="请进行活动小结..." class="text-content font14"></textarea>
+                <div class="text-count font14 gray fr">0/300</div>
+            </div>
+        </div>
+        <div class="bottomBtn flex">
+            <button class="" onclick="saveBtn()">保存</button>
+        </div>
+    </section>
+    <!-- 调整人员弹层 -->
+    <div class="toast changeMumber hide">
+        <header class="headerCommon">
+            <img src="../images/icon_back.png" class="toastBackImg" />
+            <em class="toastBack">返回</em>&nbsp;&nbsp;
+            <span style="color:#999;">|</span>
+        </header>
+        <section class="contentCommon">
+            <div class="flex font16 title">
+                <img src="../images/zsfk.png" alt="">报名人员信息
+            </div>
+            <div class="persons font14">
+                <ul class="tList"></ul>
+            </div>
+        </section>
+        <footer>
+            <p class="del" onclick="delChosen()">- 删除所选人员</p>
+            <p class="add" onclick="addP()">+ 添加分队人员</p>
+        </footer>
+    </div>
+    <!-- 增加人员弹层 -->
+    <div class="toast allMumber hide" style="z-index:2000">
+        <div class="_persons">
+            <div class="sum_search" style="font-size:10px;">
+                <ul>
+                    <li onclick="toName(this)" value="A">A</li>
+                    <li onclick="toName(this)" value="B">B</li>
+                    <li onclick="toName(this)" value="C">C</li>
+                    <li onclick="toName(this)" value="D">D</li>
+                    <li onclick="toName(this)" value="E">E</li>
+                    <li onclick="toName(this)" value="F">F</li>
+                    <li onclick="toName(this)" value="G">G</li>
+                    <li onclick="toName(this)" value="H">H</li>
+                    <li onclick="toName(this)" value="I">I</li>
+                    <li onclick="toName(this)" value="G">G</li>
+                    <li onclick="toName(this)" value="K">K</li>
+                    <li onclick="toName(this)" value="L">L</li>
+                    <li onclick="toName(this)" value="M">M</li>
+                    <li onclick="toName(this)" value="N">N</li>
+                    <li onclick="toName(this)" value="O">O</li>
+                    <li onclick="toName(this)" value="P">P</li>
+                    <li onclick="toName(this)" value="Q">Q</li>
+                    <li onclick="toName(this)" value="R">R</li>
+                    <li onclick="toName(this)" value="S">S</li>
+                    <li onclick="toName(this)" value="T">T</li>
+                    <li onclick="toName(this)" value="U">U</li>
+                    <li onclick="toName(this)" value="V">V</li>
+                    <li onclick="toName(this)" value="W">W</li>
+                    <li onclick="toName(this)" value="X">X</li>
+                    <li onclick="toName(this)" value="Y">Y</li>
+                    <li onclick="toName(this)" value="Z">Z</li>
+                </ul>
+            </div>
+            <div style="line-height:50px;height:50px;text-align:center;margin-bottom: 11px;">
+                <p style="color:#f68169;font-size:14px;">请选择要添加至活动的人员</p>
+                <hr style="margin:0 auto;height:1px;width:95%;background-color:#f68169;"/>
+            </div>
+            <ul style="height:77%;overflow:scroll" class="aList"></ul>
+            <div class="myButton font14" onclick="addConfirm()">确定</div>
+        </div>
+    </div>
+	<script src="../js/jquery.js"></script>
+	<script src="../js/ajaxfileupload.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/summary.js"></script>
+</body>
+</html>

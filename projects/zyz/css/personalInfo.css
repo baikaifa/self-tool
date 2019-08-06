@@ -1,0 +1,84 @@
+.headerCommon{background: #f96c4f;width: 100%!important;}
+.contentCommon{color: #848484}
+.headerImg{width: 23px;height: 23px;margin: 0 10px;}
+#name{padding-top: 13px;padding-bottom: 2px;color: #000}
+.sexImg{width: 16px;height: 16px;margin-left: 15px}
+.detailInfo{line-height: 3;padding-left: 20px}
+#educationName{width: 150px}
+.otherInfo{
+    width: 92%;
+    margin:0 auto;
+    margin-top: 20px;
+    box-shadow: 2px 2px 14px -4px #ccc;
+    border-radius: 20px;
+    position: relative;
+    padding: 0 
+}
+.otherText{
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%,-50%);
+    width: 113px;
+    height: 29px;
+    line-height: 29px;
+    background-image: url("../images/addMsg.png");
+    background-size: 100% 100%;
+    color: #f96c4f
+}
+.infos{padding: 0 15px;padding-top: 40px;}
+.team{display: inline-block;width: 72%;border-bottom: 1px solid #ebebeb;padding: 6px 0;position: relative}
+.choose{margin-right: 20px}
+.chooseImg{width: 14px;height: 8px;position: absolute;top: 50%;right: 0;transform: translate(0, -50%)}
+.joinBnt{margin-top: 12px;display: flex;align-items: center}
+.selectBtn{display: inline-block;position: relative;width: 40px;height: 19px;display: flex;align-items: center;justify-content: center;margin-left: 16px}
+.chooseBg{width: 18px;height: 18px}
+.chosen{width:10px;height:10px;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);display: none}
+.text-content{width: 100%;height: 70px;margin-top: 8px;border: 1px solid #699be4; border-radius: 5px;padding: 9px}
+.text-count{padding-top: 5px;padding-bottom: 12px;text-align: right}
+.toast{display: none;}
+.chooseTeam{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #fff;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 86%;
+    border-radius: 18px;
+}
+.teamTitle{color: #f96c4f;height: 50px;line-height: 50px;width: 95%;border-bottom: 1px solid #f96c4f;margin: 0 auto;}
+.confirmTeam{width: 154px;height: 39px;color: #fff;background: #f96c4f;margin: 0 auto;border-radius: 8px;display: block;margin-top: 38px;border:none!important;}
+.teamList{margin-top: 20px;height: calc(100% - 172px);padding: 0 20px; overflow:scroll;}
+.teamList::-webkit-scrollbar {display:none}
+.teamLists{margin-right: 20px;}
+.mui-toast-container {bottom: 50% !important;}
+.success{
+    position: absolute;
+    width: 257px;
+    height: 183px;
+    background: #f96c4f;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%);
+    overflow: hidden;
+    border-radius: 10px;
+}
+.succText{
+    background: #fff;
+    margin-top: 30px;
+    height: 105px;
+}
+#succBtn{
+    line-height: 48px;
+    color: #fff
+}
+.succText{
+    line-height: 2;
+    padding: 15px
+}
+.sBtn{
+    width: 16px;
+    height: 9px;
+    margin-left: 10px;
+}

@@ -1,0 +1,10 @@
+.contentCommon{padding-bottom: 45px;}
+.title{padding: 12px 18px; align-items: center;}
+.title>img{width: 5px;height: 5px;margin-right: 10px;}
+.container{margin: 0 auto;width: 92%;background: #F5F5F5;padding: 0 17px;padding-bottom: 15px;}
+.container>p{padding-top: 20px;color: #9E9E9E}
+.container>p>span{font-size: 14px;color: hsl(240, 0%, 48%);border-bottom: 1px solid #fff;min-width: 80px;height:20px;text-align: center}
+#content{border: none;text-align: left;}
+.bottomBtn{position: fixed;bottom: 0;left: 0px;height: 45px;width: 100%;}
+.bottomBtn>button{flex:1;font-size: 16px;color: #fff;background: #F86647;border: none}
+.bottomBtn .leftBtn{background: #72BBF3}
