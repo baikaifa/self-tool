@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@2.3.3/dist/vue.min.js"></script>
+    <title></title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="firstname" @keyup="getFullname">+
+        <input type="text" v-model="lastname"  @keyup="getFullname">=
+        <input type="text" v-model="fullname">
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                firstname:'',
+                lastname:'',
+                fullname:''
+            },
+            methods: {
+                getFullname(){
+                    this.fullname=this.firstname+'-'+this.lastname
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

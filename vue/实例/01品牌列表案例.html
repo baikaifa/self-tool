@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="https://unpkg.com/vue@2.3.3/dist/vue.min.js"></script>
+    <title></title>
+    <!-- 不需要Jquery vue可以免除操作DOM 不推荐使用Jquery -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>
+                    Id:
+                    <input type="text" class="form-control" v-model="id" name="" id="">
+                </label>
+                <label>
+                    Name:
+                    <input type="text" class="form-control" v-model="name" name="" id="">
+                </label>
+                <label>
+                    <input type="button" value="添加" @click="add" class="btn btn-primary" name="" id="">
+                </label>
+                <label>
+                    搜索名称关键字:
+                    <input type="text" class="form-control" v-model="keywords" name="" id="">
+                </label>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Ctime</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in search(keywords)" :key="item.id">
+                    <td>{{item.id}}</td>
+                    <td v-text="item.name"></td>
+                    <td>{{item.ctime}}</td>
+                    <td>
+                        <a href="" @click.prevent="del(item.id)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id: '',
+                name: '',
+                keywords: '',
+                list: [{
+                        id: 1,
+                        name: '奔驰',
+                        ctime: new Date()
+                    },
+                    {
+                        id: 2,
+                        name: '宝马',
+                        ctime: new Date()
+                    }
+                ]
+            },
+            methods: {
+                add() {
+                    var car = {
+                        id: this.id,
+                        name: this.name,
+                        ctime: new Date()
+                    }
+                    this.list.push(car)
+                    this.id = this.name = ''
+                },
+                del(id) {
+                    // this.list.some((item, i) => {
+                    //     if (item.id == id) {
+                    //         this.list.splice(i, 1)
+                    //         //在数组的some方法中，如果return true,就会立即终止这个数组的后续循环
+                    //         return true;
+                    //     }
+                    // })
+                    var index = this.list.findIndex(item => {
+                        if (item.id == id) {
+                            return true;
+                        }
+                    })
+                    console.log(index);
+                    this.list.splice(index, 1)
+                },
+                search(keywords) {
+                    /*           var newList = []
+                               this.list.forEach(item=>{
+                                if(item.name.indexOf(keywords)!=-1){
+                                        newList.push(item)
+                                }
+                               })  
+                               return newList   */
+                    //注意:forEach some filter findIndex 这些都属于数组的新方法,
+                    //都会对数组中的每一项进行遍历，执行相关的操作;
+                    //ES6中，为字符串提供了一个新方法，叫做String.prototype.includes('要包含的字符串')
+                    //如果包含返回true,否则返回false
+                    
+                    return  this.list.filter(item => {
+                        if (item.name.includes(keywords)) {
+                                return item
+                        }
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

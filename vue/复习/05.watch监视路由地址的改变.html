@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@2.3.3/dist/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/3.0.2/vue-router.js"></script>
+    <title></title>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
+        <!-- 容器 -->
+        <router-view></router-view>
+    </div>
+    <script type="text/javascript">
+        var login = {
+            template: '<h3>这是登录子组件</h3>'
+        }
+        var register = {
+            template: '<h3>这是注册子组件</h3>'
+        }
+
+        var router = new VueRouter({
+            routes: [ //路由规则数组
+                {
+                    path: '/',
+                    redirect: 'login'
+                },
+                {
+                    path: '/login',
+                    component: login
+                },
+                {
+                    path: '/register',
+                    component: register
+                },
+            ],
+            linkActiveClass: 'myactive' //和激活相关的类
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            methods: {
+
+            },
+            router,
+            watch: {
+                '$route.path': function (newVal, oldVal) {
+                    console.log(newVal + '---' + oldVal);
+                    if (newVal === '/login') {
+                        console.log('欢迎进入登录页面');
+                    } else if(newVal==='/register'){
+                        console.log('欢迎进入注册页面');
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

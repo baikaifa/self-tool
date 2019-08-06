@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="https://unpkg.com/vue@2.3.3/dist/vue.min.js"></script>
+    <title></title>
+    <style>
+    [v-cloak] {
+        display: none;
+    }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <!-- 使用能解决插值表达式闪烁问题 -->
+     <p v-cloak>++++++++++{{msg}}----------</p>
+    <div>{{msg2}}</div> 
+     <h4 v-text="msg"></h4>
+     <div v-html="msg2"></div>
+     <!-- 默认v-text没有闪烁问题 -->
+     <!-- v-text会覆盖元素原本内容，插值表达式只会替换自己的占位符，不会把元素清空 -->
+     <input type="button" value="按钮" :title="mytitle + '123'" name="" id="">
+     <!-- vue中提供了v-on事件绑定机制 -->
+     <input type="button" value="按钮" v-on:click="show" name="" id="">
+    </div>
+    <script type="text/javascript">
+        var app=new Vue({
+            el:'#app',
+            data:{
+                msg:'123',
+                msg2:'<h1>我是一个h1</h1>',
+                mytitle:'这是一个自定义的title'
+            },
+            methods:{
+                show:function(){
+                    alert('hello');
+                }
+            }
+        })
+    </script>
+</body>
+</html>

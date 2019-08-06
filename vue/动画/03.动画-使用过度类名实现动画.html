@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@2.3.3/dist/vue.min.js"></script>
+    <title></title>
+    <style>
+        /*v-enter [这是一个时间点]是进入之前,元素的起始状态,此时还没有开始进入*/
+        /*v-leave-to [这是一个时间点]是动画离开之后,离开的终止状态,此时动画已经结束了*/
+
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            transform: translateX(150px);
+        }
+        /*v-enter-active [入场动画的时间段]*/
+        /*v-leave-active[离场动画的时间段]*/
+        .v-enter-active,
+        .v-leave-active{
+            transition:all 0.4s ease;
+        }
+               /*v-enter [这是一个时间点]是进入之前,元素的起始状态,此时还没有开始进入*/
+        /*v-leave-to [这是一个时间点]是动画离开之后,离开的终止状态,此时动画已经结束了*/
+
+        .my-enter,
+        .my-leave-to{
+            opacity: 0;
+            transform: translatey(70px);
+        }
+        /*v-enter-active [入场动画的时间段]*/
+        /*v-leave-active[离场动画的时间段]*/
+        .my-enter-active,
+        .my-leave-active{
+            transition:all 0.8s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="toggle" @click="flag=!flag" name="" id="">
+        <transition>
+            <h3 v-if="flag">这是一个H3</h3>
+        </transition>
+        <hr>
+        <input type="button" value="toggle2" @click="flag2=!flag2" name="" id="">
+        <transition name="my">
+            <h3 v-if="flag2">这是一个H6</h3>
+        </transition>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag: false,
+                flag2:false
+            },
+            methods: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

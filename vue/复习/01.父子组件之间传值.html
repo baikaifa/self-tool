@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@2.3.3/dist/vue.min.js"></script>
+    <title></title>
+</head>
+
+<body>
+    <div id="app">
+<coml :parentmsg="msg" @func="getMsgFromSon"></coml>
+    </div>
+    <template id="tmpl">
+        <div>
+            <h1>这是子元素---{{parentmsg}}</h1>
+            <input type="button" value="向父组件传递消息" @click="sendMsg">
+        </div>
+    </template>    
+    <script type="text/javascript">
+    var coml = {
+        template:'#tmpl',
+        data(){
+            return {
+                msg:'做一个孝顺的孩子'
+            }
+        },
+        props:['parentmsg'],
+        methods:{
+            sendMsg(){
+                this.$emit('func',this.msg)
+            }
+        }
+    }
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg:'这是父组件中的数据,爸爸有100块钱',
+                msgFromSon:''
+            },
+            methods: {
+                getMsgFromSon(data){
+            this.msgFromSon=data;
+            console.log(this.msgFromSon);
+                }
+            },
+            components:{
+                coml
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@2.3.3/dist/vue.min.js"></script>
+    <title></title>
+</head>
+
+<body>
+    <div id="app">
+            <mycom2></mycom2>
+    </div>
+    <script type="text/javascript">
+    Vue.component('mycom2',{
+        //注意：不论是那种方式创建出来的组件，组建的template属性只想的模板内容，
+        //必须有且只有唯一一个根元素
+        template:'<h3>这是直接使用Vue.component创建出来的组件   </h3> <div><span>123</span></div>'
+    })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            methods: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

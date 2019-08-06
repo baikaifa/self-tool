@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="https://unpkg.com/vue@2.3.3/dist/vue.min.js"></script>
+    <title></title>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{ msg|msgFormat('疯狂+1','123') |test }}</p>
+    </div>
+    <script type="text/javascript">
+    //全局的过滤器，进行时间的格式化
+    Vue.filter('dateFormat',function(dateStr){
+        //根据给定的时间字符串，得到特定的时间
+        var dt = new Date(dateStr)
+
+        //yyyy-mm-dd
+        var y = dt.getFullYear()
+        var m=dt.getMonth()+1
+        var d = dt.getDate()
+        return `${y}-${m}-${d}`
+    })
+        Vue.filter('msgFormat', function (msg, arg, arg2) {
+            return msg.replace(/单纯/g, arg + arg2)
+        })
+        Vue.filter('test',function(msg){
+            return msg+'=========='
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '曾经，我也是一个单纯的少年，单纯的我，傻傻的问，谁是世界上最单纯的男人'
+            },
+            methods: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

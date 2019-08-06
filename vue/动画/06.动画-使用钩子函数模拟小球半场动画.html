@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@2.3.3/dist/vue.min.js"></script>
+    <title></title>
+    <style>
+        .ball{
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="快到碗里来" @click="flag=!flag" name="" id="">
+        <!-- 使用transition元素把小球包裹起来 -->
+        <transition
+        @befor-enter="beforeEnter"
+        @enter="enter"
+        @after-enter="afterEnter"
+        >
+            <div class="ball" v-show="flag"></div>
+            </transition>
+    </div>
+    <script type="text/javascript">
+    // Vue.directive('focus',function(el){
+
+    // })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag:false
+            },
+            methods: {
+                //注意:动画钩子函数的第一个参数el，表示要执行动画的
+                //那个DOM元素，是个原生的JS DOM对象
+                //可以认为el是通过document.getElementById('')获取到
+                beforeEnter(el){
+                    //beforeEnter表示动画入场之前，此时，动画尚未开始，
+                    //可以再beforeEnter中，设置元素开始动画之前的起始样式
+                    //设置小球开始动画之前的起始位置
+                    el.style.transform="translate(0,0)"
+                },
+                enter(el,done){
+                    //这句话，没有实际的作用，但是如果不写，出不来动画效果
+                    //可以认为el.offsetWidth会强制动画刷新
+                    el.offsetWidth
+                    //enter动画开始之后的样式，设置小球完成动画的结束状态
+                    el.style.transform="translate(150px,450px)"
+                    el.style.transition="all 1s ease"
+                    //这里的done,其实就是afterEnter这个函数，也就是说:dnoe是afterEnter函数的引用
+                    //当只用JavaScript过渡的时候,zaienter和leave中，回调函数done是
+                    //必须的，否则，它们会被同步调用,过度会立即完成
+                    //推荐对于仅适用JavaScript过渡的元素添加v-bind:class="false",
+                    //Vue会跳过CSS的检测，这也可以避免过渡过程中CSS的影响
+                    done()
+                },
+                afterEnter(el){
+                    //动画完成后，会调用afterEnter
+                    console.log('ok');
+                    this.flag = !this.flag
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

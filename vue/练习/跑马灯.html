@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="https://unpkg.com/vue@2.3.3/dist/vue.min.js"></script>
+    <title>V-for 案例</title>
+</head>
+
+<body>
+    <h1>v-for指令用法</h1>
+    <hr>
+    <div id="app">
+        <input type="button" @click="lang" value="浪起来" name="" id="">
+        <input type="button" @click="stop" value="低调" name="" id="">
+        <h4>{{msg}}</h4>
+    </div>
+    <script type="text/javascript">
+        //注意 :在vm实例中，如果想要调用data上的数据，或者要调用Methods中的方法，必须通过this.
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '猥琐发育，别浪!',
+                intervalId: null //在data上定义 定时器Id
+            },
+            methods: {
+                
+                lang() {
+                    if (this.intervalId != null) {
+                        return;
+                    }
+                    this.intervalId = setInterval(() => {
+                        //获取到头的第一个字符
+                        var start = this.msg.substring(0, 1)
+                        //获取到后面的所有字符
+                        var end = this.msg.substring(1)
+                        //重新拼接得到新字符串，并且赋值给thsi.msg
+                        this.msg = end + start
+                        //注意:VM实例，会监听自己身上data中所有数据的改变
+                    }, 400)
+                    // console.log('这里的ID'+this.intervalId);
+                },
+                stop() { //停止定时器
+                    // console.log(this.intervalId);
+                    clearInterval(this.intervalId)
+                    this.intervalId = null;
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@2.3.3/dist/vue.min.js"></script>
+    <title>Vue.directive 自定义指令</title>
+</head>
+
+<body>
+    <h1>Vue.directive 自定义指令</h1>
+    <hr>
+    <div id="app">
+        <div v-jspang="color">{{num}}</div>
+        <p><button @click="add">ADD</button></p>
+    </div>
+    <p>
+        <button onclick="unbind()">解绑</button>
+    </p>
+    <script type="text/javascript">
+    function unbind(){
+app.$destory();
+    }
+        Vue.directive("jspang", function (el, binding) {
+            console.log(el);
+            el.style = "color:" + binding.value;
+            console.log(binding);
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                num: 10,
+                color: 'red'
+            },
+            methods: {
+                add: function () {
+                    this.num++;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
