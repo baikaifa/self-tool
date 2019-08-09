@@ -1,6 +1,6 @@
 <template>
 	<div class="grol">
-		<eleTit></eleTit>
+		<!-- <eleTit></eleTit> -->
 		<div class="loading" v-if="isShowLoad">
 			<div class="loadingIn">
 				<img src="../../assets/img/xileloading.gif" alt="">
@@ -8,13 +8,13 @@
 			</div>
 		</div>
 		<!-- TODO: 搜索部分 -->
-		<div class="gro_head">
+		<!-- <div class="gro_head">
             <span>种草</span>
             <i class="iconfont iconsousuo" @click="gotoSearchPage"></i>
-			<!-- <div class="gro_sea">
+			<div class="gro_sea">
 				<div class="gro_sea_bak" :style="{visibility: sea.run ? 'visible' : 'hidden'}" @click.stop="bakTag"></div>
 				<form @onsubmit="goSea">
-					<div class="gro_sea_inp">
+					<div class="gro_sea_inp" @click="gotoSearchPage">
 						<div class="gro_sea_find"></div>
 						<input type='search' placeholder="" v-model="sea.txt" ref="searchBox" @click.stop="goSea" @touch.stop="goSea"/>
 						<div class="gro_sea_close" :style="{visibility: sea.txt ? 'visible' : 'hidden'}" @click.stop="clsSea" @touch.stop="clsSea"></div>
@@ -22,9 +22,19 @@
 					<div class="gro_sea_exec" @click.stop="goSea" @touch.stop="goSea">搜索</div>
 					<input type="submit" style="display: none;" value="搜索">
 				</form>
-				<div class="clear"></div>
 			</div>
-			<div class="clear"></div> -->
+			<div class="clear"></div>
+		</div> -->
+		<div class="gro_head" :class="{pt40:sys_env !== 'pc'}">
+			<div class="gro_sea">
+				<div class="gro_sea_inp" @click="gotoSearchPage">
+					<!-- <div class="gro_sea_find"></div> -->
+					<span class="gro_sea_find_img">
+						<img src="../../assets/img/search_bg.png" alt="">
+					</span>
+					<span class="gro_sea_title" placeholder="大家都在搜'阿玛尼'">{{this.sea.txt ==''?this.sea.defaultTxt:this.sea.txt}}</span>
+				</div>
+			</div>
 		</div>
 		<div class="clear"></div>
 		<!-- TODO: 数据列表 -->
@@ -45,12 +55,13 @@
 import {caoApi} from "../../utils/request";
 import list from "@/components/grassgrowing/glist";
 import eleTit from "@/components/title/title";
-
+import Vue from "vue"
 export default {
 	data: function() {
 		return {
             showMonToast:false,
 			sea: {
+				defaultTxt:'大家都在搜"阿玛尼"',
 				val: '', // 搜索内容
 				txt: '', // 用户的录入内容
 				run: false, // 是否搜索进行时 2019-06-25
@@ -66,7 +77,8 @@ export default {
 				inTouchMove:false,
 				lockTime:0,
 				tPoint:{x:0,y:0}
-			}
+			},
+			sys_env: ''
 		}
 	},
 	/**
@@ -77,34 +89,50 @@ export default {
 	},
 	// TODO: 加载开始时逻辑
 	created() {
+		this.sys_env = Vue.prototype.sysEnv;
+		console.log(this.sys_env);
+		console.log('created------------------');
+					console.log(this.$route.query.wd);
 		if (this.$route.query.wd) {
+
 			this.sea.txt = this.$route.query.wd;
+			console.log(this.sea.txt);
 		}
 	},
-	// TODO: 加载完成后逻辑
+	// TODO: 加载完成后逻辑npm run dev
 	mounted() {
+		console.log('monted');
+
 		if (this.sea.txt) {
+			console.log(this.sea.txt);
+			console.log('mounted中调用getSea');
 			this.getSea();
 		} else {
+			console.log('mounted中调用getAllTag');
 			this.getAllTag();
 		}
 	},
 	// TODO: 一般方法集合
 	methods: {
         gotoSearchPage(){
-            this.$router.push({name:'gongSear'})
+       console.log('gotoSearchPage');
+			this.$router.push({name:'gongSear'})
+			console.log('跳转到gongSear页面');
         },
       	likePost(index,item){
 			if (item.haveFav == 0) {
+				console.log('likePost如果item.haveFav==0');
 				let params = {
-                    token:"sdf21das31f5e1fasdf", //token
                     tid:item.tid, //帖子id
                     type :1, //(1点赞,3收藏)
                     actionType:1
                 }
                 let that = this;
+                console.log('发送interactive请求');
                 caoApi.interactive(params).then((data)=>{
                     if(data.code == 200){
+					  console.log('请求成功');
+					  console.log('数据是'+data);
 						item.favNum += 1;
 						item.haveFav = 1;
 						that.$set(that.items,index,item);
@@ -112,11 +140,246 @@ export default {
                         setTimeout(function(){
                             that.showMonToast = false;
                         },1000)
+                    }else{
+                      console.log('请求失败');
                     }
 				})
 			}
+        },
+		/**
+		 * 去到搜索界面
+		 */
+		goSea() {
+			console.log('去到gongSear页面');
+			this.$router.push({name: "gongSear", query:{wd: val}});
 		},
-		 inTouchDown: function(e) {
+		/**
+		 * 进行搜索
+		 * @author xwj 2019-06-22
+		 */
+		getSea(page) {
+	  console.log('getSea');
+	  	console.log(this.sea.txt);
+			if (!this.sea.txt) {
+			
+				if (this.sea.val) {
+          console.log('触发clsSea');
+					this.clsSea();
+				}
+				return;
+			}
+			// this.hisList = this.hisList.slice(0,9);
+			// if(this.hisList.includes(this.sea.txt)){
+			// 	let position = this.hisList.indexOf(this.sea.txt);
+			// 	this.hisList.splice(position,1);
+			// 	this.hisList.unshift(this.sea.txt);
+			// }else{
+			// 	this.hisList.unshift(this.sea.txt);
+			// }
+			this.hideLoad();
+			const param = {
+				searchKey: this.sea.txt,
+				pageNo: (!page || page < 2) ? 1 : page,
+			};
+      const that = this;
+	  console.log('发送mainSear请求');
+			caoApi.mainSear(param).then(res => {
+				console.log('请求的数据是'+res);
+				this.isShowLoad = false;
+				that.sea.val = that.sea.txt;
+				console.log(this.sea.txt);
+        that.sea.run = true;
+        console.log('getSea触发resSeaData函数');
+				that.resSeaData(res, 'sea', param.pageNo);
+			});
+		},
+		/**
+		 * 处理搜索返回的数据
+		 * @author xwj 2019-06-22
+		 */
+		resSeaData(res, tag, page) {
+			// if (!res.code) {
+			// 	res = JSON.parse(res);
+			// }
+			if (!page || page < 2) {
+				this.items = [];
+		this.items = res.data;
+		console.log('数据是'+this.items);
+		console.log('页码没有或者小于2，resSeaData中触发itemsTop函数');
+				this.itemsTop();
+				// this.finishPullToRefresh();
+			} else {
+        console.log('页码大于等于2,向items添加数据，并且页码加1');
+        const ti = res.data;
+				for (let k in ti) {
+					}
+				this.pr.page = page + 1;
+				console.log(this.pr.page);
+			}
+			console.log(this.items);
+			if(page >= res.totalPage){
+        console.log('如果页码大于等于总页数,触发finishInfinete');
+				this.finishInfinite(true);
+			}else{
+              console.log('如果页码兄小于总页数,触发finishInfinete');
+				this.finishInfinite(false);
+			}
+			
+		},
+		/**
+		 * 清除搜索内容
+		 * @author xwj 2019-06-25
+		 */
+		clsSea() {
+      console.log('触发clsSea');
+			this.sea.txt = '';
+			console.log(this.sea.txt);
+			this.sea.val = '';
+			// this.getAllTag();
+		},
+		/**
+		 * 回到标签列表
+		 * @author xwj 2019-06-25
+		 */
+		bakTag() {
+      console.log('触发bakTag');
+			this.clsSea();
+			console.log('bakTag触发clsSea');
+			this.sea.run = false;
+			console.log('bakTag触发bakTag');
+			this.getAllTag();
+		},
+		/**
+		 * 显示所有标签的商品
+		 * @author xwj 2019-06-24
+		 */
+		getAllTag(page) {
+      console.log('触发getAllTag');
+			const param = {
+				pageNo: (!page || page < 2) ? 1 : page,
+				pageSize: this.pr.size
+			};
+			const that = this;
+			console.log('getAllTag触发hideLoad');
+      this.hideLoad();
+      
+      console.log('发送mainList请求');
+			caoApi.mainList(param).then(res => {
+				console.log(res);
+				this.isShowLoad = false;
+				that.resTagData(res, param.pageNo);
+			});
+		},
+		hideLoad(){
+     	console.log('getAllTag第二次触发hideLoad');
+			this.isShowLoad = true;
+			setTimeout(() => {
+				this.isShowLoad = false;
+			}, 3000);
+		},
+		/**
+		 * 处理标签返回的数据
+		 * @author xwj 2019-06-22
+		 */
+		resTagData(res, page) {
+      console.log('触发resTagData');
+			if (page < 2) {
+        console.log('页码小于2');
+				this.items = res.data;
+				this.pr.page = 1;
+				console.log(this.items);
+				this.finishPullToRefresh();
+				console.log('resTagData'+'触发'+'finishPullToRefresh');
+			} else {
+        console.log('页码大于等于2，向items添加数据并且页码加1');
+				for (let k in res.data) {
+					this.items.push(res.data[k]);
+				}
+				console.log(this.items);
+				this.pr.page = page + 1;
+				console.log(this.pr.page);
+			}
+			if (res.data.length < this.pr.size) {
+        console.log('finishInfinite(true)');
+				this.finishInfinite(true);
+			} else {
+        console.log('finishInfinite(false)');
+				this.finishInfinite(false);
+			}
+		},
+		/**
+		 * 从新发送请求
+		 * @author xwj 2019-06-25
+		 */
+		refreshReq(page) {
+      console.log('触发refreshReq，重新发请求');
+			if (this.sea.txt) {
+				console.log(this.sea.txt);
+				console.log('refreshReq触发getSea');
+				this.getSea(page);
+			} else {
+				console.log('refreshReq触发getAllTag');
+				this.getAllTag(page);
+			}
+		},
+		// FIXME: 子页面List专用交互方法接口开始
+		/**
+		 * 刷新当前列表
+		 * @author xwj 2019-06-24
+		 */
+		refList() {
+      console.log('refList refreshReq');
+			this.refreshReq();
+		},
+		/**
+		 * 继续加载当前列表
+		 * @author xwj 2019-06-24
+		 */
+		lodList() {
+      console.log('lodList refreshReq');
+			this.refreshReq(this.pr.page + 1);
+		},
+		// FIXME: 子页面List专用接口开始
+		finishPullToRefresh() {
+      console.log('finishPullToRefresh');
+			if (this.$refs.itemList && this.$refs.itemList.finishPullToRefresh) {
+				this.$refs.itemList.finishPullToRefresh();
+			} else {
+				const that = this;
+				setTimeout(() => {
+					that.finishPullToRefresh();
+				}, 300);
+			}
+		},
+		finishInfinite(st) {
+      console.log('finishInfinite');
+			if (this.$refs.itemList && this.$refs.itemList.finishInfinite) {
+				this.$refs.itemList.finishInfinite(st);
+			} else {
+				const that = this;
+				setTimeout(() => {
+					that.finishInfinite(st);
+				}, 300);
+			}
+		},
+		/**
+		 * 商品列表置顶
+		 * @author xwj 2019-06-25
+		 */
+		itemsTop() {
+      console.log('itemsTop');
+			if (this.$refs.itemList && this.$refs.itemList.scrollTo) {
+				this.$refs.itemList.scrollTo(0, 0, false);
+			} else {
+				const that = this;
+				setTimeout(() => {
+					that.itemsTop();
+				}, 300);
+			}
+		},
+    goBack: function() {
+      this.$router.go(-1);
+    },inTouchDown: function(e) {
           // console.log(" inTouchDown ... " , e);
           this.onTouch.inDown = true;
           if (e.targetTouches) {
@@ -156,189 +419,7 @@ export default {
           this.onTouch.tPoint.x = 0;
           this.onTouch.tPoint.y = 0;
         },
-		/**
-		 * 去到搜索界面
-		 */
-		goSea() {
-			this.$router.push({name: "gongSear", query:{wd: val}});
-		},
-		/**
-		 * 进行搜索
-		 * @author xwj 2019-06-22
-		 */
-		getSea(page) {
-			if (!this.sea.txt) {
-				if (this.sea.val) {
-					this.clsSea();
-				}
-				return;
-			}
-			this.hisList = this.hisList.slice(0,9);
-			if(this.hisList.includes(this.sea.txt)){
-				let position = this.hisList.indexOf(this.sea.txt);
-				this.hisList.splice(position,1);
-				this.hisList.unshift(this.sea.txt);
-			}else{
-				this.hisList.unshift(this.sea.txt);
-			}
-			this.hideLoad();
-			const param = {
-				keyword: this.sea.txt,
-				pageNo: (!page || page < 2) ? 1 : page,
-				sort: this.getSortParam()
-			};
-			const that = this;
-			caoApi.mainSear(param).then(res => {
-				this.isShowLoad = false;
-				that.sea.val = that.sea.txt;
-				that.sea.run = true;
-				that.resSeaData(res, 'sea', param.pageNo);
-			});
-		},
-		/**
-		 * 处理搜索返回的数据
-		 * @author xwj 2019-06-22
-		 */
-		resSeaData(res, tag, page) {
-			if (!res.code) {
-				res = JSON.parse(res);
-			}
-			if (!page || page < 2) {
-				this.items = [];
-				this.items = res.data.items;
-				this.itemsTop();
-				this.finishPullToRefresh();
-			} else {
-				const ti = res.data.items;
-				for (let k in ti) {
-					this.items.push(ti[k]);
-				}
-				this.pr.page = page + 1;
-			}
-			this.finishInfinite();
-		},
-		/**
-		 * 清除搜索内容
-		 * @author xwj 2019-06-25
-		 */
-		clsSea() {
-			this.sea.txt = '';
-			this.sea.val = '';
-			// this.getAllTag();
-		},
-		/**
-		 * 回到标签列表
-		 * @author xwj 2019-06-25
-		 */
-		bakTag() {
-			this.clsSea();
-			this.sea.run = false;
-			this.getAllTag();
-		},
-		/**
-		 * 显示所有标签的商品
-		 * @author xwj 2019-06-24
-		 */
-		getAllTag(page) {
-			const param = {
-				pageNo: (!page || page < 2) ? 1 : page,
-				pageSize: this.pr.size
-			};
-			const that = this;
-			this.hideLoad();
-			caoApi.mainList(param).then(res => {
-				this.isShowLoad = false;
-				that.resTagData(res, param.pageNo);
-			});
-		},
-		hideLoad(){
-			this.isShowLoad = true;
-			setTimeout(() => {
-				this.isShowLoad = false;
-			}, 3000);
-		},
-		/**
-		 * 处理标签返回的数据
-		 * @author xwj 2019-06-22
-		 */
-		resTagData(res, page) {
-			if (page < 2) {
-				this.items = res.data;
-				this.pr.page = 1;
-				this.finishPullToRefresh();
-			} else {
-				for (let k in res.data) {
-					this.items.push(res.data[k]);
-				}
-				this.pr.page = page + 1;
-			}
-			if (res.data.length < this.pr.size) {
-				this.finishInfinite(true);
-			} else {
-				this.finishInfinite(false);
-			}
-		},
-		/**
-		 * 从新发送请求
-		 * @author xwj 2019-06-25
-		 */
-		refreshReq(page) {
-			if (this.sea.txt) {
-				this.getSea(page);
-			} else {
-				this.getAllTag(page);
-			}
-		},
-		// FIXME: 子页面List专用交互方法接口开始
-		/**
-		 * 刷新当前列表
-		 * @author xwj 2019-06-24
-		 */
-		refList() {
-			this.refreshReq();
-		},
-		/**
-		 * 继续加载当前列表
-		 * @author xwj 2019-06-24
-		 */
-		lodList() {
-			this.refreshReq(this.pr.page + 1);
-		},
-		// FIXME: 子页面List专用接口开始
-		finishPullToRefresh() {
-			if (this.$refs.itemList && this.$refs.itemList.finishPullToRefresh) {
-				this.$refs.itemList.finishPullToRefresh();
-			} else {
-				const that = this;
-				setTimeout(() => {
-					that.finishPullToRefresh();
-				}, 300);
-			}
-		},
-		finishInfinite(st) {
-			if (this.$refs.itemList && this.$refs.itemList.finishInfinite) {
-				this.$refs.itemList.finishInfinite(st);
-			} else {
-				const that = this;
-				setTimeout(() => {
-					that.finishInfinite(st);
-				}, 300);
-			}
-		},
-		/**
-		 * 商品列表置顶
-		 * @author xwj 2019-06-25
-		 */
-		itemsTop() {
-			if (this.$refs.itemList && this.$refs.itemList.scrollTo) {
-				this.$refs.itemList.scrollTo(0, 0, false);
-			} else {
-				const that = this;
-				setTimeout(() => {
-					that.itemsTop();
-				}, 300);
-			}
-		},
+
 		// FIXME: 子页面List专用接口结束
 	},
 	// beforeRouteEnter(to,from,next){
@@ -409,13 +490,17 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    background:#fff;
+    position: relative;
+	font-size:36px;
+	margin-bottom:20px;
+    /* border-bottom:1px solid #eee; */
 	/* position:fixed;
 	top:0;
 	z-index:99; */
-    background:#fff;
-    position: relative;
-    font-size:36px;
-    border-bottom:1px solid #eee;
+}
+.grol .pt40{
+	padding-top:40px;
 }
 .grol .gro_head i{
     position: absolute;
@@ -425,8 +510,10 @@ export default {
 }
 /** 头部搜索 */
 .grol .gro_sea {
-	width: 750px;
+	width: 100%;
 	padding-top: 20px;
+	padding-left: 30px;
+	padding-right: 30px;
 	background-color: #FFFFFF;
 }
 .grol .gro_sea .gro_sea_bak {
@@ -441,10 +528,13 @@ export default {
 	-moz-background-size: 100% 100%;
 }
 .grol .gro_sea .gro_sea_inp {
-	float: left;
-	margin-left: 15px;
-	width: 550px;
+	/* float: left;
+	margin-left: 15px; */
+	width: 100%;
 	height: 64px;
+	line-height: 64px;
+	text-align: center;
+	cursor: pointer;
 	overflow: hidden;
 	background-color: #F3F3F3;
 	border-radius: 32px;
@@ -460,6 +550,11 @@ export default {
 	background-image: url(../../assets/img/search_bg.png);
 	background-size: 100% 100%;
 	-moz-background-size: 100% 100%;
+}
+
+.gro_sea_find_img>img{
+	width: 32px;
+	height: 32px;
 }
 .grol .gro_sea .gro_sea_inp > input{
 	/* float: left;
@@ -503,6 +598,16 @@ export default {
 	text-align: center;
 	border-left: 2px solid #C9C9C9;
 }
+
+.gro_sea_title {
+	font-size: 24px;
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: -1px;
+	color: #999999;
+
+}
+
 .grol input::-webkit-input-placeholder{
 	color: #999999
 }

@@ -5,18 +5,16 @@
         <i class="iconfont iconfanhui backBtn" @click="goBack"></i>
         <span class="userName">{{userInfo.nickName}}</span>
       </div> -->
-		<eleTit :title="userInfo.nickName"></eleTit>
+
+		<eleTit :title="userInfo.nickName" class="userNickName"></eleTit>
       <!-- 个人详情 -->
       <div class="person_detail">
         <div class="avatar">
 			<img :src="userInfo.avatar" />
         </div>
-        <div class="nickName">
-          <div class="">{{userInfo.nickName}}</div>
-        </div>
 		<div class="followCont">
-			 <div class="followBtn" @click="followHander">
-				<i class="iconfont iconjia plusBtn"></i>
+			 <div  @click="followHander" :class="['followBtn',isFollow?'grayText':'redText']">
+				<i class="iconfont iconjia plusBtn" v-if="isFollow == 0"></i>
 				<span>{{isFollow ==1?'已关注':'关注'}}</span>
 			</div>
 		</div>
@@ -27,7 +25,7 @@
 				<span>关注</span>
 			</div>
 			<div class="infoItem">
-				<span class="itemNum bd">{{userInfo.fansNum}}</span>
+				<span class="itemNum bd">{{favNum}}</span>
 				<span>粉丝</span>
 			</div>
 			<div class="infoItem">
@@ -69,6 +67,7 @@ export default {
 			userInfo:{},
 			authorUid:'',
 			isFollow:'',
+			favNum:'',
 			commodityInfos:[],
 			postNum:'',
 			showMonToast:false,
@@ -88,14 +87,12 @@ export default {
 				inTouchMove:false,
 				lockTime:0,
 				tPoint:{x:0,y:0}
-			}
+			},
+			pageTid:''
 		}
 	},
-	components:{
-		eleTit
-	},
 	created() {
-		this.userId = this.$route.params.id;
+		this.userId = this.$route.params.uid;
 		this.getData();
 		// this.authorUid = this.$route.params.authorUid;//作者id
 	},
@@ -103,14 +100,14 @@ export default {
 		if (this.sea.txt) {
 			this.getSea();
 		} else {
-			this.getAllTag();
+			this.getData();
 		}
 	},
 	methods: {
 		likePost(index,item){
+			console.log(item);
 			if (item.haveFav == 0) {
 				let params = {
-                    token:"sdf21das31f5e1fasdf", //token
                     tid:item.tid, //帖子id
                     type :1, //(1点赞,3收藏)
                     actionType:1
@@ -131,32 +128,80 @@ export default {
 		},
 		getData(){
 			let params = {
-				token: 'C2E02FD78B31B7C649742E365D482E05',
-                fromType: 2,
-                pageTid: 0,
-                pageSize: 1,
+				    fromType: 2,
+                pageTid: this.pageTid,
+                pageSize: this.pr.size,
                 pageType: 1,
-                authorUid: '2201383604',
+				authorUid: this.userId,
+				tid:0
 			}
+			const that = this;
 			caoApi.postDetail(params).then((data) =>{
 				if(data.code == 200){
-					this.userInfo = data.data[0].userInfo;
-					this.isFollow = data.data[0].isFollow;
-					this.commodityInfos = this.commodityInfos.concat(data.data[0].commodityInfos);
-					
+					if (data.data && data.data.length > 0) {
+						that.userInfo = data.data[0].userInfo;
+						that.favNum = data.data[0].userInfo.fansNum;
+						that.isFollow = data.data[0].isFollow;
+						that.postNum = data.data.length;
+						that.filterData(data.data);
+						if(that.postNum == that.items.length){
+							that.finishInfinite(true);	
+						}else{
+							that.finishInfinite(false);
+						}
+						
+						// if(that.commodityInfos.length < that.pr.size) {
+							that.finishPullToRefresh();
+						// }
+					} else {
+						that.finishInfinite(true);
+						that.finishPullToRefresh();
+					}
+					console.log('out postDetail ...')
 				}
+			}).catch(() => {
+				console.log('in catch ...')
+				that.finishInfinite(true);
+				that.finishPullToRefresh();
 			})
 		},
+		filterData(data){
+			let that = this;
+			if(this.pageTid == ''){
+				that.items = [];
+			}
+			
+			data.forEach((item)=>{
+				that.items.push(
+					{
+						imgUrl:item.topicInfo.imgUrls[0],
+						title:item.topicInfo.title,
+						userInfo:{
+							avatar:item.userInfo.avatar,
+							nickName:item.userInfo.nickName
+						},
+						haveFav:item.topicInfo.isFav,
+						favNum:item.topicInfo.favNum,
+						tid:item.topicInfo.tid				
+					});
+			})
+			console.log(this.items);
+		},
 		followHander(){
-			let type = this.userInfo.isFollow == 0 ? 1:0;
+			let type = this.isFollow == 0 ? 1:0;
             let params = {
-                token:'B25FBD9E8B8575014839728E3A6B698A',
                 uids:this.userInfo.uid,
                 type:type
             }
             caoApi.postFollow(params).then((data) =>{
                 if(data.code == 200){
-                    this.userInfo.isFollow = this.userInfo.isFollow == 0 ? "已关注":"关注";
+					this.isFollow = this.isFollow == 0 ? 1:0;
+					if(this.isFollow==1){
+						this.favNum = parseInt(this.favNum) + 1;
+					}else{
+						this.favNum = this.favNum - 1;
+					}
+					
                 }
             })
 		},
@@ -213,35 +258,35 @@ export default {
 		 * 进行搜索
 		 * @author xwj 2019-06-22
 		 */
-		getSea(page) {
-			if (!this.sea.txt) {
-				if (this.sea.val) {
-					this.clsSea();
-				}
-				return;
-			}
-			this.hisList = this.hisList.slice(0,9);
-			if(this.hisList.includes(this.sea.txt)){
-				let position = this.hisList.indexOf(this.sea.txt);
-				this.hisList.splice(position,1);
-				this.hisList.unshift(this.sea.txt);
-			}else{
-				this.hisList.unshift(this.sea.txt);
-			}
-			this.hideLoad();
-			const param = {
-				keyword: this.sea.txt,
-				pageNo: (!page || page < 2) ? 1 : page,
-				sort: this.getSortParam()
-			};
-			const that = this;
-			caoApi.mainSear(param).then(res => {
-				this.isShowLoad = false;
-				that.sea.val = that.sea.txt;
-				that.sea.run = true;
-				that.resSeaData(res, 'sea', param.pageNo);
-			});
-		},
+		// getSea(page) {
+		// 	if (!this.sea.txt) {
+		// 		if (this.sea.val) {
+		// 			this.clsSea();
+		// 		}
+		// 		return;
+		// 	}
+		// 	this.hisList = this.hisList.slice(0,9);
+		// 	if(this.hisList.includes(this.sea.txt)){
+		// 		let position = this.hisList.indexOf(this.sea.txt);
+		// 		this.hisList.splice(position,1);
+		// 		this.hisList.unshift(this.sea.txt);
+		// 	}else{
+		// 		this.hisList.unshift(this.sea.txt);
+		// 	}
+		// 	this.hideLoad();
+		// 	const param = {
+		// 		keyword: this.sea.txt,
+		// 		pageNo: (!page || page < 2) ? 1 : page,
+		// 		sort: this.getSortParam()
+		// 	};
+		// 	const that = this;
+		// 	caoApi.postDetail(param).then(res => {
+		// 		this.isShowLoad = false;
+		// 		that.sea.val = that.sea.txt;
+		// 		that.sea.run = true;
+		// 		that.resSeaData(res, 'sea', param.pageNo);
+		// 	});
+		// },
 		/**
 		 * 处理搜索返回的数据
 		 * @author xwj 2019-06-22
@@ -271,7 +316,7 @@ export default {
 		clsSea() {
 			this.sea.txt = '';
 			this.sea.val = '';
-			// this.getAllTag();
+			// this.getData();
 		},
 		/**
 		 * 回到标签列表
@@ -280,25 +325,25 @@ export default {
 		bakTag() {
 			this.clsSea();
 			this.sea.run = false;
-			this.getAllTag();
+			this.getData();
 		},
 		/**
 		 * 显示所有标签的商品
 		 * @author xwj 2019-06-24
-		 */
-		getAllTag(page) {
-			const param = {
-				pageNo: (!page || page < 2) ? 1 : page,
-				pageSize: this.pr.size
-			};
-			const that = this;
-			this.hideLoad();
-			caoApi.mainList(param).then(res => {
-				this.isShowLoad = false;
-				that.resTagData(res, param.pageNo);
-				that.postNum = res.totalPage * that.pageSize;
-			});
-		},
+		//  */
+		// getData(page) {
+		// 	const param = {
+		// 		pageNo: (!page || page < 2) ? 1 : page,
+		// 		pageSize: this.pr.size
+		// 	};
+		// 	const that = this;
+		// 	this.hideLoad();
+		// 	caoApi.postDetail(param).then(res => {
+		// 		this.isShowLoad = false;
+		// 		that.resTagData(res, param.pageNo);
+		// 		that.postNum = res.totalPage * that.pageSize;
+		// 	});
+		// },
 		hideLoad(){
 			this.isShowLoad = true;
 			setTimeout(() => {
@@ -334,7 +379,7 @@ export default {
 			if (this.sea.txt) {
 				this.getSea(page);
 			} else {
-				this.getAllTag(page);
+				this.getData(page);
 			}
 		},
 		// FIXME: 子页面List专用交互方法接口开始
@@ -350,7 +395,13 @@ export default {
 		 * @author xwj 2019-06-24
 		 */
 		lodList() {
-			this.refreshReq(this.pr.page + 1);
+			if(this.postNum == this.items.length){
+				this.$refs.itemList.finishInfinite(true);
+			}else{
+				this.pageTid = this.items[this.items.length-1].topicInfo.tid;
+				this.refreshReq();		
+			}
+			
 		},
 		// FIXME: 子页面List专用接口开始
 		finishPullToRefresh() {
@@ -388,13 +439,16 @@ export default {
 			}
 		},
 	},
-	components:{list}
+	components:{list,eleTit}
 };
 </script>
 
 <style scoped="scoped" type="text/css">
 .posterView{
-	padding-top:100px;
+	height:100vh;
+	display: flex;
+	flex-direction: column;
+	/* padding-top:100px; */
 }
 .posterView .topTitle {
   /*标题*/
@@ -467,6 +521,8 @@ export default {
 	flex-direction: column;
 	align-items:center;
 	justify-content: space-between;
+	color:#666;
+	font-size:24px;
 }
 .posterView .itemNum{
 	height:25px;
@@ -494,12 +550,20 @@ export default {
 .posterView .followBtn {
 	width: 200px;
 	height: 46px;
-	background-color: #ff314a;
 	border-radius: 23px;
 	text-align: center;
 	line-height: 46px;
 	color: #fff;
 	font-weight: bold;
+}
+.posterView .redText{
+	background-color: #ff314a;
+	color: #fff;
+}
+.posterView .grayText{
+	border:1px solid #999;/*no*/
+	color:#999;
+	box-sizing: border-box;
 }
 .posterView  .plusBtn {
   width: 20px;
@@ -531,7 +595,8 @@ export default {
 	width: 750px;
 	/* height: fill-available;
 	height: -webkit-fill-available; */
-	height: calc(100vh - 535px);
+	/* height: calc(100vh - 595px); */
+	flex:1;
 	position: relative;
 	overflow: hidden;
 	box-sizing: border-box;
@@ -567,4 +632,7 @@ export default {
     color: #ffd720;
     margin-left:15px;
 }
+	.userNickName{
+		z-index: 100;
+	}
 </style>

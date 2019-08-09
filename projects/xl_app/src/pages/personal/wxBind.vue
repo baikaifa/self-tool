@@ -6,10 +6,14 @@
       <span class="title">微信绑定</span>
     </div> -->
     <div class="wxBindContent">
-      <div class="title">输入验证码绑定：</div>
+      <div class="title">请输入验证码：</div>
       <ul>
         <li>
-          1.搜索微信号：{{xlWxName}}
+          1.已有
+          <span class="textDanger">"喜乐生活助手"</span>微信好友，直接发送“验证码”获取
+        </li>
+        <li>
+          2.没有，搜索微信号“{{xlWxName}}”
           <button
             class="copyBtn"
             v-clipboard:copy="xlWxName"
@@ -17,20 +21,18 @@
             v-clipboard:error="onError"
           >复制</button>添加好友发送验证码获取
         </li>
-        <li>
-          2.若已有
-          <span class="textDanger">A喜乐生活助手</span>微信好友，直接发送“验证码”获取
-        </li>
+        
       </ul>
     </div>
     <div class="wxCodeWrapper">
       <div class="codeInfoWrap">
         <div class="codeInputWrap">
           <span>验证码：</span>
-          <input type="text" placeholder="通过微信小助手获取" v-model="wxCode" />
+          <input type="text" class="inputAlert" placeholder="通过微信小助手获取" v-model="verifyCode" />
         </div>
         <div class="codeBindBtn">
-          <button @click="weixinBind">绑定</button>
+          <!-- <button @click="weixinBind">绑定</button> -->
+                <div @click="weixinBind" class="revertPwd">绑定</div>
         </div>
       </div>
     </div>
@@ -50,8 +52,6 @@ export default {
   created() {},
   mounted() {},
   created() {
-    this.token =
-      "b389494d1530103054faacb890973eef3bf23bbea84523e84838fd0915ecb98d";
   },
   methods: {
     // 返回
@@ -66,29 +66,41 @@ export default {
     },
     weixinBind() {
       var that = this;
-      // let params = {
-      //   token: that.token,
-      //   verifyCode: that.verifyCode
-      // };
-      // reqForgetpwd.wixinBind(params).then(res => {
-        // if (res.code == 200) {
-          // alert("绑定的微信号是" + res.data.wxNumber);
+      let params = {
+        verifyCode: that.verifyCode
+      };
+      reqForgetpwd.wixinBind(params).then(res => {
+        if (res.code == 200) {
+          alert("绑定的微信号是" + res.data.wxNumber);
           this.$router.push({
             path: "wxBindResult",
             query: { type: "bindSuccess" }
           });
-        // } else {
-          // this.$router.push({
-          //   path: "wxBindResult",
-          //   query: { type: "bindError" }
-          // });
-        // }
-      // });
+        } else {
+          this.$router.push({
+            path: "wxBindResult",
+            query: { type: "bindError" }
+          });
+        }
+      });
     }
   }
 };
 </script>
 <style scoped="scoped" type="text/css">
+.wxBindWrap .codeBindBtn .revertPwd {
+  left: 50%;
+  transform: translate(-50%);
+  color: #fff;
+  background: #ef4454;
+  width: 8rem;
+  height: 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.426667rem;
+  line-height: 1rem;
+  position: relative;
+  text-align: center;
+}
 .wxBindWrap {
   background: #f4f5f7;
   height: 100vh;
@@ -131,6 +143,10 @@ export default {
   border-radius: 10px;
   border: 0;
   padding: 2px 15px;
+  height: 41px;
+  line-height: 41px;
+  text-align: center;
+  margin-right: 20px;
 }
 .wxBindWrap .wxBindContent .textDanger {
   color: #ef4454;
@@ -158,6 +174,9 @@ export default {
   padding: 0 0 90px 0;
   font-size: 40px;
   color: #737373;
+}
+.wxBindWrap .codeInfoWrap .codeInputWrap .inputAlert::placeholder{
+  filter: opacity(50%);
 }
 .wxBindWrap .codeInfoWrap .codeInputWrap input {
   flex: 1;

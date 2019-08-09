@@ -6,22 +6,21 @@
         </div> -->
 		<eleTit bak="true"></eleTit>
         <div class="changeWxBindContent">
-            <div class="title">输入验证码绑定：</div>
+            <div class="title">请输入验证码：</div>
             <ul>
-                <li>
-                    1.搜索微信号：{{xlWxName}},给<span class="textDanger">{{xlName}}</span>发送“验证码”获取
-                </li>
-                <li>
-                    2.搜索微信号：{{xlNewWxName}}
-                    <button
-                        class="copyBtn"
-                        v-clipboard:copy="xlWxName"
-                        v-clipboard:success="onCopy"
-                        v-clipboard:error="onError"
-                    >
-                        复制
-                    </button>添加好友发送验证码获取
-                </li>
+               <li>
+          1.已有
+          <span class="textDanger">"喜乐生活助手"</span>微信好友，直接发送“验证码”获取
+        </li>
+        <li>
+          2.没有，搜索微信号“{{xlWxName}}”
+          <button
+            class="copyBtn"
+            v-clipboard:copy="xlWxName"
+            v-clipboard:success="onCopy"
+            v-clipboard:error="onError"
+          >复制</button>添加好友发送验证码获取
+        </li>
             </ul>
         </div>
         <div class="wxCodeWrapper">
@@ -66,7 +65,6 @@ export default {
         },changewixinBind(){
                   var that = this;
       let params = {
-        token: that.token,
       };
       reqForgetpwd.changewixinBind(params).then(res => {
         if (res.code == 200) {

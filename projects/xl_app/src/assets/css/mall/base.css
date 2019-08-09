@@ -7,6 +7,13 @@
 	background-position: top center;
 	background-color: #F5F4F2;
 }
+.mall_main .app_head .tit_bar{
+	width: 750px;
+	background-image: url("../../img/mall/tit_bg.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: top center;
+}
 /* FIXME: 主页头标题 */
 .mall_main .mall_main_tit {
 	width: 750px;
@@ -42,34 +49,30 @@
 }
 .mall_main_sea .head_sea_cont .head_sea_txt {
 	margin: 0px auto;
-	padding-top: 25px;
+	padding-top: 30px; /** 此处针对手机表现，pc可能有差异 */
 	width: fit-content;
 	width: -webkit-fit-content;
 	width: -moz-fit-content;
 	line-height: 100%;
 	color: #999999;
 }
-.mall_main_sea .head_sea_cont span {
-	display: inline-block;
-	margin-top:2px;
-	width: 28px;
-	height: 28px;
-	overflow: hidden;
-	background-image: url("../../img/search/search.png");
-	background-repeat: no-repeat;
-	background-size: contain;
-}
 .mall_main_sea .head_sea_cont font {
-	margin-left: 6px;
-	height: 28px;
-	line-height: 30px;
+	height: 30px;
+	padding-left: 40px;
 	font-size: 28px;
 	color: #999999;
+	background-image: url("../../img/search/search.png");
+	background-repeat: no-repeat;
+	background-size: 28px 28px;
+	background-position: 0px 1px; /** 此处针对手机表现，pc可能有差异 */
 	/* letter-spacing: 2px; */
 }
 /** FIXME: 主页banner */
+.mall_main .bann_holder{
+	height: 7px;
+	background-color: transparent;
+}
 .mall_main .mall_main_bann {
-	margin-top: 7px;
 	width: 750px;
 }
 .mall_main_bann .bann_img {
@@ -238,6 +241,11 @@
 	margin-top: 22px;
 	width: 750px;
 	height: 238px;
+	background-color: #F5F4F2;
+}
+.mall_main .prom_holder{
+	height: 22px;
+	background-color: #F5F4F2;
 }
 .mall_main_prom .prom_cont{
 	margin: 0px auto;
@@ -293,7 +301,13 @@
 .mall_main_ites .ites_list {
 	margin-top: 20px;
 	width: 750px;
-	height: 66vh;
+	height: calc(100vh - 238px - 100px);
 	position: relative;
 	box-sizing: border-box;
+}
+.mall_main_ites .ites_list_new {
+	margin-top: 20px;
+	width: 750px;
+	height: fill-available;
+	height: -webkit-fill-available;
 }

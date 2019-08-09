@@ -9,7 +9,7 @@
         <!-- 内容 -->
         <div class="lists">
             <scroller :on-refresh="refList" :on-infinite="lodList" ref="mallScro" :nodatatext="noDaTxt">
-                <div class="title">收益明细</div>
+                <!-- <div class="title">收益明细</div> -->
                 <div v-for="item in detailList" class="listDetail">
                     <div class="dLeft">{{item.title}}</div>
                     <div class="dRight">
@@ -33,7 +33,6 @@ export default{
     data(){
         return {
             noDaTxt: "", // 没有数据时显示的内容
-            token: "",
             pageNo: 0,
             totalPage: 1,
             pageSize: 20,
@@ -44,11 +43,6 @@ export default{
         eleTit
     },
     created () {
-        this.token = 'b389494d1530103054faacb890973eef3bf23bbea84523e84838fd0915ecb98d';
-        // this.getDetail();
-
-
-
     },
     mounted() {
 		this.$refs.mallScro.finishInfinite(false);
@@ -78,7 +72,6 @@ export default{
         // 获取数据
         getDetail(){
             let params = {
-                token: this.token,
                 pageNo: this.pageNo,
                 pageSize: this.pageSize
             }
@@ -130,8 +123,9 @@ export default{
         font-size: 34px;
     }
     .iDetail .lists{
-        position: fixed;
-        top: 80px;
+        /* position: fixed;
+        top: 80px; */
+        position: relative;
         width: 100vw;
         height: fill-available;
 	    height: -webkit-fill-available;

@@ -40,7 +40,8 @@
                     align="center"
                     type="index"
                     label="序号"
-                    width="50">
+                    width="50"
+                    :index="indexMethod">
                     </el-table-column>
                     <el-table-column
                     v-for="item in tableItem"
@@ -66,9 +67,10 @@
             </div>
             <div class="paginationContain">
                 <el-pagination
-                ref="pagination"
+                  @size-change="handleSizeChange"
+                  ref="pagination"
                 background
-                layout="prev, pager, next"
+                  layout="total,prev, pager, next,jumper,sizes"
                 :total="total"
                 :page-size="pageSize"
                 class="pageFlag"
@@ -86,7 +88,7 @@ export default {
     data(){
         return {
             activeTab:'cycle',
-            pageSize:5,
+            pageSize:10,
             pageNo:1,
             total:0,
             searchQuery:{
@@ -138,6 +140,15 @@ export default {
         this.getDeleteList();
     },
     methods:{
+        handleSizeChange(val) {
+          this.pageSize=val;
+          this.getDeleteList();
+        },
+        indexMethod (index) {
+          let curpage = this.pageNo     //单前页码，具体看组件取值
+          let limitpage = this.pageSize  //每页条数，具体是组件取值
+          return (index+1) + (curpage-1)*limitpage
+        },
         getDeleteList(){
             var _this=this;
             _this.tableData=[];

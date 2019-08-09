@@ -1,17 +1,18 @@
 <template>
     <div class="groupSearchPageContain">
         
-        <div class="searchPanel">
+        <div class="searchPanel" :class="{pcPaddingTop:sys_env=='pc'}">
             <div class="searchContain">
                 <div class="backBtn" @click="goBak"></div>
                 <div class="searchInputContain">
                     <div class="findIcon"></div>
-					<input type='search' v-model="query.searchName" placeholder="" />				
+					<input type='text' @input="inputFun" ref="searchInput" v-model="query.searchName" placeholder="" />	
+                    <div v-if="showClose" @click="clearInput" class="closeIcon"></div>			
                 </div>
                 <div @click="searchGroup" class="searchBtn">搜索</div>
             </div>
         </div>
-        <div class="searchHistoryContain" v-if="showHistory">
+        <div class="searchHistoryContain" :class="{pcTop:sys_env=='pc'}" v-if="showHistory">
             <div class="title" v-if="titleShow">
                 <div class="searchTitleTxt">搜索历史</div>
                 <img @click="clearSearchHistory" src="../../assets/img/community/deleteIcon.png"/>
@@ -24,7 +25,7 @@
               
             </div>
         </div>
-        <section class="groupListContain" v-if="!showHistory">
+        <section class="groupListContain" :class="{pcTop:sys_env=='pc'}" v-if="!showHistory">
             <scroller :on-refresh="refreshList" :on-infinite="loadMoreList" ref="myScroller" :noDataText="noDaTxt">
             <div v-for="item in list" @click="goToGroupDetail(item)" class="groupListItem">
                 <div class="imgContain">
@@ -32,19 +33,25 @@
                 </div>
                 <div class="infoContain">
                     <div class="infoItem">
-                        <div class="groupTitle">
+                        <div class="groupTitle"> 
+                            <img v-if="item.groupType==1" src="../../assets/img/community/wx.png"/>
+                            <img v-if="item.groupType==2" src="../../assets/img/community/qq.png"/>                           
                             {{item.groupName}}
                         </div>
                         <div class="itemTagContain">
                             
                             <div v-for="(tag,tagIndex) in item.groupLabelAry" :class="'bg'+(tagIndex+1)">
+                                
                                 <i v-if="tagIndex==0" class="iconfont iconren"></i>{{tag}}
+                                
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="btnContain">
-                    <div @click.stop="joinGroup(item)" :class="['btn',btnClassMap[item.joinGroupStatus]]">{{btnTxtMap[item.joinGroupStatus]}}</div>
+                    <div @click.stop="joinGroup(item)" :class="['btn',btnClassMap[item.joinGroupStatus]]">
+                        <div>{{btnTxtMap[item.joinGroupStatus]}}</div>
+                    </div>
                 </div>
             </div>
             
@@ -65,7 +72,7 @@
     </div>
     
 </template>
-<script>
+<script scoped="scoped" type="text/css">
 import {reqGroup} from "../../utils/request";
 import tit from "../../components/title/title"
 import groupPopAddRobot from "../../components/group/groupPop_addRobot"
@@ -76,6 +83,7 @@ import dataLoading from "../../components/dataLoading"
 export default {
     data(){
         return {
+            sys_env: this.sysEnv,
             addRobotInfo:{
                 qrCode:"",
                 robotId:"",
@@ -103,7 +111,8 @@ export default {
             firstCome:true,
             showHistory:true,
             historyTagList:[],
-            titleShow:true
+            titleShow:true,
+            showClose:false
         }
     },
     components:{groupPopAddRobot,groupPopBindWx,groupPopApplySuccess,dataLoading,tit},
@@ -115,6 +124,9 @@ export default {
         if(this.historyTagList.length<=0){
             this.titleShow=false;
         }
+    },
+    mounted(){
+        this.$refs.searchInput.focus()
     },
     methods:{
       getGroupList(done){ // 获取社群列表
@@ -138,6 +150,7 @@ export default {
                             item.groupId=data[i].groupId;
                             item.groupName=data[i].groupName;
                             item.joinGroupStatus=data[i].joinGroupStatus;
+                            item.groupType=data[i].groupType;
                             var memberNum=data[i].memberNum;
                             var memberLable="";
                             if(memberNum>=500){
@@ -168,7 +181,16 @@ export default {
                 }
             });
         },
+        inputFun(){
+            if(this.query.searchName){
+                
+                
+                this.showClose=true;
+                
+            }
+        },
         searchByTag(val){
+            this.showClose=true;
             if(this.$refs.myScroller){
                 this.$refs.myScroller.finishInfinite(false);
             }
@@ -202,8 +224,8 @@ export default {
             this.showHistory=false;
             this.firstCome=false;
             this.list=[];
-            this.query.pageNum=0;     
-            //this.getGroupList();      
+            this.query.pageNum=1;     
+            this.getGroupList();      
             //this.$refs.myScroller.finishInfinite(false);
         },
         refreshList(){ // 上拉刷新
@@ -230,6 +252,11 @@ export default {
         clearSearchHistory(){
             this.historyTagList=[];
             localStorage.setItem("groupSearchHistory","");
+        },
+        clearInput(){
+            this.query.searchName="";
+            this.showClose=false;
+            
         },
         joinGroup(item){
             //item.joinGroupStatus=1;
@@ -291,7 +318,7 @@ export default {
             });
         },
         goBak(){
-            window.history.go(-1);
+            this.$router.go(-1);
         }
     }
 }
@@ -300,10 +327,13 @@ export default {
 
 .groupSearchPageContain .searchHistoryContain{
     position: fixed;
-    top:130px;
+    top:170px;
     width: 100%;
     
 }
+
+
+
 
 .groupSearchPageContain .searchHistoryContain .historyTagContain{
     display: flex;
@@ -315,11 +345,11 @@ export default {
 
 .groupSearchPageContain .searchHistoryContain .historyTagContain .historyTag{
 
-    padding: 0 30px;
-    border-radius: 30px;
+    padding: 0 40px;
+    border-radius: 50px;
     background: #f8f8f8;
-    height: 70px;
-    line-height: 70px;
+    height: 66px;
+    line-height: 66px;
     margin-left: 30px;
     margin-top:30px;
     color: #343434;
@@ -349,6 +379,11 @@ export default {
     width: 100%;
     height: auto;
     background: #fff;
+    padding-top:40px;
+}
+
+.groupSearchPageContain .pcPaddingTop{
+    padding-top:0px;
 }
 
 .groupSearchPageContain .searchPanel .searchContain{
@@ -372,19 +407,22 @@ export default {
 
 .groupSearchPageContain .searchPanel .searchContain .searchInputContain{
     float: left;
-	margin-left: 35px;
-	width: 550px;
+	margin-left: 16px;
+	width: 570px;
 	height: 64px;
 	overflow: hidden;
 	background-color: #F3F3F3;
 	border-radius: 32px;
 	-webkit-border-radius: 32px;
+    position: relative;
 }
 
+
+
 .groupSearchPageContain .searchPanel .findIcon{
-    float: left;
-	margin-left: 20px;
-	margin-top: 16px;
+    position: absolute;
+	left: 20px;
+	top: 16px;
 	width: 32px;
 	height: 32px;
 	overflow: hidden;
@@ -393,19 +431,32 @@ export default {
 	-moz-background-size: 100% 100%;
 }
 
+.groupSearchPageContain .searchPanel .closeIcon{
+    position: absolute;
+	right: 20px;
+	top: 16px;
+	width: 32px;
+	height: 32px;
+	overflow: hidden;
+	background-image: url(../../assets/img/community/close.png);
+	background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+}
+
 .groupSearchPageContain .searchPanel input{
-    width: 78%;
+    width: 70%;
 	height: 64px;
 	line-height: 64px;
 	font-size: 28px;
-	padding-left:20px;
+	padding-left:80px;
+    border:none;
 }
 
 .groupSearchPageContain .searchBtn{
     float: left;
 	height:64px;
 	/* line-height:64px; */
-	padding:0px 20px 0 30px;
+	padding:0px 20px 0 20px;
 	color:#6a6a6a;
 	font-size:28px;
 	display:flex;
@@ -494,7 +545,7 @@ export default {
         height: fill-available;
         height: -webkit-fill-available;
         position: fixed;
-        top:130px;
+        top:170px;
         overflow: hidden;
         box-sizing: border-box;
         background-color: #fff;
@@ -502,14 +553,14 @@ export default {
 
     .groupSearchPageContain .groupListContain .groupListItem{
         height: 174px;
-        border-bottom: 1px solid #e4e4e4;/*no*/
+        border-bottom: 1px solid #eeeeee;/*no*/
         display: flex;
         align-items: center;
     }
 
     .groupSearchPageContain .groupListContain .groupListItem .imgContain{
         height: 100%;
-        width: 150px;
+        width: 145px;
         display:flex;
         align-items: center;
         justify-content: center;
@@ -532,15 +583,22 @@ export default {
 
     .groupSearchPageContain .groupListContain .groupListItem .infoContain .groupTitle{
         
-        font-size: 34px;
-       
-        padding-bottom: 10px;  
+        font-size: 32px;
+        height: 32px;
+        line-height: 32px;
+        padding-bottom: 20px;  
         max-width: 400px;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
         
 
+    }
+
+    .groupSearchPageContain .groupListContain .groupListItem .infoContain .groupTitle img{
+        height: 32px;
+        position: relative;
+        bottom: 1px;
     }
 
     .groupSearchPageContain .groupListContain .groupListItem .infoContain .itemTagContain{
@@ -556,7 +614,9 @@ export default {
         line-height: 30px;
         color: #fff;
         border-radius: 5px;
-        
+        /*display: flex;
+        justify-content: center;
+        align-items: center;*/
     }
 
     .groupSearchPageContain .groupListContain .groupListItem .infoContain .itemTagContain i{
@@ -571,7 +631,7 @@ export default {
 
     .groupSearchPageContain .groupListContain .groupListItem .btnContain{
         height: 100%;
-        width: 170px;
+        width: 190px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -580,10 +640,13 @@ export default {
     .groupSearchPageContain .btn{
         width: 150px;
         height: 55px;
-        line-height: 55px;
+        /*line-height: 55px;*/
         text-align: center;
         border-radius: 30px;
         font-size: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .groupSearchPageContain .start{
@@ -633,6 +696,10 @@ export default {
     .groupSearchPageContain .bg6{
         
         background: #90cff8;
+    }
+
+    .groupSearchPageContain .pcTop{
+        top:130px;
     }
 
 </style>

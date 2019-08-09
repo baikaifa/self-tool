@@ -30,3 +30,14 @@
 ::-webkit-scrollbar-corner {
 	background-color: transparent;
 }
+/* mint */
+body .mint-toast .mint-toast-text{
+	font-size: 28px;
+}
+
+._v-container > ._v-content > div > div > span > svg {
+	display: none;
+}
+._v-container>._v-content>.loading-layer .spinner-holder .spinner {
+  display: none;
+}

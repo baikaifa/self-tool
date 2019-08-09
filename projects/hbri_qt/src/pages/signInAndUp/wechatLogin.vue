@@ -70,8 +70,11 @@ export default {
             })
         },
         cancel(){
+
             let type = this.$route.params.type;
-            this.$router.push({name:type});
+
+            this.$router.push({name:type,params:{type:'personalCenter'}});
+          // this.$router.go(-2,);
         },
         confirm(){
             if(this.$phoneType == 'android'){

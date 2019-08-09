@@ -67,7 +67,8 @@
                 @selection-change="selectionChange"
                 :data="tableData"
                 border
-               width="100%">
+               width="100%"
+               >
 
                     <el-table-column
                     align="center"
@@ -79,13 +80,13 @@
                     align="center"
                     type="index"
                     label="序号"
-                    width="50">
+                    width="50"
+                    :index="indexMethod">
                     </el-table-column>
-                  <el-table-column>
 
-                  </el-table-column>
                     <el-table-column v-for="(item,index) in titleList"  :prop="item.prop"
                     :label="item.name"
+                                     align="center"
                     >
                     </el-table-column>
 
@@ -103,13 +104,14 @@
             </div>
             <div class="paginationContain">
                 <el-pagination
-                ref="pagination"
-                background
-                layout="prev, pager, next"
-                :total="total"
-                :page-size="pageSize"
-                class="pageFlag"
-                @current-change="handleCurrentChange"
+                  @size-change="handleSizeChange"
+                  ref="pagination"
+                  background
+                  layout="total,prev, pager, next,jumper,sizes"
+                  :total="total"
+                  :page-size="pageSize"
+                  class="pageFlag"
+                  @current-change="handleCurrentChange"
                 >
                 </el-pagination>
             </div>
@@ -122,10 +124,10 @@
          width="30%"
         :before-close="handleClose">
         <div class="editDiv">
-          <el-form  class="topicForm" label-width="120px" label-position="right" :model="list" >
+          <el-form  class="topicForm" label-width="150px"  :model="list" >
 
             <el-form-item label="置顶排序:"  >
-              <el-col :span="11">
+              <el-col :span="14">
                 <el-input v-model="list.sort" placeholder="请输入整数"  ></el-input>
               </el-col>
               <br>
@@ -135,15 +137,15 @@
 
 
             <el-form-item label="置顶时间:" >
-              <el-col :span="11">
+              <el-col :span="13">
                 <el-form-item prop="startTime" >
-                  <el-date-picker type="datetime" placeholder="开始时间" v-model="list.sortEndDate"  value-format="	yyyy-MM-dd HH:mm:ss"></el-date-picker>
+                  <el-date-picker size="small" type="datetime" placeholder="开始时间" v-model="list.sortStartDate"  value-format="	yyyy-MM-dd HH:mm:ss"></el-date-picker>
                 </el-form-item>
               </el-col>
-              <el-col class="line" :span="2">-</el-col>
-              <el-col :span="11">
+<!--              <el-col class="line" :span="2">-</el-col>-->
+              <el-col :span="13">
                 <el-form-item prop="endTime"  >
-                  <el-date-picker type="datetime" placeholder="结束时间" v-model="list.sortStartDate" value-format="	yyyy-MM-dd HH:mm:ss"></el-date-picker>
+                  <el-date-picker type="datetime" placeholder="结束时间" v-model="list.sortEndDate" value-format="	yyyy-MM-dd HH:mm:ss"></el-date-picker>
                 </el-form-item>
               </el-col>
 
@@ -159,10 +161,10 @@
     <el-button type="primary" @click="getEditTop">确 定</el-button>
 
       </el-dialog>
-      <form action='item/exportOnSaleItemList' style="display:none;" method="get" ref="exportForm">
+      <form action='item/exportOnSaleItemList' style="display:none;" method="post" ref="exportForm">
 
         <input type="text" id='sid' name ="sid" v-model="sid" >
-        <input type="text" id='params' name ="params" ref="formParams" v-model="exportIds" >
+        <input type="text" id='itemId' name ="itemId" ref="formParams" v-model="exportIds" >
 
         <input type="submit" text="导出">
 
@@ -184,8 +186,9 @@ import axios from "axios"
 export default {
     data(){
         return{
+            sid:getLocalData('hbrj_sid'),
             pageNo:1,
-            pageSize:5,
+            pageSize:10,
             total:0,
             tableData:[],
             categoryList:[],
@@ -224,8 +227,7 @@ export default {
               sid:'',
             },
 
-          sid:getLocalData('hbrj_uid')
-         ,
+
           exportIds:'',
           itemIdAry:[],
 
@@ -244,6 +246,15 @@ export default {
 
     },
     methods:{
+        handleSizeChange(val) {
+          this.pageSize=val;
+          this.getGoodsOnSaleList();
+        },
+        indexMethod (index) {
+          let curpage = this.pageNo     //单前页码，具体看组件取值
+          let limitpage = this.pageSize  //每页条数，具体是组件取值
+          return (index+1) + (curpage-1)*limitpage
+        },
         getGoodsOnSaleList(){
             var _this=this;
             _this.tableData=[];
@@ -261,7 +272,7 @@ export default {
                     var data=res.data;
                     var list=data.list;
                     _this.total=data.totalCount;
-                    _this.$refs.pagination.total=_this.total;
+                    // _this.$refs.pagination.total=_this.total;
                     for(var i=0;i<list.length;i++){
                         var goodsItem={};
                         for(var j=0;j<_this.titleList.length;j++){
@@ -270,6 +281,20 @@ export default {
                         }
                         _this.tableData.push(goodsItem);
                     }
+                    for (var i=0;i<_this.tableData.length;i++) {
+                      if (_this.tableData[i].sortStatus==0){
+
+                        _this.tableData[i].sortStatus='未置顶'
+                      }else {
+                        _this.tableData[i].sortStatus='置顶中'
+
+                      }
+
+
+                    }
+
+
+
                 }else{
                     _this.$message.error(res.msg);
                 }
@@ -324,7 +349,7 @@ export default {
                  message: '置顶成功',
                  type: 'success'
                })
-
+              _this.getGoodsOnSaleList();
 
              }else {
                this.$message.error(res.msg);
@@ -407,84 +432,11 @@ export default {
             _this.$message.error("没有选中任何商品");
             return;
           }
+
           this.exportIds=this.itemIdAry.join(",");
-          let params = {
-            sid: getLocalData('hbrj_uid'),
-            itemId: this.exportIds,
-          };
-          exportOnSaleItemList(params).then( res =>{
-
-
-              //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这里表示xlsx类型
-
-              let blob = new Blob([res], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=GBK'});
-              console.log(blob)
-
-              let downloadElement = document.createElement('a');
-
-              let href = window.URL.createObjectURL(blob);
-
-              downloadElement.href = href;
-
-              downloadElement.download = '在线商品表.xls';　　　　　　　　　　// xxx.xls/xxx.xlsx
-
-              document.body.appendChild(downloadElement);
-
-              downloadElement.click();
-
-              document.body.removeChild(downloadElement);
-
-              window.URL.revokeObjectURL(href);
-            // const fileName = '测试表格123.xls';
-            // if ('download' in document.createElement('a')) { // 非IE下载
-            //   const blob = new Blob([res], {type: 'application/ms-excel',
-            //     encoding:"gbk"});
-            //   const elink = document.createElement('a');
-            //   elink.download = fileName;
-            //   elink.style.display = 'none';
-            //   elink.href = URL.createObjectURL(blob);
-            //   document.body.appendChild(elink);
-            //   elink.click();
-            //   URL.revokeObjectURL(elink.href); // 释放URL 对象
-            //   document.body.removeChild(elink);
-            // }
-
-
-
-          })
-            .catch( err => {
-              this.$message.error('服务器连接错误！');
-            });
-
-
-
-
-
-
-
-
+          this.$refs.formParams.value=this.exportIds;
+          this.$refs.exportForm.submit();
         },
-          Exccc (Vue, options){
-
-
-        Vue.prototype.downloadFile =function(data){
-          if (!data) {
-            return
-          }
-          let url = window.URL.createObjectURL(new Blob([data]))
-          let link = document.createElement('a')
-          link.style.display = 'none'
-          link.href = url
-          link.setAttribute('download', 'excel1111.xlsx')
-          document.body.appendChild(link)
-          link.click()
-        };
-      },
-
-
-
-
-
     }
 
 }
@@ -579,7 +531,7 @@ export default {
 
   height: 200px;
   }
-    
+
 </style>
 
 

@@ -2,7 +2,10 @@
 .postDetail{
     font-size:24px;
     padding-bottom:90px;
-    padding-top:100px;
+    /* padding-top:100px; */
+}
+.postDetail .mr20{
+    margin-right:20px;
 }
 /* 底部按钮区域 */
 .postDetail .footer-btns{
@@ -17,9 +20,11 @@
     border-top:1px solid #d0d0d0;/*no*/
     z-index:99;
     background:#fff;
+    box-sizing: border-box;
 }
 .postDetail .writeBox{
-    width: 312px;
+    flex:1;
+    /* width: 312px; */
 	height: 54px;
 	background-color: #f5f5f5;
     border-radius: 27px;
@@ -32,10 +37,13 @@
     left:40px;
     font-size:24px;
     top:30%;
+    color:#4d4d4d;
 }
 .postDetail .btnList{
     display: flex;
-    padding-right:20px;
+    padding-left:25px;
+    width:370px;
+    justify-content: space-between;
 }
 .postDetail .btnList i{
     font-size:44px;
@@ -59,9 +67,17 @@
     color: #232323;
     font-weight: bold;
     vertical-align: top;
+    padding-left:3px;/*no*/
+    font-family: "STXihei"
+}
+.postDetail .btnList .txtTip{
+    font-size: 24px; 
+    padding-left:3px;/*no*/
+    font-weight: bold;
 }
 .postDetail .btnItem{
-    width:119px;
+    align-items: center;
+    /* width:119px; */
 }
 .postDetail .storedBtn{
     color:#fcbd54;
@@ -71,13 +87,18 @@
 /* 评论区域 */
 .postDetail .commentList{
     border-top:1px solid #e7e7e6;/*no*/
-    padding:30px 29px;
+    padding:25px 0;
+    margin:0 25px;
 }
 .postDetail .commItem{
-    padding:25px 0;
-    min-height: 105px;
+    padding-top:25px;
+    /* min-height: 105px; */
     display: flex;
-    border-bottom:1px solid #e7e7e6;/*no*/
+ 
+}
+.postDetail .grayBorder{
+    padding-bottom:25px;
+   border-bottom:1px solid #e7e7e6;/*no*/
 }
 .postDetail .fx1{
     flex:1;
@@ -97,6 +118,7 @@
 	height: 58px;
     border-radius: 29px;
     margin-right:20px;
+    overflow: hidden;
 }
 .postDetail .avertImg img{
     width:100%;
@@ -107,7 +129,8 @@
     padding-left:20px;
 }
 .postDetail .commZan i{
-    font-size:36px;
+    font-size:32px;
+    color:#fff;
 }
 .postDetail .commZan span{
     position: absolute;
@@ -115,6 +138,9 @@
 }
 .postDetail .pd20{
     padding-bottom:20px;
+}
+.postDetail .pd6{
+    padding-bottom:6px;
 }
 .postDetail .pl10{
     padding-left:10px;
@@ -124,7 +150,8 @@
 }
 .postDetail .addCom{
     width: 612px;
-	height: 60px;
+    height: 60px;
+    line-height: 60px;
 	background-color: #f5f5f5;
     border-radius: 30px;
     font-size:24px;
@@ -144,10 +171,10 @@
 /* 评论区域结束 */
 /* 描述区域 */
 .postDetail .desCont{
-    padding:30px;
+    padding:25px;
 }
 .postDetail .topicTitle{
-    padding:18px 0;
+    padding-bottom:12px;
 	font-size: 28px;
 	font-weight: bold;
 	letter-spacing: 1px;
@@ -160,22 +187,25 @@
 }
 .postDetail .postTag{
     margin:18px 0;
-    width: 160px;
+    min-width: 160px;
     height: 42px;
+    line-height:42px;
     border-radius: 21px;
     background:#eef2f7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding:0 15px;
+    display: inline-block;
     box-sizing: border-box;
     position: relative;
+    text-align: center;
+    padding:0 20px;
+
 }
 .postDetail .postTag img{
     width:28px;
     height:28px;
-    position: absolute;
-    left:15px;
+    vertical-align: sub;
+}
+.postDetail .postTag span{
+    color:#6583e6;
 }
 /* 描述区域结束 */
 /* 滑动区域 */
@@ -283,14 +313,20 @@
     font-size:34px;
 }
 .postDetail .topCont{
-    padding-bottom:20px;
+    padding-bottom:10px;
     height: 100px;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     position: fixed;
-    top:0;
+    padding-top:50px;
     width:100%;
     z-index:100;
     background:#fff;
+    top:0;
+}
+.postDetail .hidePadding{
+    padding-bottom:0;
+    padding-top:0;
+    position: relative;
 }
 .postDetail .backBtn{
     padding:0 30px 0 20px;
@@ -318,35 +354,112 @@
     text-overflow:ellipsis;
 }
 /* 轮播区域 */
+.postDetail .mySwiper{
+    position: relative;
+    width:100%;
+    overflow-x:auto;
+    display: flex;
+}
+.postDetail .imgList{
+    display: flex;
+}
+.postDetail .mt100{
+    margin-top:100px;
+}
+.postDetail .mySlide{
+    width:100%;
+    flex-shrink: 0;
+}
+.postDetail .mySlide img{
+    width:100%;
+    height: auto;
+}
+.postDetail .pageTagList{
+    display: flex;
+    height:40px;
+    align-items: center;
+    justify-content: center;
+}
+.postDetail .pageTag{
+    height:6px;/*no*/
+    width:6px;/*no*/
+    border-radius:3px;/*no*/
+    background:#e6e6e6;
+    margin:0 5px; 
+}
+.postDetail .redTag{
+    background:#ff314a;
+}
+
+.postDetail .swiper-pagination-custom {
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    padding-top:10px;
+    position: relative;
+}
+
+.postDetail .swiper-pagination-customs {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+    background:#e3dedc;
+    opacity: .3;
+    margin: 0 5px;
+}
+
+.postDetail .swiper-pagination-customs-active {
+    opacity: 1;
+    background-color: #ef4454;
+}
+
+
 .postDetail .swiper-slide{
     display:flex;
-    height: 900px !important;
+     /* height: 900px !important;  */
     justify-content: center;
     align-items: center;
 }
+
 .postDetail .swiper-slide img{
     width:100%;
-    height: 100%;
+    height: auto;
 }
-.postDetail .swiper-container {
+.postDetail .swiper-container{
+    position: relative;
     width: 100%;
-    height:950px;
+    /* height:950px; */
 }
 .postDetail .swiper-pagination-bullet{
-    width:16px;
-    height:16px;
+    width:14px;
+    height:14px;
     background:#e3dedc;
     opacity: 1;
 }
 .postDetail .swiper-pagination-bullet-active{
     background:#ef4454;
 }
+.postDetail .slotCont{
+    width:100%;
+    height:160px;
+}
 .postDetail .helpChoose{
     position: absolute;
-    bottom:60px;
-    right:22px;
-    width: 116px;
-	height: 142px;
+    bottom:70px;
+    left:0;
+    width: 110px;
+	height: 50px;
+    z-index:99;
+    background-color: #ff314a;
+	box-shadow: 0px 0px 11px 0px 
+		rgba(161, 161, 161, 0.11);
+    border-radius: 0 25px 25px 0;
+    color:#fff;
+    font-size:24px;
+    text-align:center;
+    line-height:50px;
+    letter-spacing: 1px;
 }
 .postDetail .helpChoose img{
     width:100%;
@@ -391,7 +504,7 @@
     bottom:112px;
     left:50%;
     transform:translateX(-50%);
-    z-index:100;
+    z-index:999;
     padding:18px 20px;
     display: flex;
     align-items: center;
@@ -425,7 +538,7 @@
     position: fixed;
     bottom:163px;
     right:32px;
-    z-index:999;
+    z-index:99;
     width: 120px;
 	height: 120px;
     display: flex;
@@ -436,7 +549,7 @@
     position: fixed;
     bottom:153px;
     right:22px;
-    z-index:999;
+    z-index:99;
     width: 140px;
     height: 140px;
     background-color: #ffffff;
@@ -503,18 +616,134 @@
 .postDetail .sendCom{
     padding:20px;
 }
-
+.postDetail .textCol34{
+    color:#343434;
+}
+/* 分享出去的h5页面 */
+ .postDetail .robMoney{
+    width: 340px;
+    height:  67px;
+    background-color: #fee952;
+    border-radius: 34px;
+    letter-spacing: 2px;
+    color: #bc0015;
+    font-size: 30px;
+    font-weight: bold;
+    text-align:center;
+    line-height: 67px;
+}
+.postDetail .knowBtn{
+    width: 340px;
+    height: 67px;
+    background-color: #ffffff;
+    border-radius: 34px;
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #bc0015;
+    text-align:center;
+    line-height:67px;
+}
+.postDetail .sharejinbiNum{
+    font-size:55px;
+    font-weight: bold;
+    color: #ffeb5c;
+    letter-spacing: 5px;
+    padding-left:10px;
+    padding-bottom:40px;
+}
+.postDetail .maskJInbi{
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    background:rgba(0,0,0,0.6);
+    z-index:999;
+}
+.postDetail .jinbiBox{
+    width:670px;
+    height:750px;
+    position: fixed;
+    z-index:100;
+    top:44%;
+    left:48%;
+    transform:translate(-50%,-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background:url("../../img/grassgrowing/jinbiBox.png") no-repeat;
+    background-size:100% 100%;
+}
+.postDetail .jinbibtnList{
+    display: flex;
+    flex-direction: column;
+    position:absolute;
+    bottom:60px;
+}
+.postDetail .mb20{
+    margin-bottom:20px;
+}
+.postDetail .font66{
+    font-size:66px;
+}
+/* 分享页面头部下载区域开始*/
+.postDetail .topShareCont{
+    width:100%;
+    height:120px;
+    padding:0 20px;
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    font-size:28px;
+    color: #343434;
+    box-sizing: border-box;
+}
+.postDetail .logoBox{
+    width: 86px;
+    height: 86px;
+    border-radius: 16px;
+    margin-right:20px;
+    overflow: hidden;
+}
+.postDetail .logoBox img{
+    width:100%;
+    height:100%;
+}
+.postDetail .openBtn{
+    width: 180px;
+    height: 58px;
+    line-height:58px;
+    text-align: center;
+    background-color: #ff314a;
+    border-radius: 29px;
+    letter-spacing: 1px;
+    color: #ffffff;
+    font-size:24px;
+    font-weight: bold;
+}
+.postDetail .blodText{
+    font-weight: bold;
+}
+.postDetail .center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 分享页面头部下载区域结束*/
 /* 动画效果 */
-/* 点赞的动画 */
+/* 点赞的心的动画 */
 @keyframes scaleZanBtn{
     0% {
-        transform:scale(0.5)
+        transform:scale(0.5);
     }
     70%{
-        transform:scale(1.2)
+        transform:scale(1.2);
     }
+
     100% {
-        transform:scale(1)
+        transform:scale(1);
     }
 }
 /* 显示收藏的动画 */
@@ -524,7 +753,7 @@
         bottom:0;
         opacity: 0;
     }
-    25%{
+    20%{
         height:112px;
         bottom:112px;
         opacity: 1;

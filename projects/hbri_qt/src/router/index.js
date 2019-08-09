@@ -89,7 +89,11 @@ let router = new Router({
         {
             name:"bindPhone",
             path: '/bindPhone',
-            component: bindPhone           
+            component: bindPhone,
+          meta:{
+            keepAlive: true
+
+          }
         },
         {
             path: '/psLogin',

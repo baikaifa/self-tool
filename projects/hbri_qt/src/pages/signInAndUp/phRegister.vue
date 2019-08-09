@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="registerDiv">
         <backBtn pageName="注册" :type="type"></backBtn>
         <div class="phRegister">
             <img src="../../assets/img/logo.png" class="logoPng"/>
@@ -151,6 +151,9 @@ export default {
 }
 </script>
 <style>
+  .registerDiv{
+    position: fixed;
+  }
 .phRegister{
     width:100%;
     padding:1rem 0.6rem 0.8rem 0.6rem;

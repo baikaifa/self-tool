@@ -160,7 +160,7 @@ export default {
         width: 5rem;
         font-size: 0.28rem;
         color: black;
-        -webkit-text-fill-color:black; 
+        -webkit-text-fill-color:#b4b4b4;
         -webkit-opacity:1; 
         opacity: 1;
         line-height: 1.6;
@@ -183,7 +183,7 @@ export default {
         width: 5rem;
         font-size: 0.28rem;
         color: black;
-         -webkit-text-fill-color:inherit; 
+         -webkit-text-fill-color:inherit;
         line-height: 1.6;
     }
     .editPhone button{
@@ -238,4 +238,13 @@ export default {
         color: #fff;
         border-radius: 0.36rem;
     }
+    .editPhone input::-webkit-input-placeholder {
+
+    color: #b4b4b4;
+
+
+    }
+
+
+
 </style>

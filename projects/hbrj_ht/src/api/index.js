@@ -78,4 +78,7 @@ export const addSpecialDetail = (params) => get("/special/topic/detail", params)
 export const editSortTop = (params) => get("/item/editSort", params); // 专题详情
 
 export const exportOnSaleItemList = (params) => get("item/exportOnSaleItemList", params); // 导出在线出售Excle
+export const tbCatList = (params) => get("/category/tbCatList",params);//查询淘宝分类
+export const pullDetail = (params) => post('/item/pulled/detail',params);//手动导入商品的详情
+
 

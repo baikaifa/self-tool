@@ -8,7 +8,7 @@
         <div class="userInfoWrap">
             <div class="modifyUserAvatar">
                 <img :src="userInfo.avatar" alt="" class="userAvatar" @click="changeAvatar">
-                <span @click="changeAvatar">点击修改头像</span>
+                <span class="avatar" @click="changeAvatar">点击修改头像</span>
                 <input type="file" 
                     accept="image/*" ref="uploadAvatar" 
                     class="uploadAvatar" @change="onUpload"/>
@@ -28,21 +28,24 @@
                     <span class="goNext iconfont icongengduo1"></span>
                 </div>
             </div>
-            <div class="logOut">
+            <div class="logOut" v-if="sysEnv !== 'pc'">
                 <span @click="logOutBtn">退出登录</span>
             </div>
         </div>
+        <div v-if="tostShow" class="tostDiv">{{tostText}}</div>
     </div>
 </template>
 <script>
 import {reqPersonal} from "../../utils/request";
 import defaultAvatar from '../../assets/img/personal/avatar.png';
 import eleTit from "@/components/title/title";
+// import Vue from 'vue';
 export default {
     components: {eleTit},
     data() {
         return {
-            token: '',
+            tostText:'',
+            tostShow:false,
             uploadImg: '',
             userInfo: {
                 userId: '',
@@ -56,11 +59,11 @@ export default {
                     actionText: '',
                     type: 'name'
                 },
-                // {
-                //     name: '收款账户',
-                //     actionText: '设置',
-                //     type: 'account'
-                // },
+                {
+                    name: '收款账户',
+                    actionText: '设置',
+                    type: 'account'
+                },
                 {
                     name: '绑定手机',
                     actionText: '修改',
@@ -74,11 +77,18 @@ export default {
             ]
         }
     },
+    beforeRouteEnter(to,from,next){
+        next( vm=>{
+            if(from.name == "nickname"){
+                vm.getSelfInfo();
+            }
+        });
+    },
     created() {
-        this.token = 'b389494d1530103054faacb890973eef3bf23bbea84523e84838fd0915ecb98d';
         this.getSelfInfo();
     },
     mounted() {
+       
     },
     methods: {
         // 返回
@@ -87,12 +97,12 @@ export default {
         },
         getSelfInfo() {
             let params = {
-                token: this.token
             }
             reqPersonal.selfInfo(params).then(res=>{
                 if(res.code == 200) {
                     this.userInfo = res.data;
                     this.userInfo.avatar = this.userInfo.avatar ? this.userInfo.avatar : defaultAvatar;
+                    console.log(this.userInfo.avatar)
                 } else {
                     console.log("获取数据失败")
                 }
@@ -109,16 +119,20 @@ export default {
             }
             // let sid = getLocalData("hbxj_sid");
             let fData = new FormData();
-            fData.append('token',this.token);
-            // fData.append('file',evt.target.files[0]);
-            fData.append('act','appavatar');
-            fData.append('userid',this.userId);
+            fData.append('file',evt.target.files[0]);
+            console.log(evt.target.files[0])
+            fData.append('userid',this.userInfo.userId);
 
             reqPersonal.uploadAvatar(fData, {headers: {'Content-Type': 'multipart/form-data'}}).then((res) => {
                 if(res.result == 200) {
                     console.log("res",res)
                     let time = new Date().getTime();
-                    this.uploadImg = res.info.image+"?time="+time;
+                    console.log(res.info.image+"?time="+time)
+                    //+"?time="+time;
+                    this.uploadImg = res.info.image
+                    // const path = URL.createObjectURL(evt.target.files[0]);
+
+                    // this.userInfo.avatar=path
                     this.saveAvater();
                 } else {
                     console.log("上传失败")
@@ -138,12 +152,12 @@ export default {
         // 上传保存图片
         saveAvater(){
             let params = {
-                token: this.token,
                 avatar:this.uploadImg
             };
             reqPersonal.saveAvatar(params).then(res =>{
                 if(res.code == 200) {
-                    alert("头像保存成功")
+                    // alert("头像保存成功");
+                    this.showTost('头像修改成功');
                     this.getSelfInfo();
                 } else{
                     console.log("头像保存失败")
@@ -156,19 +170,15 @@ export default {
                 this.$router.push('/nickname');
             }
             if(type == 'account') {
-
+                this.$router.push('/bankCardList');
             }
             if(type == 'phone') {
                 // this.$router.push({path:'/modifyPhone',query:{phone:this.phone}});
-                if(this.userInfo.phone) {
-                    this.$router.push({path:'/modifyPhone',query:{phone:'17733972992'}});
-                } else {
-                    this.$router.push({path:'/modifyNewPhone'});
-                }
+                this.$router.push({path:'/modifyNewPhone'});
             }
             if(type == 'pwd') {
                 if(this.userInfo.phone) {
-                    this.$router.push({path:'/forgetPwd',query:{phone:'17733972992'}});
+                    this.$router.push({path:'/forgetPwd',query:{phone: this.userInfo.phone}});
                 } else {
                     this.$router.push({path:'/forgetPwd',query:{phone:''}});
                 }
@@ -176,8 +186,23 @@ export default {
         },
         // 退出登录
         logOutBtn() {
-            window.logoutAction();
-        }
+            // alert("in logOutBtn");
+            if (this.sysEnv === 'pc') {
+                // 非app从新登陆，可能因此导致网页端 无限刷新问题 add xwj 201-08-01
+                // this.appUtils.toAppLogin();
+            } else {
+                // alert(">>>ready to toAppLogin");
+                this.appUtils.toAppLogin();
+            }
+        },
+        showTost: function(text) {
+            clearTimeout();
+            this.tostText = text;
+            this.tostShow = true;
+            setTimeout(() => {
+                this.tostShow = false;
+            }, 1500);
+        },
     }    
 }
 </script>
@@ -218,6 +243,9 @@ export default {
         font-size: 24px;
         border-bottom: 1px solid #f2f2f2;
     }
+   .settingWrap .userInfoWrap .modifyUserAvatar .avatar{
+       font-size: 0.426667rem;
+   }
     .settingWrap .userInfoWrap .userAvatar {
         display: block;
         width: 130px;
@@ -275,5 +303,16 @@ export default {
     }
     .settingWrap .uploadAvatar{
         display: none;
-    } 
+    }
+    .tostDiv {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px 30px;
+        font-size: 14px;
+        /*n0*/
+        background: rgba(0, 0, 0, 0.6);
+        color: #ffffff;
+    }
 </style>

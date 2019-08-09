@@ -15,7 +15,7 @@
 
 
       <label class="w100">专题类型</label>
-      <el-select placeholder="图片专题"
+      <el-select placeholder="全部类型"
                  v-model="list.type">
         <el-option
           v-for="item in specialType"
@@ -32,7 +32,7 @@
       </div>
 
       <label class="w110">专题状态</label>
-      <el-select class="rightLittle" placeholder="草稿中"
+      <el-select class="rightLittle" placeholder="全部状态"
       v-model="list.status">
         <el-option
           v-for="item in specialStatus"
@@ -68,7 +68,13 @@
             </template>
 
           </el-table-column>
-          <el-table-column align="center" prop="startTime" label="显示时间" width="300px"></el-table-column>
+
+<el-table-column align="center" label="显示时间" width="310px">
+  <template slot-scope="scope">
+     {{scope.row.startTime}} --- {{scope.row.endTime}}
+  </template>
+</el-table-column>
+
           <el-table-column align="center" prop="url" label="URL链接" max-width="26.7%"></el-table-column>
           <el-table-column prop="roleId" align="center" max-width="23%" label="操作">
             <template slot-scope="scope">
@@ -93,9 +99,10 @@
         <el-pagination
           ref="pagination"
           background
-          layout="prev, pager, next"
+          @size-change="handleSizeChange"
+          layout="total,prev, pager, next,jumper,sizes"
           :total="total"
-          :page-size="list.pageSize"
+          :page-size="pageSize"
           class="pageFlag"
           @current-change="handleCurrentChange"
         ></el-pagination>
@@ -168,7 +175,6 @@ import {
   createImgSpecial
 } from "@/api/index";
 import {getLocalData} from "@/utils/base"
-
 export default {
   data() {
     return {
@@ -201,6 +207,7 @@ export default {
       total: 0,
       pageSize: 10,
       pageIndex:10,
+      pageNo:1,
       addSpecialShow: false,
       logSpecialShow:false,
 
@@ -236,11 +243,24 @@ export default {
    this.getSepcialList();
   },
   methods: {
+    handleSizeChange(val) {
+      this.pageSize=val;
+      this.querySpecialList();
+    },
+    indexMethod (index) {
+      let curpage = this.pageNo     //单前页码，具体看组件取值
+      let limitpage = this.pageSize  //每页条数，具体是组件取值
+      return (index+1) + (curpage-1)*limitpage
+    },
     getSepcialList() {
       // 获取专题列表
       var _this = this;
       let param = {
         sid: getLocalData('hbrj_uid'),
+        pageIndex:this.pageNo,
+        pageSize: 10,
+
+
       };
       specialList(param).then(function(res) {
         if (res.code == 200) {
@@ -262,7 +282,7 @@ export default {
         type:this.list.type,
         url:this.list.url,
         status:this.list.status,
-        pageIndex:10,
+        pageIndex:this.pageNo,
         pageSize: 10,
 
       };
@@ -271,6 +291,7 @@ export default {
           _this.tableData=res.data.list;
           console.log(_this.tableData);
           _this.total=res.data.totalCount;
+          _this.listArr= _this.total;
 
         }else {
           this.$message.error(res.msg);
@@ -281,7 +302,7 @@ export default {
     handleCurrentChange(val) {
       // 点击分页
       this.pageNo = val;
-      this.getSepcialList();
+      this.querySpecialList();
     },
     deleteRow(index, rows) {
       //删除专题
@@ -415,7 +436,6 @@ export default {
             // endTime:_this.tableData[index].endTime,
             startTime:"2019-01-01 00:00:00",
             endTime:"2019-01-02 00:00:00",
-
           };
           createImgSpecial(param).then(function (res) {
             if (res.code ==200){
@@ -484,7 +504,9 @@ export default {
   height: 100%;
   position: relative;
 }
-
+.thematicManagement .el-input__prefix{
+  margin-top: -3px;
+}
 .thematicManagement .searchPanel {
   height: 60px;
   font-size: 14px;

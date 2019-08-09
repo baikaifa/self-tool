@@ -3,7 +3,7 @@
 		<eleTit bak="true"></eleTit>
         <div class="contactCustomerService">
             <div class="vxContactCus">
-                <div class="headDiv">
+                <div class="headDiv1">
                     <strong>
                         联系客服
                     </strong>
@@ -20,7 +20,7 @@
 
                         <ul>
                             <li >A京东淘宝返利助手110 微信号: hemeixbi001</li>
-                            <li >A京东淘宝返利助手212 微信号: &nbsp&nbspJiyinxbo01</li>
+                            <li >A京东淘宝返利助手212 微信号: &nbsp;Jiyinxbo01</li>
                             <li >A京东淘宝返利助手010 微信号: huipingxb001</li>
                             <li >A京东淘宝返利助手213 微信号: kunfengxb00</li>
                             <li >A京东淘宝返利助手211 微信号: Darlingtonaa</li>
@@ -217,6 +217,26 @@ export default {
         normal;
         position: relative;
         top: 40px;
+    }
+      .template  .headDiv1{
+          width: 471px;
+          height: 30px;
+          color: #ef4454;
+          margin:40px auto 0;
+          background: url("../../assets/img/personal/lr_vxcontact.png")no-repeat;
+          background-size: 100%;
+
+
+        }
+    .template  .headDiv1 strong{
+        width: 100%;
+        margin-left: 37%;
+        font-size: 30px;
+        color: #ef4454;
+        position: relative;
+        top:-18px;
+
+
     }
 
 

@@ -1,36 +1,44 @@
 <template>
-	<scroller :on-refresh="refList" :on-infinite="lodList" ref="mallScro" :noDataText="noDaTxt">
-		<div class="goods" ref="goodsList">
-			<div class="goods_inner touch" v-for="(item,index) in items" :key="index" @click.stop="getCommInfo(item, index)" :id="index">
-				<img class="goods_img" modeType="event" v-lazy="item.picUrl" />
-				<div class="goods_title t_text">
-					<span class="t_name">{{item.source}}</span>
-					{{item.title}}
-				</div>
-				<div class="clear"></div>
-				<div class="goods_pride">
-					<div>
-						<span class="p_price_1 rec_active">¥</span>
-						<span class="p_price_2 rec_active">{{item.price|switchPrice}}</span>
-						<span class="p_oprice rec_fail">¥{{item.oriPrice|switchPrice}}</span>
+	<div>
+		<div class="loading" v-if="isShowLoad">
+			<div class="loadingIn">
+				<img src="../../assets/img/xileloading.gif" alt="">
+				<p>加载中...</p>
+			</div>
+		</div>
+		<scroller :on-refresh="refList" :on-infinite="lodList" ref="mallScro" :noDataText="noDaTxt">
+			<div class="goods" ref="goodsList">
+				<div class="goods_inner touch" v-for="(item,index) in items" :key="index" @click.stop="getCommInfo(item, index)" :id="index">
+					<img class="goods_img" modeType="event" v-lazy="item.picUrl" />
+					<div class="goods_title t_text">
+						<span class="t_name">{{item.source}}</span>
+						{{item.title}}
 					</div>
-					<div>
-						<span class="p_sailed rec_fail">{{item.sales |switchSales}}人付款</span>
+					<div class="clear"></div>
+					<div class="goods_pride">
+						<div>
+							<span class="p_price_1 rec_active">¥</span>
+							<span class="p_price_2 rec_active">{{item.price|switchPrice}}</span>
+							<span class="p_oprice rec_fail">¥{{item.oriPrice|switchPrice}}</span>
+						</div>
+						<div>
+							<span class="p_sailed rec_fail">{{item.sales |switchSales}}人付款</span>
+						</div>
 					</div>
-				</div>
-				<div class="goods_save">
-					<div class="save">
-						<i class="iconfont iconyouhuiquan rec_active" size="18px"></i>
-						<span class="s_text1 rec_active">优惠券:{{item.couponPrice|switchPrice}}</span>
-					</div>
-					<div class="save">
-						<i class="iconfont iconshouyi rec_active" size="18px"></i>
-						<span class="s_text2 rec_active">返现¥{{item.commission|switchPrice}}</span>
+					<div class="goods_save">
+						<div class="save">
+							<i class="iconfont iconyouhuiquan rec_active" size="18px"></i>
+							<span class="s_text1 rec_active">优惠券:{{item.couponPrice|switchPrice}}</span>
+						</div>
+						<div class="save">
+							<i class="iconfont iconshouyi rec_active" size="18px"></i>
+							<span class="s_text2 rec_active">返现¥{{item.commission|switchPrice}}</span>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</scroller>
+		</scroller>
+	</div>
 </template>
 
 <script>
@@ -39,33 +47,19 @@ import { reqReco } from "../../utils/request";
 export default {
 	data: function() {
 		return {
+			isShowLoad: false,
 			lockTime: 0,
 			noDaTxt: "没有更多商品", // 没有数据时显示的内容
 		};
 	},
 	props: ['items'],
 	mounted() {
-		this.$refs.mallScro.finishInfinite(false);
-		this.$refs.mallScro.finishPullToRefresh();
+		if (this.$refs.mallScro) {
+			this.$refs.mallScro.finishInfinite(false);
+			this.$refs.mallScro.finishPullToRefresh();
+		}
 	},
 	methods: {
-		/**
-		 * 得到到商品信息，等待接口
-		 * @author xwj 2019-07-17
-		 */
-		getCommInfo1(item) {
-			console.log(" in getComm info ... " + item.commId);
-			let url = "https://item.taobao.com/item.htm?id=" + item.commId;
-			switch (this.sysEnv) {
-				case "ios":
-					window.webkit.messageHandlers.goodsLinkiOS.postMessage(url);
-					break;
-				case "android":
-					window.joybuy.convertTBUrl(url);
-					break;
-			}
-			console.log(" >> over getComm info ... " + item.commId);
-		},
 		/**
 		 * 得到到商品信息，等待接口
 		 * @author xwj 2019-07-29
@@ -77,6 +71,7 @@ export default {
 			if (t <= this.lockTime) {
 				return;
 			}
+			this.isShowLoad = true;
 			const that = this;
 			if (item.source + '' === '0' || item.source === '京东') { // 京东
 				// if (this.$parent.sea && this.$parent.sea.run) {
@@ -85,7 +80,8 @@ export default {
 						commLink: 'http://item.jd.com/' + item.commId + '.html'
 					};
 					reqReco.getTransByCommLink(params).then(res => {
-							console.log(" >>> jd getTransByCommLink >>> ", JSON.stringify(res));
+							// console.log(" >>> jd getTransByCommLink >>> ", JSON.stringify(res));
+						that.isShowLoad = false;
 						if (res.code === 200) {
 							// reqReco.openSeaComm(res.commodityServiceLink);
 							// window.location.href = res.data.payLink;
@@ -98,6 +94,8 @@ export default {
 									break;
 							}
 						}
+					}).catch(()=>{
+						that.isShowLoad = false;
 					});
 				// } else {
 				// 	window.location.href = item.shareLink;
@@ -108,7 +106,8 @@ export default {
 						commLink: 'http://item.taobao.com/item.htm?id=' + item.commId
 					};
 					reqReco.getTransByCommLink(params).then(res => {
-							console.log(" >>> tb getTransByCommLink >>> ", JSON.stringify(res));
+							// console.log(" >>> tb getTransByCommLink >>> ", JSON.stringify(res));
+						that.isShowLoad = false;
 						if (res.code === 200) {
 							// reqReco.openSeaComm(res.commodityServiceLink);
 							// console.log(res.commodityServiceLink);
@@ -122,7 +121,9 @@ export default {
 									break;
 							}
 						}
-					});
+					}).catch(()=>{
+						that.isShowLoad = false;
+					});;
 				// } else {
 				// 	console.log("share2");
 				// 	// const params = {
@@ -145,14 +146,18 @@ export default {
 		 * @author xwj 2019-07-27
 		 */
 		finishInfinite(st) {
-			this.$refs.mallScro.finishInfinite(st);
+			if (this.$refs.mallScro) {
+				this.$refs.mallScro.finishInfinite(st);
+			}
 		},
 		/**
 		 * 关闭下拉刷新的等待
 		 * @author xwj 2019-07-27
 		 */
 		finishPullToRefresh() {
-			this.$refs.mallScro.finishPullToRefresh();
+			if (this.$refs.mallScro) {
+				this.$refs.mallScro.finishPullToRefresh();
+			}
 		},
 		/**
 		 * 去到目标滚动条位置
@@ -162,7 +167,9 @@ export default {
 		 * @param an 是否有动画效果
 		 */
 		scrollTo(sx, sy, an) {
-			this.$refs.mallScro.scrollTo(sx, sy, an);
+			if (this.$refs.mallScro) {
+				this.$refs.mallScro.scrollTo(sx, sy, an);
+			}
 		},
 		refList() {
       	this.$emit('refresh');

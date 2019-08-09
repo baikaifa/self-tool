@@ -21,7 +21,7 @@
 					<div class="titleSecondBtn" :class="[sort.none !==0 ? 'spe_active selectBorder':'noselectBorder']" @click.stop="changeSort('none')" @touch.stop="changeSort('none')">
 						<font>综合</font>
 					</div>
-					<div class="titleSecondBtn"  :class="[sort.sales !==0 ? 'spe_active selectBorder':'noselectBorder']" @click.stop="changeSort('sales')">
+					<div class="titleSecondBtn" :class="[sort.sales !==0 ? 'spe_active selectBorder':'noselectBorder']" @click.stop="changeSort('sales')">
 						<font>销量</font>
 						<div class="shop_title_sort" :class="{shop_sort_up: sort.sales === 1, shop_sort_down: sort.sales === 2}">
 							<i class="iconfont iconpaixujiantoushang shop_title_sort_up"></i>
@@ -102,19 +102,19 @@ export default {
 			switch (type) {
 				case 'cc': // 精选专区
 					this.isCc = true;
-					this.pTitle = '精选专区';
+					this.pTitle = '9.9专区';
 					break;
 				case 'tn': // 3.9专区
 					this.isCc = true;
-					this.pTitle = '3块9专区';
+					this.pTitle = '9.9专区';
 					break;
 				case 'sn': // 6.9专区
 					this.isCc = true;
-					this.pTitle = '6块9专区';
+					this.pTitle = '9.9专区';
 					break;
 				case 'nn': // 9.9专区
 					this.isCc = true;
-					this.pTitle = '9块9专区';
+					this.pTitle = '9.9专区';
 					break;
 				case 'gb':
 					this.pTitle = '全球海淘';
@@ -180,7 +180,6 @@ export default {
 			this.onTouch.tPoint.x = 0;
 			this.onTouch.tPoint.y = 0;
 		},
-
 		/**
 		 * 显示所有标签的商品
 		 * @author xwj 2019-06-24
@@ -242,7 +241,9 @@ export default {
 				case 'tn':
 				case 'sn':
 				case 'nn':
-					this.$router.push({name: 'mallSpec', query: {sp: tag}});
+					// this.$router.push({name: 'mallSpec', query: {sp: tag}});
+					this.type = tag;
+					this.getDataList();
 					return;
 			}
 			return;
@@ -283,23 +284,23 @@ export default {
 		getType() {
 			switch(this.type) {
 				case 'cc':
-					return 4;
-				case 'tn':
-					return 5;
-				case 'sn':
-					return 6;
-				case 'nn':
-					return 7;
-				case 'gb':
-					return 1;
-				case 'cs':
 					return 2;
-				case 'pp':
+				case 'tn':
 					return 3;
-				case 'br':
+				case 'sn':
+					return 4;
+				case 'nn':
+					return 5;
+				case 'gb':
+					return 6;
+				case 'cs':
+					return 7;
+				case 'pp':
 					return 8;
+				case 'br':
+					return 9;
 			}
-			return 0;
+			return 1;
 		},
 		/**
 		 * 得到排序用参数
@@ -559,7 +560,7 @@ export default {
  .spec .loadingIn{
 	 width: 280px;
 	 height: 300px;
-	 border-radius: 10px;/*no*/
+	 border-radius: 10px;
 	 background: rgba(0,0,0,0.5);
 	 color: #fff;
 	 position: absolute;

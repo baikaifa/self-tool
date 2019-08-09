@@ -69,7 +69,8 @@
                 <el-pagination
                 ref="pagination"
                 background
-                layout="prev, pager, next"
+                @size-change="handleSizeChange"
+                layout="total,prev, pager, next,jumper,sizes"
                 :total="total"
                 :page-size="pageSize"
                 class="pageFlag"
@@ -91,7 +92,7 @@ export default {
     data(){
         return{
             pageNo:1,
-            pageSize:20,
+            pageSize:10,
             total:0,
             operaModule:"",// 操作模块
             operationTime:"",// 操作时间
@@ -104,6 +105,10 @@ export default {
         this.getOperateList();
     },
     methods:{
+        handleSizeChange(val) {
+          this.pageSize=val;
+          this.getOperateList();
+        },
         getOperateList(){
             var _this=this;
             _this.tableData=[];

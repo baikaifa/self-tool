@@ -17,7 +17,7 @@
                         v-for="item in roles"
                         :key="item.roleId"
                         :label="item.roleName"
-                        :value="item.roleId">s
+                        :value="item.roleId">
                         </el-option>
                     </el-select>
                 </el-form-item>
@@ -82,7 +82,9 @@
             <p class="tableTitle">账户列表</p>
             <el-table border height="400px" :data="tableData">
                 <!-- <el-table-column type="selection" width="55"></el-table-column> -->
-                <el-table-column type="index" width="55" label="序号" align="center"></el-table-column>
+                <el-table-column type="index" width="55" label="序号" align="center" :index="indexMethod">
+
+                </el-table-column>
                 <el-table-column v-for="(item,index) in columns" :key="index" :label="item.label" :prop="item.prop" align="center" :width="item.width"></el-table-column>
                 <el-table-column label="操作" align="center">
                     <template slot-scope="scope">
@@ -99,7 +101,7 @@
                 @current-change="handleCurrentChange"
                 :current-page.sync="pager.currentPage"
                 :page-size="pager.pageSize"
-                layout="total,sizes,prev, pager, next,jumper"
+                layout="total,prev, pager, next,jumper,sizes"
                 :total="pager.total">
             </el-pagination>
         </div>
@@ -265,7 +267,6 @@ export default {
     },
     methods: {
       handleSizeChange(val) {
-
         this.pager.pageSize=val;
         this.getUserList();
       },
@@ -275,6 +276,26 @@ export default {
                 if(data.code == 200) {
                     this.roles = data.data.list;
                     this.roleOptions = data.data.list;
+
+
+                  var list=data.data.list;
+                  var i=0
+                  while (this.roleOptions[i]){
+                    if(list[i].status==0){
+                      list.splice(i,1);
+
+                    }
+                    else {
+
+                      i++;
+                    }
+
+                  }
+                  console.log(list)
+
+
+
+
                 } else {
                     this.$message({
                         type:'warning',
@@ -621,6 +642,13 @@ export default {
                 })
             } else {
                 // 重置密码
+              if(this.accountData.password.length>22) {
+                this.$message({
+                  type:'warning',
+                  message:"密码长度不超过22位字符"
+                })
+                return;
+              }
                 let pwdData = {};
                 pwdData.userId = this.accountData.uid;
                 pwdData.password = this.accountData.password;
@@ -628,7 +656,7 @@ export default {
                     if(data.code == 200) {
                         this.$message({
                             type:'success',
-                            message:"账号删除成功"
+                            message:"重置成功"
                         })
                         this.closedHandler();
                         this.getUserList();
@@ -640,7 +668,13 @@ export default {
                     }
                 })
             }
-        }
+        },
+      indexMethod (index) {
+        let curpage = this.pager.currentPage     //单前页码，具体看组件取值
+        let limitpage = this.pager.pageSize  //每页条数，具体是组件取值
+        return (index+1) + (curpage-1)*limitpage
+      }
+
     },
 }
 </script>

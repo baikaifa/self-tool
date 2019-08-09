@@ -8,7 +8,7 @@
         <section v-if="noTalkData" class="noTalkData">
             没有更多数据了~
         </section>
-        <section v-if="!noTalkData" class="talkContain">
+        <section v-if="!noTalkData" class="talkContain" :class="{pcTop:sys_env=='pc'}">
             
             
             <div v-for="item in list" class="talkItem">
@@ -20,7 +20,7 @@
                         <div class="name">{{item.wxName}}</div>
                         <div class="time">{{item.time}}</div>
                     </div>
-                    <div v-if="item.msgType==1" class="talkContent" v-html="item.msgContent">
+                    <div v-if="item.msgType==1||item.msgType==49" class="talkContent" v-html="item.msgContent">
                         
                     </div>
                     <div v-if="item.msgType==3" class="talkContent">
@@ -32,9 +32,9 @@
                     <div v-if="item.msgType==34" class="talkContent">
                         <audio controls :src="item.msgContent"></audio>
                     </div>
-                    <div v-if="item.msgType==49" class="talkContent talkUrl" @click="gotoPage(item.contentAnalysisUrl)" v-html="item.msgContent">
+                    <!--<div v-if="item.msgType==49" class="talkContent talkUrl" @click="gotoPage(item.contentAnalysisUrl)" v-html="item.msgContent">
                         
-                    </div>
+                    </div>-->
                 </div>
             </div>
             
@@ -63,6 +63,7 @@ import tit from "../../components/title/title"
 export default {
     data(){
         return {
+            sys_env: this.sysEnv,
             groupId:"",
             list:[],
             addRobotInfo:{
@@ -177,31 +178,36 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped="scoped" type="text/css">
     .groupTalkPage .noTalkData{
         position: fixed;
-        top: 100px;
-        bottom: 3rem;
+        top: 120px;
+        bottom: 180px;
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: 28px;
-        border-top: 1px solid #e4e4e4;/*no*/
+        border-top: 1px solid #eeeeee;/*no*/
     }
+
+    
+
     .groupTalkPage .talkContain{
         position: fixed;
-        top: 100px;
-        bottom: 3rem;
+        top: 120px;
+        bottom: 180px;
         width: 100%;
         overflow: auto;
-        border-top: 1px solid #e4e4e4;/*no*/
+        border-top: 1px solid #eeeeee;/*no*/
+    }
+    .groupTalkPage .pcTop{
+        top:80px;
     }
     .groupTalkPage .talkContain .talkItem{
         width: 690px;
         margin: 0 auto;
-
-        border-bottom: 1px solid #e4e4e4;/*no*/
+        border-bottom: 1px solid #eeeeee;
         padding-top:20px;
         padding-bottom:20px;
         display: flex;
@@ -255,6 +261,7 @@ export default {
         padding: 10px 0;
         white-space: pre-wrap;
         word-break: break-all;
+
     }
     .groupTalkPage .talkContain .talkItem .talkInfoContain .talkContent.talkUrl{
         color: #1377ff;
@@ -273,7 +280,7 @@ export default {
         color: black;
         position:fixed;
         top: 0px;
-        border-bottom: 1px solid #e4e4e4;/*no*/
+        border-bottom: 1px solid #eeeeee;/*no*/
         
     }
 
@@ -292,7 +299,7 @@ export default {
         text-align: center;
         position: fixed;
         width: 100%;
-        bottom: 160px;
+        bottom: 120px;
         margin-bottom: 10px;
     }
 
@@ -307,7 +314,7 @@ export default {
         width: 90vw;
         
         position: fixed;
-        bottom: 80px;
+        bottom: 40px;
         left: 5vw;
     }
 

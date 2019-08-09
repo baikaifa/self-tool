@@ -6,6 +6,7 @@ import Router from 'vue-router'
  * @author xwj 2019-07-27
  */
 import mallMain from '../pages/mall/main'
+// import mallMainNew from '../pages/mall/main_new'
 /**
  * 教程页，每用户可能仅看到一次
  * @author xwj 2019-07-30
@@ -22,7 +23,7 @@ import mallList from '../pages/mall/list_prom'
  */
 import mallListSpecial from '../pages/mall/list_special'
 //商城搜索页面lwz
-import mallSearch from "@/pages/mall/search"
+import mallSearch from "@/pages/mall/msearch"
 
 // /**
 //  * 品牌专区列表，品牌特卖
@@ -41,12 +42,13 @@ import mallSearch from "@/pages/mall/search"
  * @author xwj 2019-07-27
  */
 
-import shoppingRebate  from '../pages/mall/shoppingRebate'//商品返利
+// import shoppingRebate  from '../pages/mall/shoppingRebate'//商品返利
 import grassList from '../pages/grassgrowing/list'
 import posterHomePage from '../pages/grassgrowing/poster.vue';//种草发帖者
 import postDetail from "@/pages/grassgrowing/postDetail";//帖子详情页
 import grassSearch from '@/pages/grassgrowing/search'//种草搜索页
 import grassLabel  from '@/pages/grassgrowing/label'//种草标签页
+import grassRedTip from '@/pages/grassgrowing/grassRedTip' //种草标签页
 
 // TODO: 社群部分 gaoxueli
 import groupList from '../pages/community/groupList'; // 社群列表 
@@ -55,6 +57,9 @@ import groupMemberList from '../pages/community/groupMemberList'; // 群成员�
 import groupSearch from '../pages/community/groupSearch'; // 社群搜索
 import groupTalkPage from '../pages/community/groupTalkPage'; // 群聊
 import groupWorkPublish from '../pages/community/groupWorkPublish'; // 发布作品
+import applyAddGroup from '../pages/community/applyAddGroup'; // 申请加群
+import applyResult from '../pages/community/applyResult'; // 申请加群
+import applyCooperation from '../pages/community/applyCooperation'; // 申请合作
 
 // TODO: 个人中心部分 huhuayuan
 import personal from '../pages/personal/personal'; //个人中心
@@ -62,6 +67,7 @@ import income from '../pages/personal/income.vue';//累计收益
 import setting from '../pages/personal/setting.vue';//设置
 import wxBind from '../pages/personal/wxBind.vue';//微信绑定
 import wxBindResult from '../pages/personal/wxBindResult.vue';//微信绑定结果
+import wxBindSuccess from '../pages/personal/wxBindSuccess.vue';//微信绑定结果
 import wxIsBind from '../pages/personal/wxIsBind.vue';//已微信绑定
 import changeWxBind from '../pages/personal/changeWxBind.vue';//更换微信绑定
 import modifyPhone from '../pages/personal/modifyPhone.vue';//修改手机号
@@ -69,6 +75,26 @@ import modifyNewPhone from '../pages/personal/modifyNewPhone.vue';//修改新的
 import forgetPwd  from '../pages/personal/forgetPwd.vue'//修改手机号密码
 import nickname  from '../pages/personal/nickname.vue'//昵称
 import contactCustomerService from '../pages/personal/contactCustomerService.vue'//联系客服
+import chooseBank from '../pages/personal/chooseBank.vue'//选择银行
+import getCashFinish from '../pages/personal/getCashFinish.vue'//提现完成
+import bankCardManagement from '../pages/personal/bankCardManagement.vue'//支付方式管理
+import myPurseWithdraw from '../pages/personal/myPurseWithdraw.vue'//收款
+import bankCardList from '../pages/personal/bankCardList.vue'//收款账户管理
+import fillInvitationCode from '../pages/personal/fillInvitationCode.vue'//填写邀请人
+import BindedMan from '../pages/personal/BindedMan.vue'//已绑定邀请人
+
+// import myWorksList from '../pages/personal/myWorksList.vue'//作品
+// import myAttention from '../pages/personal/myAttention.vue'//关注
+// import myPurseWithdraw from '../pages/personal/myPurseWithdraw.vue'//粉丝
+// import myPurseWithdraw from '../pages/personal/myPurseWithdraw.vue'//收藏
+
+import myWorksList from '../pages/personal/myWorksList.vue'//作品
+import myAttention from '../pages/personal/myAttention.vue'//关注
+import myFan from '../pages/personal/myFan.vue'//粉丝
+import myCollectionList from '../pages/personal/myCollectionList.vue'//收藏
+
+// TODO: 提现部分
+import addAccountPersonal from '../pages/personal/addAccountPersonal.vue' //添加收款方式
 
 // TODO: 其他杂项部分 zhangtong
 import taskCenter from '../pages/other/taskCenter'; //任务中心
@@ -96,7 +122,17 @@ const rout = new Router({
 				tit: '喜乐阳光汇',
 				appMenu: true,
 			}
-		}, { // 去到种草主列表 xwj 2019-07-27
+		}, 
+		// { // 去到商城主页 xwj 2019-07-27
+		// 	path: '/mallMainNew',
+		// 	name: 'mallMainNew',
+		// 	component: mallMainNew,
+		// 	meta: {
+		// 		tit: '喜乐阳光汇',
+		// 		appMenu: true,
+		// 	}
+		// }, 
+		{ // 去到种草主列表 xwj 2019-07-27
 			path: '/gongList',
 			name: 'gongList',
 			component: grassList,
@@ -121,6 +157,7 @@ const rout = new Router({
 			component: personal,
 			meta: {
 				tit: '个人中心', //
+				// headBak: true,
 				appMenu: true,
 			}
 		}, 
@@ -148,7 +185,7 @@ const rout = new Router({
 			name: 'mallSpec',
 			component: mallListSpecial,
 			meta: {
-				tit: '专题', // 区分各个分类  
+				tit: '', // 区分各个分类  
 				headBak: true,
 				appMenu: false,
 			}
@@ -156,6 +193,11 @@ const rout = new Router({
 			path: '/mallSearch',
 			name: 'mallSearch',
 			component: mallSearch,
+			meta: {
+				tit: '商城搜索', // 区分各个分类  
+				headBak: true,
+				appMenu: false,
+			}
 		},
 		// TODO: 种草部分页面 xwj 2019-07-27
 		{ // 帖子详情页
@@ -194,16 +236,26 @@ const rout = new Router({
 				headBak: true,
 				appMenu: false,
 			}
-		}, { // 去到购物返利列表 bkf 2019-07-28
-			path: '/shoppingRebate',
-			name: 'shoppingRebate',
-			component: shoppingRebate,
+		}, { // 阅读点赞红包  skyrivus
+			path: '/grassRedTip',
+			name: 'grassRedTip',
+			component: grassRedTip,
 			meta: {
-				tit: '购物返利', //  
+				tit: '阅读点赞红包 ', // 热门标签 
 				headBak: true,
 				appMenu: false,
 			}
-		}, 
+		},
+		// { // 去到购物返利列表 bkf 2019-07-28，已删
+		// 	path: '/shoppingRebate',
+		// 	name: 'shoppingRebate',
+		// 	component: shoppingRebate,
+		// 	meta: {
+		// 		tit: '购物返利', //  
+		// 		headBak: true,
+		// 		appMenu: false,
+		// 	}
+		// }, 
 		// TODO: 社群部分页面 xwj 2019-07-27 
 		{ // 群成员列表 gaoxueli
 			path: '/groupMemberList',
@@ -219,7 +271,7 @@ const rout = new Router({
 			name: 'groupDetail',
 			component: groupDetail,
 			meta: {
-				tit: '社群详情', //  
+				tit: '群详情', //  
 				headBak: true,
 				appMenu: false,
 			}
@@ -238,13 +290,44 @@ const rout = new Router({
 			component: groupSearch,
 			meta: {
 				tit: '社群搜索', //  
+				
+				appMenu: false,
+			}
+		}, { // 社群-申请合作（加群） gaoxueli
+			path: '/applyAddGroup',
+			name: 'applyAddGroup',
+			component: applyAddGroup,
+			meta: {
+				tit: '申请合作', //  
+				headBak: true,
+				appMenu: false,
+			}
+		}, { // 社群-申请合作（加群） gaoxueli
+			path: '/applyResult',
+			name: 'applyResult',
+			component: applyResult,
+			meta: {
+				tit: '申请记录', //  
 				headBak: true,
 				appMenu: false,
 			}
 		}, { // 发布作品
 			path: '/groupWorkPublish',
 			name: 'groupWorkPublish',
-			component: groupWorkPublish
+			component: groupWorkPublish,
+			meta: {
+				tit: '发布作品', //  
+				headBak: true,
+				appMenu: false,
+			}
+		}, { // 申请合作
+			path: '/applyCooperation',
+			name: 'applyCooperation',
+			component: applyCooperation,
+			meta: {
+				tit: '申请合作',
+				appMenu: true,
+			}
 		},
 		// TODO: 个人中心部分页面 xwj 2019-07-27
 		{ // 累计收益 huhuayuan
@@ -291,6 +374,15 @@ const rout = new Router({
 				headBak: true,
 				appMenu: false,
 			}
+		},{ // 微信绑定结果 huhuayuan
+			path: '/wxBindSuccess',
+			name: 'wxBindSuccess',
+			component: wxBindSuccess,
+			meta: {
+				tit: '微信绑定成功', //  
+				headBak: true,
+				appMenu: false,
+			}
 		},{ // 微信更换绑定 huhuayuan
 			path: '/changeWxBind',
 			name: 'changeWxBind',
@@ -318,12 +410,102 @@ const rout = new Router({
 				headBak: true,
 				appMenu: false,
 			}
-		},{ // 修改手机号密码 baikaifa
+		},{ // 我要提现（选择银行） huhuayuan
+			path: '/chooseBank',
+			name: 'chooseBank',
+			component: chooseBank,
+			meta: {
+				tit: '我要提现', //  
+				headBak: true,
+				appMenu: false,
+			}
+		}, { // 添加收款账户（选择银行） skyrivus
+			path: '/addAccountPersonal',
+			name: 'addAccountPersonal',
+			component: addAccountPersonal,
+			meta: {
+				tit: '添加收款账户', //  
+				headBak: true,
+				appMenu: false,
+			}
+		}, { // 我要提现 huhuayuan
+			path: '/bankCardManagement',
+			name: 'bankCardManagement',
+			component: bankCardManagement,
+			meta: {
+				tit: '我要提现', //  
+				headBak: true,
+				appMenu: false,
+			}
+		},{ // 收款 huhuayuan
+			path: '/myPurseWithdraw',
+			name: 'myPurseWithdraw',
+			component: myPurseWithdraw,
+			meta: {
+				tit: '收款', //  
+				headBak: true,
+				appMenu: false,
+			}
+		},{ // 提现成功 huhuayuan
+			path: '/getCashFinish',
+			name: 'getCashFinish',
+			component: getCashFinish,
+			meta: {
+				tit: '提现完成', //  
+				headBak: true,
+				appMenu: false,
+			}
+		},{ // 收款账户管理 huhuayuan
+			path: '/bankCardList',
+			name: 'bankCardList',
+			component: bankCardList,
+			meta: {
+				tit: '提现管理', //  
+				headBak: true,
+				appMenu: false,
+			}
+		},{ // 我的粉丝 baikaifa   myWorksList 关注留到最后 myAttention
+			path: '/myFan',
+			name: 'myFan',
+			component: myFan,
+			meta: {
+				tit: '我的粉丝', //  
+				headBak: true,
+				appMenu: false,
+			}
+		  },{ // 我的关注 baikaifa
+			path: '/myAttention',
+			name: 'myAttention',
+			component: myAttention,
+			meta: {
+				tit: '我的关注', //  
+				headBak: true,
+				appMenu: false,
+			}
+		  },{ // 我的收藏 baikaifa
+			path: '/myCollectionList',
+			name: 'myCollectionList',
+			component: myCollectionList,
+			meta: {
+				tit: '我的收藏', //  
+				headBak: true,
+				appMenu: false,
+			}
+		  },{ // 我的作品 baikaifa
+			path: '/myWorksList',
+			name: 'myWorksList',
+			component: myWorksList,
+			meta: {
+				tit: '我的作品', 
+				headBak: true,
+				appMenu: false,
+			}
+		  },{ // 修改手机号密码 baikaifa
 			path: '/forgetPwd',
 			name: 'forgetPwd',
 			component: forgetPwd,
 			meta: {
-				tit: '忘记密码', //  
+				tit: '修改密码', //  
 				headBak: true,
 				appMenu: false,
 			}
@@ -393,7 +575,30 @@ const rout = new Router({
 				headBak: true,
 				appMenu: false,
 			}
-		}, 
+		},
+		{ // 已绑定邀请人
+			path: '/BindedMan',
+			name: 'BindedMan',
+			component: BindedMan,
+			meta: {
+				tit: '已绑定邀请人', //
+				headBak: true,
+				appMenu: false,
+			}
+		},{ // 填写邀请人
+			path: '/fillInvitationCode',
+			name: 'fillInvitationCode',
+			component: fillInvitationCode,
+			meta: {
+				tit: '请输入邀请码', //
+				headBak: true,
+				appMenu: false,
+			}
+		},
+
+
+
+
 	]
 })
 // 将vue-router注册
@@ -412,7 +617,7 @@ rout.beforeEach((toRout, fromRout, nextFun) => {
 	if (toRout.meta.tit) {// add xwj 2019-07-23
 		Vue.prototype.defTitle = toRout.meta.tit;
 	} else {
-		Vue.prototype.defTitle = '喜乐阳光汇';
+		Vue.prototype.defTitle = '';
 	}
 	if (toRout.meta.headBak) {// add xwj 2019-07-23
 		Vue.prototype.headBak = toRout.meta.headBak;
@@ -424,9 +629,9 @@ rout.beforeEach((toRout, fromRout, nextFun) => {
 				switch (Vue.prototype.sysEnv) {
 					case 'ios':
 						if (toRout.meta.appMenu) {
-							window.webkit.messageHandlers.showTab.postMessage();
+							window.webkit.messageHandlers.showTab.postMessage(null);
 						} else {
-							window.webkit.messageHandlers.hiddenTab.postMessage();
+							window.webkit.messageHandlers.hiddenTab.postMessage(null);
 						}
 						break;
 					case 'android':

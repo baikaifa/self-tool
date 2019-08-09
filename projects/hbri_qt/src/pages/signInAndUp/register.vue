@@ -1,5 +1,5 @@
 <template>
-    <div class="signup">
+    <div class="signup" @click.self="hide" @touchmove.prevent @mousewheel.prevent>
         <i class="iconfont icon-guanbi1 guanbiBtn" @click="gotoBak"></i>
         <div class="signup_cont">
             

@@ -1,22 +1,22 @@
 <!--社群列表-->
 <template>
     <section class="groupListPage" ref="groupListPage">
-		<!--<eleTit>
-			
-            <slot name="app_tit_righ"><div @click="gotoSearchPage" class="searchBtn"></div></slot>
-            
-        </eleTit>-->
-         <section class="pageTitle">
+		<eleTit hasBothMenu="true">
+            <div slot="app_tit_left"><div @click="gotoAddPage" class="addBtn"></div></div>
+            <div slot="app_tit_righ"><div @click="gotoSearchPage" class="searchBtn"></div></div>
+        </eleTit>
+         <!-- <section class="pageTitle">
+            <div @click="gotoAddPage" class="addBtn"></div>
             社群
             <div @click="gotoSearchPage" class="searchBtn"></div>
-        </section> 
+        </section>  -->
         <section class="groupTagContain" >
             <div class="groupTagPanel">
-                <div v-for="item in groupTagList" @click="getGroupByTab(item)" :class="['tagItem',item.type==query.classifyType?'cur':'']">{{item.name}}</div>        
+                <div v-for="item in groupTagList" @click.stop="getGroupByTab(item)" :class="['tagItem',item.type==query.classifyType?'cur':'']">{{item.name}}</div>        
             </div>          
 
         </section>
-        <section class="bar"></section>
+        <!--<section class="bar"></section>-->
         <section class="groupTypeContain" style="display:none;">
             <div class="groupTypeItem cur">吃喝玩乐群</div>
             <div class="groupTypeItem">宠物生活</div>
@@ -26,25 +26,30 @@
         
         <section class="groupListContain">
             <scroller :on-refresh="refreshList" :on-infinite="loadMoreList" ref="myScroller" :noDataText="noDaTxt">
-            <div v-for="item in list" @click="goToGroupDetail(item)" class="groupListItem">
+            <div v-for="(item,itemIndex) in list" @click.stop="goToGroupDetail(item)" class="groupListItem" 
+            :style="itemIndex==0?styleObj1:{}">
                 <div class="imgContain">
                     <img :src="item.groupAvatar"/>
                 </div>
                 <div class="infoContain">
                     <div class="infoItem">
                         <div class="groupTitle">
+                            <img v-if="item.groupType==1" src="../../assets/img/community/wx.png"/>
+                            <img v-if="item.groupType==2" src="../../assets/img/community/qq.png"/>
                             {{item.groupName}}
                         </div>
                         <div class="itemTagContain">
                             
                             <div v-for="(tag,tagIndex) in item.groupLabelAry" :class="'bg'+(tagIndex+1)">
-                                <i v-if="tagIndex==0" class="iconfont iconren"></i>{{tag}}
+                                {{tag}}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="btnContain">
-                    <div @click.stop="joinGroup(item)" :class="['btn',btnClassMap[item.joinGroupStatus]]">{{btnTxtMap[item.joinGroupStatus]}}</div>
+                <div class="btnContain" :style="itemIndex==0?styleObj2:{}" @touchmove.prevent>
+                    <div @click.stop="joinGroup(item)" :class="['btn',btnClassMap[item.joinGroupStatus]]">
+                        <div>{{btnTxtMap[item.joinGroupStatus]}}</div>
+                    </div>
                 </div>
             </div>
             
@@ -60,7 +65,7 @@
         <groupPopAddRobot 
         ref="addRobotPop"
         :addRobotInfo="addRobotInfo"
-        ></groupPopAddRobot>
+       ></groupPopAddRobot>
 
         <dataLoading :isShowLoad="isShowLoad"></dataLoading>
 
@@ -80,6 +85,19 @@ import eleTit from "@/components/title/title";
 export default {
     data(){
         return {
+            styleObj1:{
+                height: "2.32rem",
+                "border-bottom": "1px solid #eeeeee",
+                display: "flex",
+                "align-items": "center"
+            },
+            styleObj2:{
+                height: "100%",
+                width: "2.533333rem",
+                display: "flex",
+                "align-items": "center",
+                "justify-content": "center"
+            },
             addRobotInfo:{
                 qrCode:"",
                 robotId:"",
@@ -117,6 +135,22 @@ export default {
     created(){
         this.getGroupTagList(); // 获取社群分类
     },
+    beforeRouteLeave(to,from,next){//记录离开时的位置
+	 	sessionStorage.groupListScrollerTop = this.$refs.myScroller && this.$refs.myScroller.getPosition() && this.$refs.myScroller.getPosition().top;
+	 	next()
+    },
+    beforeRouteEnter(to,from,next){
+        next(vm => {
+	 		if(from.path == '/groupDetail' || from.path == "/groupSearch"){
+	 			var scrollToPosition = sessionStorage.groupListScrollerTop
+	 			setTimeout(function () {
+	 				vm.$refs.myScroller.scrollTo(0, scrollToPosition, false);
+	 			}, 500) 
+	 		}else{
+	 			sessionStorage.scrollToPosition = ''
+	 		}
+	 	})
+    },
     methods:{
         getGroupList(done){ // 获取社群列表
             //this.isShowLoad=true;
@@ -146,12 +180,13 @@ export default {
                             item.groupName=data[i].groupName;
                             item.joinGroupStatus=data[i].joinGroupStatus;
                             var memberNum=data[i].memberNum;
+                            item.groupType=data[i].groupType;
                             var memberLable="";
                             if(memberNum>=500){
                                 memberLable="群已满";
                                 item.joinGroupStatus=0;
                             }else{
-                                memberLable=memberNum;
+                                memberLable=memberNum+'人';
                             }
                             item.groupLabelAry=[];
                             item.groupLabelAry.push(memberLable);
@@ -159,7 +194,14 @@ export default {
                             if(item.groupLabelAry.length>4){
                                 item.groupLabelAry=item.groupLabelAry.slice(0,3);
                             }
+                            var newarr = []
+                            item.groupLabelAry.forEach(e=>{
+                                var e = String(e)
+                                e=e.length>6?newarr.push(e.slice(0,5)+'...'):newarr.push(e);
+                            })
                             
+                           item.groupLabelAry = newarr;
+                           //item.groupLabelAry[0]=item.groupLabelAry[0]
                             this.list.push(item);
                         }
 
@@ -287,20 +329,19 @@ export default {
                 name:"groupSearch",
                 
             });
+        },
+        gotoAddPage(){
+            this.$router.push({
+                name:"applyCooperation",
+                
+            });
         }
     }
 }
 </script>
-<style>
+<style type="text/css">
 
-    .tempBottm{
-        height: 100px;
-        border-top: 1px solid black;/*no*/
-        width: 100%;
-        position: fixed;
-        bottom: 0;
-        background: #fff;
-    }
+    
     .groupListPage .pageTitle{
         text-align: center;
         width: 100%;
@@ -308,37 +349,53 @@ export default {
         line-height: 90px;
         font-size: 36px;
         background-color: #FFFFFF;
-        background-image: url(../../assets/img/community/groupList_searchIcon.png);
-        background-size: 36px 36px;
-        background-position: 95% 50%;
-        background-repeat: no-repeat;
+        
         color: black;
-        position:fixed;
-        top: 0px;
+        /* position:fixed;
+        top: 40px; */
         
     }
-    .groupListPage .pageTitle .searchBtn{
-        position: absolute;
+    
+
+    .groupListPage .app_head .addBtn{
+        /* position: absolute; */
         width: 40px;
         height: 40px;
-        top:25px;
-        right: 35px;
-       
+        margin:0 auto;
+        background-image: url(../../assets/img/community/add.png);
+        background-size: 36px 36px;
+        background-position: 2px 2px;
+        background-repeat: no-repeat;
+    }
+    .groupListPage .app_head .searchBtn{
+      /*   position: absolute;*/
+        width: 40px;
+        height: 40px;
+        margin:0 auto;
+        background-image: url(../../assets/img/community/groupList_searchIcon.png);
+        background-size: 36px 36px;
+        background-position: 2px 2px;
+        background-repeat: no-repeat;
     }
 
     .groupListPage .groupTagContain{
-        width: 100%;
-        margin-top:1.2rem;
+        width: 750px;
+        margin-top:20px;
+        border-top:1px solid #eee;/*no*/
+        /* margin-top:130px; */
     }
 
     .groupListPage  .groupTagPanel{
         height: 68px;
-        line-height: 68px;
-        
+        /*line-height: 68px;*/
+        display: flex;
+        align-items: center;
         background-color: #FFFFFF;
         overflow-x: scroll;
+        overflow-y:hidden;
         -webkit-overflow-scrolling: touch;
         white-space: nowrap;
+        border-bottom: 8px solid #f3f3f3;
     }
 
     .groupListPage  .groupTagPanel .tagItem{
@@ -346,7 +403,7 @@ export default {
         padding:0 10px;
         margin:0 10px;
         color: #999;
-        font-size: 28px;
+        font-size: 30px;
     }
 
     .groupListPage  .groupTagPanel .tagItem.cur{
@@ -392,23 +449,24 @@ export default {
         height: -webkit-fill-available;
         position: fixed;
         bottom: 100px;
-        top:166px;
+        top:170px;
         /*position: fixed;*/
         overflow: hidden;
         box-sizing: border-box;
         background-color: #fff;
+        z-index:-1;
     }
 
     .groupListPage .groupListContain .groupListItem{
         height: 174px;
-        border-bottom: 1px solid #e4e4e4;/*no*/
+        border-bottom: 1px solid #eeeeee;/*no*/
         display: flex;
         align-items: center;
     }
 
     .groupListPage .groupListContain .groupListItem .imgContain{
         height: 100%;
-        width: 150px;
+        width: 145px;
         display:flex;
         align-items: center;
         justify-content: center;
@@ -433,9 +491,10 @@ export default {
 
     .groupListPage .groupListContain .groupListItem .infoContain .groupTitle{
         
-        font-size: 34px;
-       
-        padding-bottom: 10px;  
+        font-size: 32px;
+        height: 34px;
+        line-height: 34px;
+        padding-bottom: 13.5px;  
         max-width: 400px;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -444,19 +503,28 @@ export default {
 
     }
 
+    .groupListPage .groupListContain .groupListItem .infoContain .groupTitle img{
+        height: 32px;
+        position: relative;
+        bottom: 1px;
+    }
+
     .groupListPage .groupListContain .groupListItem .infoContain .itemTagContain{
-        
+        font-size: 24px;
         display: flex;
         
     }
     .groupListPage .groupListContain .groupListItem .infoContain .itemTagContain div{
-        font-size: 20px;
+        font-size: 24px;
         padding: 0 5px;
         margin:0 5px;
         height: 30px;
         line-height: 30px;
         color: #fff;
         border-radius: 5px;
+        /*display: flex;
+        justify-content: center;
+        align-items: center;*/
         
     }
     .groupListPage .groupListContain .groupListItem .infoContain .itemTagContain  i{
@@ -471,7 +539,7 @@ export default {
 
     .groupListPage .groupListContain .groupListItem .btnContain{
         height: 100%;
-        width: 170px;
+        width: 190px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -480,10 +548,13 @@ export default {
     .groupListPage .btn{
         width: 150px;
         height: 55px;
-        line-height: 55px;
+        /*line-height: 55px;*/
         text-align: center;
         border-radius: 30px;
         font-size: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .groupListPage .start{
@@ -509,6 +580,7 @@ export default {
     }
 
     .groupListPage .bg1{
+        font-size: 24px;
         background: #8198c9;
         min-width: 75px;
         text-align: center;
@@ -516,23 +588,28 @@ export default {
     
     .groupListPage .bg2{
         background: #ff9abc;
+        text-align: center;
     }
     
     .groupListPage .bg3{
         background: #6bd4cf;
+        text-align: center;
     }
     
     .groupListPage .bg4{
         background: #f5bd8f;
+        text-align: center;
     }
     
     .groupListPage .bg5{
         background: #c0a5f4;
+        text-align: center;
     }
     
     .groupListPage .bg6{
         
         background: #90cff8;
+        text-align: center;
     }
     
 </style>

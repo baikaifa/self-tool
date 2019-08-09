@@ -1,17 +1,17 @@
 <template>
     <div class="rProfit">
-		<eleTit></eleTit>
+		<eleTit bw="true"></eleTit>
         <!-- <div class="backBtn">
             <i class="iconfont iconfanhui" @click="goBak"></i>
             阅读收益
         </div> -->
         <div class="total">
-            <div class="totals">
+            <div class="totals" @click="jumpPersonView">
                 <p class="font36">{{todayXileCoin}}</p>
                 <p class="font24">今日喜乐币收益</p>
             </div>
             <div class="split"></div>
-            <div class="totals">
+            <div class="totals" @click="jumpPersonView">
                 <p class="font36">{{cumulativeIncome}}元</p>
                 <p class="font24">我的收益(元)</p>
             </div>
@@ -20,15 +20,15 @@
         <div class="title red">阅读赚金币</div>
         <div class="intro">
             <div class="tips">
-                <p class="tipsIcon"></p>
+                <div class="tipsIcon"><i class="iconfont iconcircle"></i></div>
                 <p class="tipsText">阅读种草贴满20s，即可获得<span class="red">20金币</span></p>
             </div>
             <div class="tips">
-                <p class="tipsIcon"></p>
+                <div class="tipsIcon"><i class="iconfont iconcircle"></i></div>
                 <p class="tipsText">前往个人中心查看现有金币总量</p>
             </div>
             <div class="tips">
-                <p class="tipsIcon"></p>
+                <div class="tipsIcon"><i class="iconfont iconcircle"></i></div>
                 <p class="tipsText">阅读所获金币可兑换<span class="red">额度红包</span>，在喜乐商城成功购买商品，增加<span class="red">返利</span>额度</p>
             </div>
             <img src="../../assets/img/other/toTask.png" alt="" @click="goTask">
@@ -37,7 +37,7 @@
         <div class="title red">什么是额度红包？</div>
         <div class="intro">
             <div class="tips">
-                <p class="tipsIcon"></p>
+                <div class="tipsIcon"><i class="iconfont iconcircle"></i></div>
                 <p class="tipsText">商品交易成功后，在原有返利的基础上，使用额度红包进行补贴，提高返利金额</p>
             </div>
         </div>
@@ -49,7 +49,6 @@ import eleTit from "@/components/title/title";
 export default{
     data(){
         return {
-            token: "",
             todayXileCoin: 0,
             cumulativeIncome: 0
         }
@@ -60,19 +59,20 @@ export default{
     created () {
     },
     mounted () {
-        this.token = 'b389494d1530103054faacb890973eef3bf23bbea84523e84838fd0915ecb98d';
         this.getInfo();
     },
     methods: {
-        goBak(){
-            this.$router.go(-1);
+        jumpPersonView(){
+            this.$router.push({name:'personal'})
         },
+        // goBak(){
+        //     this.$router.go(-1);
+        // },
         goTask(){
             this.$router.push("taskCenter");
         },
         getInfo(){
             let params = {
-                token: this.token
             };
             reqOther.userInfo(params).then(res => {
                 console.log(res);
@@ -109,8 +109,11 @@ export default{
         background: #ef4454
 
     }
+    .rProfit .app_head{
+        background: #ef4454;
+    }
     .rProfit .total{
-        margin-top: 80px;
+        /* margin-top: 80px; */
         display: flex;
         align-items: center;
         background: #ef4454;
@@ -150,6 +153,7 @@ export default{
         font-size: 28px;
         display: flex;
         padding-left: 65px;
+        align-items: center;
     }
     .rProfit .intro{
         border-top: 1px solid #F7F7F7;/*no*/
@@ -157,12 +161,13 @@ export default{
         padding-top: 20px;
     }
     .rProfit .tipsIcon{
+        margin: 15px 0; 
+        margin-right: 20px;
+    }
+    .rProfit .tipsIcon i{
         height: 16px;
         width: 16px;
-        background: #feb20b;
-        border-radius: 50%;
-        margin: 15px 0;
-        margin-right: 20px;
+        color: #feb20b;
     }
     .rProfit .tipsText{
         width: 560px;

@@ -11,11 +11,11 @@
 		<!-- TODO: 搜索部分 -->
 		<div id="rec_head">
 			<div class="rec_sea">
-				<div class="rec_sea_bak" :style="{visibility: sea.run ? 'visible' : 'hidden'}" @click.stop="bakTag"></div>
-				<form @onsubmit="getSea()">
+				<div class="rec_sea_bak"></div>
+				<form @onsubmit="goSea()">
 					<div class="rec_sea_inp">
 						<div class="rec_sea_find"></div>
-						<input type='search' placeholder="" v-model="sea.txt" ref="searchBox" @click="showHisList"/>
+						<input type='text' placeholder="" v-model="sea.txt" ref="searchBox" @click="showHisList"/>
 						<div class="rec_sea_close" :style="{visibility: sea.txt ? 'visible' : 'hidden'}" @click.stop="clsSea"></div>
 					</div>
 					<div class="rec_sea_exec" @click.stop="getSea()">搜索</div>
@@ -289,9 +289,9 @@ export default {
 			this.hisList = [];
 		},
 		addSearchKey(item){
-			this.sea.txt = item;
+			// this.sea.txt = item;
 			// this.getSea();
-			this.readySea();
+			this.readySea(item);
 		},
 		showHisList(){//拿历史数据
 			if(localStorage.getItem("tea_goods_search")){
@@ -328,8 +328,17 @@ export default {
 		readySea(val) {
 			if (!val) {
 				val = this.sea.txt;
+			} else {
+				this.sea.txt = val;
 			}
-			this.$router.push({name: "recom", query:{pf: this.pf, wd: val}});
+			this.$router.push({name: "mallList", query:{pf: this.pf, wd: val}});
+		},
+		/**
+		 * 进入到搜索界面
+		 * @author xwj 2019-07-30
+		 */
+		goSea(){
+			this.$router.push({name: "mallSearch", query:{pf: this.pf, wd: val}});
 		},
 		/**
 		 * 进行搜索
@@ -342,7 +351,7 @@ export default {
 				}
 				return;
 			}
-			this.isShowHistory = false;
+			this.isShowLoad = true;
 			this.hisList = this.hisList.slice(0,9);
 			if(this.hisList.includes(this.sea.txt)){
 				let position = this.hisList.indexOf(this.sea.txt);
@@ -372,6 +381,7 @@ export default {
 		 * @author xwj 2019-06-22
 		 */
 		getRec(val, page) {
+			this.isShowLoad = true;
 			const param = {
 				recommend: val,
 				pageNo: (!page || page < 2) ? 1 : page,
@@ -395,6 +405,7 @@ export default {
 				pageNo: (!page || page < 2) ? 1 : page,
 				sort: this.getSortParam()
 			};
+			this.isShowLoad = true;
 			this.hisList = this.hisList.slice(0,9);
 			if(this.hisList.includes(this.sea.txt)){
 				let position = this.hisList.indexOf(this.sea.txt);
@@ -423,11 +434,16 @@ export default {
 			this.tag.actBra = '';
 			this.getBra('');
 		},
+		goBack() {
+			console.log(" >>> in list_prom >>>> goBack");
+		},
 		/**
 		 * 处理搜索返回的数据
 		 * @author xwj 2019-06-22
 		 */
 		resSeaData(res, tag, page) {
+			this.isShowHistory = false;
+			this.isShowLoad = false;
 			if (!res.code) {
 				res = JSON.parse(res);
 			}
@@ -576,9 +592,9 @@ export default {
 		 */
 		getThiTag(tag, page) {
 			this.tag.show.thi = false;
-			this.sea.txt = tag.name;
+			// this.sea.txt = tag.name;
 			// this.getSea();
-			this.readySea();
+			this.readySea(tag.name);
 		},
 		/**
 		 * 处理标签返回的数据
@@ -915,9 +931,9 @@ export default {
 	width: 20px;
 	height: 34px;
 	overflow: hidden;
-	background-image: url(../../assets/img/bak.png);
+	/* background-image: url(../../assets/img/bak.png);
 	background-size: 100% 100%;
-	-moz-background-size: 100% 100%;
+	-moz-background-size: 100% 100%; */
 }
 .reco .rec_sea .rec_sea_inp {
 	float: left;
@@ -944,7 +960,7 @@ export default {
 	/* float: left;
 	margin-left: 20px;
 	margin-top: 16px; */
-	width: 78%;
+	width: 420px;
 	height: 64px;
 	line-height: 64px;
 	font-size: 28px;
@@ -954,7 +970,7 @@ export default {
 .reco .rec_sea .rec_sea_inp .rec_sea_close{
 	float: right;
 	margin-top: 16px;
-	margin-right: 20px;
+	margin-right: 16px;
 	width: 34px;
 	height: 33px;
 	overflow: hidden;
@@ -1319,7 +1335,7 @@ export default {
 	bottom:0;
 	left:0;
 	right:0;
-	background:rgba(0,0,0,.6);
+	background:rgba(255,255,255,.1);
 	z-index:99;
 }
 /*loading部分*/

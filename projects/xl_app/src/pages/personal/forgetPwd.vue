@@ -1,12 +1,7 @@
 <template>
-  <div class="modifyNewPhoneWrap">
+  <div class="forgetPwdPage">
 		<eleTit bak="true"></eleTit>
-		<!--
-    <div class="modifyNewPhoneHeader">
-      <span class="iconfont iconfanhui btnBack" @click="goBack"></span>
-      <span class="title">修改密码</span>
-    </div>
-		-->
+        <div class="line"></div>
     <div class="forgetPwd">
       <!-- 手机号码 -->
       <div class="phone" :class="classObject">
@@ -22,8 +17,8 @@
       <!-- 验证码 -->
       <div class="code">
         <div class="contentText">验证码</div>
-        <input type="text" placeholder="请输入验证码" />
-        <button @click="gainVerificationCode" :disabled="disabled">{{codeText}}</button>
+        <input type="text" v-model="verifyCode" placeholder="请输入验证码" />
+        <button class="getCode" @click="gainVerificationCode" :disabled="disabled">{{codeText}}</button>
       </div>
       <!-- 新密码 -->
       <div class="newPwd">
@@ -46,8 +41,8 @@ export default {
   data() {
     return {
       newPassword: "",
-      phoneNum: "",
-      verifyCode: "",
+      phoneNum: "",//手机号
+      verifyCode: "",//验证码
       disabled: false,
       codeText: "获取验证码",
       query: "",
@@ -59,18 +54,19 @@ export default {
     };
   },
   created() {
-    this.token ="b389494d1530103054faacb890973eef3bf23bbea84523e84838fd0915ecb98d";
     this.query = this.$route.query;
-    this.query.phone='17733972991'
+    console.log(this.query);
+    // this.query.phone = '15779979157';
+    console.log(this.query.phone);
     if(this.query.phone == '') {
             this.phoneDisabled=false;
-            this.classObject.bgColor=true;
+            this.classObject.bgColor=false;
       }
       if(this.query.phone){
          this.phoneDisabled=true;
-         this.classObject.bgColor=false;
+         this.classObject.bgColor=true;
+
         this.phoneNum=this.query.phone;
-      alert(this.phoneNum);
       }
   },
   methods: {
@@ -81,15 +77,15 @@ export default {
     checkPhone() {
       this.phoneNum = check.phone(this.phoneNum);
     },
+
     gainVerificationCode() {
       var that = this;
       let params = {
-        token: that.token,
-        phoneNum: that.phoneNum,
-        type: 1
+        decrypt:1,
+        phone: that.phoneNum,
+        type: 3
       };
-      reqForgetpwd.modifyPhones(params).then(res => {
-        this.verifyCode = res.code; //获取到的验证码
+      reqForgetpwd.gainCode(params).then(res => {
         that.disabled = true;
         let time = 60;
         let timer = setInterval(() => {
@@ -106,27 +102,18 @@ export default {
     },
     confirmSubmit() {
       var that = this;
-  //     let params={
-  //   token:that.phone,
-  //     phone:'17745455411',
-  // checkCode:"1225",	//验证码
-	// 	password	:	"asdfeffadsf",
-	// 	type	:	"2"		,			//
-	// 	decrypt		:	"1",	
-  //     }
-  		
-
       let params = {
-        token: that.token,
-        phone: that.mobileNumber,
+        phone: that.phoneNum,
         checkCode: that.verifyCode,
         password: that.newPassword,
           type:2,
-          decypt:1
+          decrypt:1
       };
       console.log(params);
       reqForgetpwd.confirmSubmit(params).then(res => {
-        if (res.code == 200) {
+        console.log(res);
+        if (res.code == 0) {
+             this.$router.go(-1);
           alert("修改成功");
         } else {
           alert("验证码失败");
@@ -141,7 +128,13 @@ export default {
 .bgColor {
   background-color: #cccccc;
 }
-.modifyNewPhoneWrap .modifyNewPhoneHeader {
+.forgetPwdPage .line{
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px solid #ebebeb;
+  margin-top: 20px;
+}
+.forgetPwdPage .modifyNewPhoneHeader {
   background: #fff;
   /* padding: 20px 40px; */
   position: relative;
@@ -151,12 +144,12 @@ export default {
   box-sizing: border-box;
   border: 1px solid #ebebeb;
 }
-.modifyNewPhoneWrap .modifyNewPhoneHeader .btnBack {
+.forgetPwdPage .modifyNewPhoneHeader .btnBack {
   font-size: 34px;
   position: absolute;
   left: 20px;
 }
-.modifyNewPhoneWrap .modifyNewPhoneHeader .title {
+.forgetPwdPage .modifyNewPhoneHeader .title {
   font-size: 36px;
 }
 /* 标题--结束 */
@@ -167,8 +160,9 @@ export default {
   display: flex;
   align-items: center;
   border-bottom: 1px solid #f2f2f2;
-  height: 0.86rem;
-  line-height: 0.86rem;
+  height: 100px;
+  line-height: 85px;
+
 }
 .forgetPwd button {
   border: 0;
@@ -177,9 +171,9 @@ export default {
 }
 .forgetPwd .contentText {
   width: 1.9rem;
-  height: 0.86rem;
-  font-size: 0.28rem;
-  line-height: 0.86rem;
+  height: 50px;
+  font-size:30px;
+  line-height: 50px;
   text-align: left;
 }
 .forgetPwd input {
@@ -187,12 +181,14 @@ export default {
   outline: none;
   border: 0px;
   width: 5rem;
-  line-height: 1.6;
+  line-height: 2;
+  font-size:30px;
 }
+
 .forgetPwd input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
   color: #c7c7c7;
-  font-size: 0.28rem;
+  font-size: 28px;
 }
 .forgetPwd .code {
   position: relative;
@@ -215,14 +211,6 @@ textarea::-webkit-input-placeholder {
   color: #c7c7c7;
 }
 .forgetPwd .revertPwd {
-  /* color: #fff;
-  background: #ef4454;
-  width: 6rem;
-  height: 1rem;
-  line-height: 1rem;
-  border-radius: 0.36rem;
-  margin-top: 1.1rem;
-  font-size: 32px; */
   left: 50%;
   transform: translate(-50%);
   color: #fff;
@@ -235,5 +223,17 @@ textarea::-webkit-input-placeholder {
   line-height: 1rem;
   position: relative;
   text-align: center;
+}
+.forgetPwdPage .code .getCode{
+    font-size: 28px;
+  border: 0;
+  height: 50px;
+  line-height: 1;
+  border: 1px solid #ef4454;/*no*/
+  color: #ef4454;
+  background: #fff;
+  border-radius: 25px;
+  float: right;
+  width: 170px;
 }
 </style>

@@ -35,9 +35,11 @@
                 style="width: 100%">
                     <el-table-column
                     align="center"
-                    prop="num"
+
                     label="序号"
-                    width="50">
+                    width="50"
+                    type="index"
+                    :index="indexMethod">
                     </el-table-column>
                     <el-table-column
                     align="center"
@@ -65,7 +67,8 @@
                 <el-pagination
                 ref="pagination"
                 background
-                layout="prev, pager, next"
+                @size-change="handleSizeChange"
+                layout="total,prev, pager, next,jumper,sizes"
                 :total="total"
                 :page-size="pageSize"
                 class="pageFlag"
@@ -126,7 +129,7 @@ export default {
         return{
           status:'',
             pageNo:1,
-            pageSize:8,
+            pageSize:10,
             total:0,
             roleList:[],
             roleStatus:false,
@@ -157,13 +160,12 @@ export default {
           },
             {
               value:'0',
-              label:'启用',
+               label:'启用',
 
             },
             {
               value:'1',
-              label:'禁用'
-
+       label:'禁用'
             }]
         }
     },
@@ -173,6 +175,15 @@ export default {
         this.getPermissionList();
     },
     methods:{
+        handleSizeChange(val) {
+          this.pageSize=val;
+          this.getRoleList();
+        },
+        indexMethod (index) {
+          let curpage = this.pageNo     //单前页码，具体看组件取值
+          let limitpage = this.pageSize  //每页条数，具体是组件取值
+          return (index+1) + (curpage-1)*limitpage
+        },
         getRoleList(){ // 获取角色列表
             var _this=this;
             _this.tableData=[];
@@ -189,14 +200,16 @@ export default {
                    var data=res.data;
                    var list=data.list;
                    _this.total=data.totalCount;
-                   _this.$refs.pagination.total=_this.total;
+                   // _this.$refs.pagination.total=_this.total;
             
                    for(var i=0;i<list.length;i++){
                        var item=list[i];
                        var itemObj={};
                        itemObj['num']=i+1;
                        itemObj['roleName']=item.roleName;
-                       itemObj['roleStatu']=item.status==1?"启用":"禁用";
+                      // console.log(item.status);
+                    //    itemObj['roleStatu']=item.status==1?"启用":"禁用";
+                    itemObj['roleStatu']=item.status==1?"禁用":"启用";
                        itemObj['roleId']=item.roleId;
                        
                        _this.tableData.push(itemObj);
@@ -212,6 +225,7 @@ export default {
             permissionProps().then(function(res){
                 if(res.code==200){
                     _this.permissionList=res.data;
+                    // console.log(res.data)
                 }else{
                     _this.$message.error(res.msg);
                 }
@@ -233,15 +247,13 @@ export default {
             getRoleDetail({"roleId":roleId}).then(function(res){
                 if(res.code==200){
                     var data=res.data;
-                    
                     _this.roleInfo.roleId=data.roleId;
                     _this.roleInfo.roleName=data.roleName;
                     _this.roleInfo.status=data.status;
-                    _this.roleStatus= _this.roleInfo.status==1?true:false;
-                    
-                    _this.roleInfo.permissionIds='8,13,15';
-                    var permissionIdAry=_this.roleInfo.permissionIds.split(",");
+                    _this.roleStatus= _this.roleInfo.status==1?false:true;
+                  var permissionIdAry=res.data.permissionIds;
                     _this.permissionAry=permissionIdAry;
+
                     //_this.$refs.tree.setCheckedKeys(permissionIdAry);
                 }else{
                     _this.dialogFormVisible=false;
@@ -276,9 +288,9 @@ export default {
         submitRole(){ // 保存按钮
             var _this=this;
             if(this.roleStatus){
-                this.roleInfo.status=1;
-            }else{
                 this.roleInfo.status=0;
+            }else{
+                this.roleInfo.status=1;
             }
             var param=this.roleInfo;
             if(this.roleDialogType=="add"){

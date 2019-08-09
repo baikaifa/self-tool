@@ -26,7 +26,7 @@
                   :header-cell-style="tableHeader"
                    >
           <el-table-column type="index" align="center" label="序号"
-                           width="70"   prop="num">
+                           width="70"   prop="num" :index="indexMethod">
           </el-table-column>
           <el-table-column align="center" label="更新时间"
                            width="85"   prop="updateTime">
@@ -114,7 +114,8 @@
         <div class="paginationContain">
           <el-pagination
             background
-            layout="prev, pager, next"
+            @size-change="handleSizeChange"
+            layout="total,prev, pager, next,jumper,sizes"
             :total=total
             class="pageFlag"
             :page-size=pageSize
@@ -154,6 +155,18 @@
       this. getItemList();
     },
     methods: {
+      handleSizeChange(val) {
+        this.pageSize=val;
+        this. getItemList();
+
+      },
+      indexMethod (index) {
+        let curpage = this.pageNo     //单前页码，具体看组件取值
+        let limitpage = this.pageSize  //每页条数，具体是组件取值
+        return (index+1) + (curpage-1)*limitpage
+      },
+
+
 
       getItemList() {
 

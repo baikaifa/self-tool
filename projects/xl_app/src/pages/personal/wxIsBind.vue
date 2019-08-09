@@ -19,10 +19,11 @@ export default {
     components: {eleTit},
     data() {
         return {
-            wxName: 'daisyning1993'
+            wxName: ''
         }
     },
     created() {
+        this.wxName = this.$route.query.wxName;
     },
     mounted() {
     },

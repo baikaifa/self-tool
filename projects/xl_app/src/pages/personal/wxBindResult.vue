@@ -35,7 +35,6 @@ export default {
         if(this.query.type == 'bindSuccess') {
             this.title = '绑定成功';
             this.result = true;
-            
         }
         if(this.query.type == 'bindError') {
             this.title = '绑定失败';

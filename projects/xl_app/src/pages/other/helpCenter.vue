@@ -11,7 +11,7 @@
                 <div :class="['type_item',page==2?'select':'']" @click="changePage(2)"><p>使用教程</p></div>
                 <div :class="['type_item',page==3?'select':'']" @click="changePage(3)"><p>返现问题</p></div>
                 <div :class="['type_item',page==4?'select':'']" @click="changePage(4)"><p>订单相关</p></div>
-                <div :class="['type_item',page==5?'select':'']" @click="changePage(5)"><p>红包额度</p></div>
+<!--                <div :class="['type_item',page==5?'select':'']" @click="changePage(5)"><p>红包额度</p></div>-->
                 <div :class="['type_item',page==6?'select':'']" @click="changePage(6)"><p>APP相关</p></div>
                 <div :class="['type_item',page==7?'select':'']" @click="changePage(7)"><p>如何返利</p></div>
                 <div :class="['type_item',page==8?'select':'']" @click="changePage(8)"><p>邀请好友</p></div>
@@ -33,25 +33,27 @@
 <!--                           type="video/mp4"  apreload="auto"-->
 <!--                           poster="../../assets/img/other/jiaocheng.jpg" playsinline></video>-->
 
-                    <img src="../../assets/img/other/tb_course.gif"  class="jiaoc" />
+                    <img src="../../../static/course/tb.gif"  class="jiaoc" />
                     <p>京东返利教程</p>
 <!--                    <video class="jiaoc" id="jd" src="http://img.xunbao88.com.cn/download/wechatmsg/goods/jiaochengshipin_tb_20190520.mp4"-->
 <!--                           type="video/mp4"  controls="controls" apreload="auto"-->
 <!--                           poster="../../assets/img/other/jiaocheng.jpg" playsinline></video>-->
-                    <img src="../../assets/img/other/jd_course.gif"  class="jiaoc" />
+
+                    <img src="../../../static/course/jd.gif" class="jiaoc" />
                     <p>拼多多返利教程</p>
 <!--                    <video class="jiaoc" id="vpw" src="http://img.xunbao88.com.cn/download/wechatmsg/goods/jiaochengshipin_tb_20190520.mp4"-->
 <!--                           type="video/mp4"  controls="controls" apreload="auto"-->
 <!--                           poster="../../assets/img/other/jiaocheng.jpg" playsinline></video>-->
-                    <img src="../../assets/img/other/pdd_course.gif"  class="jiaoc" />
+                    <img src="../../../static/course/pdd.gif"  class="jiaoc" />
                     <p>唯品会返利教程</p>
 <!--                    <video class="jiaoc" id="jiaoc" src="http://img.xunbao88.com.cn/download/wechatmsg/goods/jiaochengshipin_tb_20190520.mp4"-->
 <!--                           type="video/mp4"  controls="controls" apreload="auto"-->
 <!--                           poster="../../assets/img/other/jiaocheng.jpg" playsinline></video>-->
 
-                    <img src="../../assets/img/other/wph_course.gif"  class="jiaoc" />
+                    <img src="../../../static/course/vip.gif"  class="jiaoc" />
                 </div>
                 <div class="que_item" v-show="page==3">
+
                     <h3>一、收到货了/确认收货/什么时候给我发红包?</h3>
                     <p>订单结算后系统自动给您发红包哟</p>
                     <h3>二、什么时候返现啊？</h3>
@@ -69,6 +71,14 @@
                     <p>2.不能使用优惠券抵扣欠款。</p>
                     <p>3.优惠券和额度红包不能同时使用，可以在返利详情中自定义使用优先级。</p>
                     <p>4.请注意在有效期内使用优惠券，过期自动作废。</p>
+                    <h3>八、什么是喜乐额度红包？怎么用？</h3>
+                    <p>1.通过喜乐任务获取的不同面额的优惠返现，不同于优惠券，只能使用在有返利的商品。</p>
+
+                    <p>2.每次额度红包返现数额为商品返现金额*33%，随返现红包一起发出。</p>
+
+                    <p>3.不能使用额度红包抵扣欠款</p>
+
+                    <p>4.优惠券和额度红包不能同时使用，可以在返利详情中自定义使用优先级。</p>
                 </div>
                 <div class="que_item" v-show="page==4">
                     <h3>一、为什么我的订单没有退款却扣钱了？</h3>
@@ -193,10 +203,9 @@ export default{
 }
 </script>
 <style>
-
     .hCenter .main{
-        height: calc(100vh - 84px);
-        padding-top: 84px;
+        height: calc(100vh - 100px);
+        /* padding-top: 84px; */
         overflow: hidden;
         font-size:30px;
         display: flex;

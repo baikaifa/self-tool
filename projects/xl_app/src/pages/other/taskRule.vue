@@ -6,7 +6,7 @@
             <i class="iconfont iconfanhui" @click="goBak"></i>
             奖励规则
         </div> -->
-        <div style="margin-top: 80px;letter-spacing: 1px;">
+        <div>
             <h3>一、基本规则</h3>
             <p>1. 金币汇率：1000金币=1元额度红包；每日最多提现2次；日常任务时限为00：00：00--23:59:59，次日零点刷新。</p>
 
@@ -52,7 +52,7 @@ export default{
 }
 </script>
 <style>
-    .tRule .iconfanhui{
+    /* .tRule .iconfanhui{
         position: absolute;
         left: 20px;
         top: 50%;
@@ -67,11 +67,16 @@ export default{
         width: 100vw;
         line-height: 80px;
         text-align: center;
-        border-bottom: 1px solid #EBEBEB;/*no*/
+        border-bottom: 1px solid #EBEBEB;
         font-size: 36px;
         background: #fff;
-    }
-    .tRule{line-height: 2;height: 100%;}
+    } */
+    /* .tRule{line-height: 2;height: 100%;} */
     .tRule h3{font-weight: bold;font-size: 28px;padding: 30px}
     .tRule p{font-size: 28px;padding: 20px 30px;}
+    .tRule .pc_tit_bar[data-v-186ad4fe]{
+        background: #ffffff;
+        
+        
+    }
 </style>

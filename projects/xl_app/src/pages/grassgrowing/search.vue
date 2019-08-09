@@ -1,13 +1,13 @@
 <template>
-	<div class="groupSearchPage">
-		<eleTit></eleTit>
+	<div class="groupSearchPage" >
+		<!-- <eleTit></eleTit> -->
     <!-- 头部搜索区域 -->
-		<div class="topCont">
-			<!-- <i class="iconfont iconfanhui backBtn" @click="goBack"></i> -->
+		<div :class="['topCont',!isPc?'pt40':'']">
+			<i class="iconfont iconfanhui backBtn" @click="goBack"></i>
 			<div class="rel searchCont">
 				<i class="iconfont iconsousuo searchIcon"></i>
 				<input type="text" v-model="keywords" placeholder class="searchBox" ref="searchBox"/>
-				<i class="iconfont iconguanbi- cancleCont"></i>
+				<i class="iconfont iconguanbi- cancleCont" @click="clearInput" v-if="keywords.length"></i>
 			</div>	
 			<span  @click="getSearchList" class="searchBtn">搜索</span>
 		</div>
@@ -19,7 +19,7 @@
       </div>
 	  <!-- 搜索记录 -->
       <div class="historyTagContain">
-        <div v-for="(item,index) in historyList" :key="index" class="historyTag">{{item}}</div>
+        <div v-for="(item,index) in historyList" :key="index" class="historyTag" @click.stop="clickSearchKey(item)">{{item}}</div>
       </div>
     </div>
 	 <div class="grayBar" v-if="hotSearch.length & historyList.length"></div>
@@ -28,12 +28,11 @@
         <div class="titleTxt">
           喜乐热搜
      		<p class="all" @click="toTagView">
-				全部
-				<i class="iconfont icongengduo1"></i>
+				<span>全部</span><i class="iconfont icongengduo1"></i>
           	</p>
         </div>
 		<ul class="mt30 hotList">
-			<li v-for="(item,index) in hotSearch" :key="'hot'+index" class="hotItem">
+			<li v-for="(item,index) in hotSearch" :key="'hot'+index" class="hotItem" @click.stop="clickSearchKey(item.tagName)">
 				<div  :class='["Square","Square"+index]'>{{index + 1}}</div>
 				<div class="words">{{item.tagName}}</div>
 			</li>
@@ -43,18 +42,20 @@
 </template>
 <script>
 import {caoApi} from "@/utils/request.js"
-import eleTit from "@/components/title/title";
+import Vue from "vue"
+// import eleTit from "@/components/title/title";
 export default {
   data() {
     return {
-      keywords: "",
-      searched: false, //是否点击了搜索按钮
+		keywords: "",
+		isPc:false,
+    searched: false, //是否点击了搜索按钮
 	  historyList: [], //历史记录的数据
 	  hotSearch:[]//热搜的数据
     };
   },
 	components:{
-		eleTit
+		// eleTit
 	},
   mounted() {
 	  this.$refs.searchBox.focus();
@@ -63,65 +64,80 @@ export default {
 	this.keywords = this.$route.query.wd || '';
 	this.getHistory();
 	this.getHotSearch();
+	this.isPc = Vue.prototype.sysEnv == 'pc'?true:false
   },
   methods: {
-	getHotSearch(){
-		caoApi.hotSearch().then((data)=>{
-			if(data.code == 200){
-				this.hotSearch = data.data.slice(0,7)
-			}
-		})
-	},
-	goBack(){
-		this.$router.go(-1);
-	},
-	toTagView(){
-		this.$router.push({name:'gongLab'});
-	},
-	goSearch(val) {
-      console.log(this.keywords);
-		if (!val) {
-			val = this.keywords;
-		}
-      this.getSearchList();
+		clearInput(){
+			this.keywords = "";
+		},
+		clickSearchKey(item){
+			this.keywords = item;
+			this.getSearchList();
+		},
+	  getHotSearch(){
+      caoApi.hotSearch({
+			pageNo:1,
+			pageSize:10
+		}).then((data)=>{
+        if(data.code == 200){
+          this.hotSearch = data.data.slice(0,8)
+        }
+      })
     },
-    removeHistory() {
-		localStorage.removeItem("xl_post_search");
-		this.historyList = [];
+    goBack(){
+     this.$router.push({name: "gongList"});
     },
-    getSearchList() {
-		if(this.keywords ==''){
-			return;
-		}
-		this.saveHistory();
-		this.$router.push({name: "gongList", query:{wd: val}});
+    toTagView(){
+      this.$router.push({name:'gongLab'});
     },
-    //保存历史记录
-    saveHistory() {
-		this.historyList = this.historyList.slice(0,9);
-		if(this.historyList.includes(this.keywords)){
-			let position = this.historyList.indexOf(this.keywords);
-			this.historyList.splice(position,1);
-			this.historyList.unshift(this.keywords);
-		}else{
-			this.historyList.unshift(this.keywords);
-		}
-		localStorage.setItem("xl_post_search",JSON.stringify({data:this.historyList}));
-    },
-    //获取历史记录
-    getHistory() {
-		if(localStorage.getItem("xl_post_search")){
-			this.historyList = JSON.parse(localStorage.getItem("xl_post_search")).data;
-		}else{
-			this.historyList = [];
-		}
-    }
+    goSearch(val) {
+      if (!val) {
+        val = this.keywords;
+      }
+        this.getSearchList();
+      },
+      removeHistory() {
+      localStorage.removeItem("xl_post_search");
+      this.historyList = [];
+      },
+      getSearchList() {
+      if(this.keywords ==''){
+        return;
+      }
+      this.saveHistory();
+      this.$router.push({name: "gongList", query:{wd: this.keywords}});
+      },
+      //保存历史记录
+      saveHistory() {
+        this.historyList = this.historyList.slice(0,9);
+        if(this.historyList.includes(this.keywords)){
+          let position = this.historyList.indexOf(this.keywords);
+          this.historyList.splice(position,1);
+          this.historyList.unshift(this.keywords);
+        }else{
+          this.historyList.unshift(this.keywords);
+        }
+        localStorage.setItem("xl_post_search",JSON.stringify({data:this.historyList}));
+      },
+      //获取历史记录
+      getHistory() {
+      if(localStorage.getItem("xl_post_search")){
+		this.historyList = this.historyList.concat(JSON.parse(localStorage.getItem("xl_post_search")).data);
+      }else{
+        this.historyList = [];
+      }
+      }
   },
  
 };
 </script>
 <style>
-
+.groupSearchPage{
+	/* margin-top:40px; */
+}
+.groupSearchPage .pt40{
+	padding-top:40px;
+}
 .groupSearchPage .grayBar{
   	width: 100%;
 	height: 20px;
@@ -147,6 +163,8 @@ export default {
 	border-radius: 33px;
 	padding-left:65px;
 	box-sizing: border-box;
+	font-size:28px;
+	color:#343434;
 }
 .groupSearchPage .searchBtn{
 	font-size: 28px;
@@ -174,7 +192,7 @@ export default {
 	color:#999;
 }
 .groupSearchPage .searchHistoryContain {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .groupSearchPage .searchHistoryContain .title {
@@ -184,7 +202,7 @@ export default {
   align-items: center;
 }
 .groupSearchPage .searchHistoryContain .title img {
-  width: 32x;
+  width: 32px;
   height: 32px;
   padding:0 30px;
 }
@@ -213,10 +231,11 @@ export default {
   padding:0 30px;
 }
 .groupSearchPage .content {
+	margin-top:20px;
   margin-left: 25px;
 }
 .groupSearchPage .mt30{
-	margin-top:40px;
+	margin-top:30px;
 }
 .groupSearchPage .hotList{
 	display: flex;
@@ -224,41 +243,9 @@ export default {
 }
 .groupSearchPage .hotItem{
 	width:50%;
-	margin-bottom:20px;
+	margin-bottom:10px;
 	display: flex;
 	align-items: center;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.groupSearchPage .searchHistoryContain .title .titleTxt {
-  font-size: 28px;
 }
 
 
@@ -323,28 +310,19 @@ export default {
   padding-left: 20px;
 }
 
-.groupSearchPage .searchBtn {
-  float: left;
-  height: 64px;
-font-weight: bold;
-font-family: STXihei;
-  padding: 0px 20px 0 30px;
-  color: #6a6a6a;
-  font-size: 28px;
-  display: flex;
-  align-items: center;
-}
-
 .groupSearchPage .all {
   height: 23px;
   font-family: STXihei;
-  font-size: 28px;
+  font-size: 24px;
   line-height: 23px;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   color: #999999;
   float: right;
-  margin-right: 35px;
+  margin-right: 25px;
   margin-top: 10px;
+}
+.groupSearchPage .all i {
+	font-size:24px;
 }
 .groupSearchPage .one {
   width: 50%;

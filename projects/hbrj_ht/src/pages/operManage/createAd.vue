@@ -78,11 +78,11 @@
           </el-col>
         </el-form-item>
 
-        <el-form-item label="banner时间:" >
+        <el-form-item label="banner时间:" required>
 
           <el-col :span="11">
             <el-form-item prop="startTime" >
-              <el-date-picker type="datetime" placeholder="开始时间" v-model="list.startTime"  value-format="	yyyy-MM-dd HH:mm:ss"></el-date-picker>
+              <el-date-picker type="datetime" placeholder="开始时间" v-model="list.startTime"  value-format="	yyyy-MM-dd HH:mm:ss" ></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col class="line" :span="2">-</el-col>
@@ -115,6 +115,7 @@
   export default {
     data(){
       return {
+        bannerId:'',
         outfifteen:false,
         rules:{
           catId :[{required: true, message: '请选择', trigger: 'blur'}],
@@ -153,25 +154,44 @@
     },
     created(){
       this.getChannelListFun();
-      var bannerId=this.$route.query.id;
-      if(bannerId){
-        this.getBannerDetail(bannerId);
-      }
+      this.bannerId=this.$route.query.id;
+      this.getBannerDetailN();
+
+
     },
+
     methods: {
 
-      getBannerDetail(bannerId){
+      getBannerDetailN(bannerId){
         var _this=this;
-        getBannerDetail({"bannerId":bannerId}).then(function(res){
-          if(res.code==200){
-            var data=res.data;
-            for(var i in _this.list){
-              _this.list[i]=data[i];
-            }
-          }else{
-             _this.message.error(res.msg);
+        console.log(_this.bannerId)
+        if(_this.bannerId==''){
+         var param={
+           sid:getLocalData("hbrj_sid"),
           }
-        });
+        }else {
+          var param={
+            id:this.$route.query.id,
+          }
+        }
+          getBannerDetail(param).then(function(res){
+            if(res.code==200){
+              var data=res.data;
+              if (res.data==null){
+
+                return
+              }
+              for(var i in _this.list){
+                _this.list[i]=data[i];
+                console.log(_this.list[i].name)
+              }
+            }else{
+              _this.message.error(res.msg);
+            }
+          });
+
+
+
       },
       getChannelListFun(){
         var _this=this;
@@ -195,7 +215,17 @@
         if(res.status=="success"){
           var code=res.response.code;
           if(code==200){
-            this.list.imageUrl=res.response.data;
+
+              var ImgObj = new Image(); //判断图片是否存在
+              ImgObj.src = res.response.data;
+              //存在图片
+              if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {
+                this.list.imageUrl=res.response.data;
+              } else {
+                this.list.imageUrl=res.response.data;
+                this.$message.error("图片获取失败");
+              }
+
 
           }else{
             this.$message.error(res.response.msg);
@@ -228,7 +258,19 @@
       },
       subFun(){
         var _this=this;
-        advertisingSpace(_this.list).then(function(res){
+        let param={
+          name:_this.list.name,
+          imageUrl:_this.list.imageUrl,
+          type:_this.list.type,
+          startTime:_this.list.startTime.replace(/^\s+|\s+$/g,""),
+          endTime:_this.list.endTime.replace(/^\s+|\s+$/g,""),
+          catId:_this.list.catId,
+          sort:_this.list.sort,
+          item:_this.list.item,
+
+        }
+
+        advertisingSpace(param).then(function(res){
           if(res.code==200){
             _this.$message.success("添加成功");
             location.reload();
@@ -238,6 +280,9 @@
         });
       },
       goBack(){
+        // this.$destroy(true);
+        // this.$el.parentNode.removeChild(this.$el);
+
         this.$router.push({
           name:"advertSite"
         })

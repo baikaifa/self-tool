@@ -193,7 +193,8 @@ let router =  new Router({
     component:advertSite,
     path:'/advertSite',
     meta:{
-      frame:true
+      frame:true,
+      keepAlive: true
     }
   },
   {

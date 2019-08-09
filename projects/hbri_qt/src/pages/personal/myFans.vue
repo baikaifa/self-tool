@@ -71,9 +71,9 @@ export default {
         backBtn
     },
     created () {
-        this.getInfo(0);
-        this.getUserId();
-        this.userList = []
+      this.getInfo(0);
+      this.getUserId();
+      this.userList = []
     },
     methods: {
         getInfo(type, queryUid){
@@ -86,8 +86,8 @@ export default {
             myFans(params).then(data => {
                 var data = typeof(data) === 'string' ? JSON.parse(data) : data;
                 if(data.code == 200){
-                    console.log(data.data.list);
-                    this.userList = data.data.list;
+                    console.log(data.data);
+                    this.userList = data.data;
                     this.totalCount = data.data.totalCount > 99 ? "99+" : data.data.totalCount
                 }
             })

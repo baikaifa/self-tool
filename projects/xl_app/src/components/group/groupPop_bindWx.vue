@@ -1,10 +1,10 @@
 <template>
-    <div class="groupPop_bindWx" v-if="bindWxShow">
+    <div class="groupPop_bindWx" v-if="bindWxShow"  @touchmove.prevent>
             <div class="mask"></div>
-            <div class="popImgContain">
+            <div class="popImgContain" @mousewheel.prevent>
                 <img class="popImg"  src="../../assets/img/community/popBindNotice.png"/>
                 <img class="closeImg" @click="bindWxClose" src="../../assets/img/community/popClose.png"/>
-                <img class="toBindBtn" src="../../assets/img/community/btn_toBind.png"/>
+                <img class="toBindBtn" @click="gotoWxBind" src="../../assets/img/community/btn_toBind.png"/>
                
             </div>           
             
@@ -23,6 +23,11 @@ export default {
     methods:{
         bindWxClose(){
             this.bindWxShow=false;
+        },
+        gotoWxBind(){
+            this.$router.push({
+                name:'wxBind'
+            })
         }
     }
 }
@@ -32,10 +37,10 @@ export default {
     .groupPop_bindWx{
         position: absolute;
         left: 0;
-        top: -90px;
+        top: 0px;
         right: 0;
         bottom: -100px;
-        
+        touch-action: none    
     }
     .groupPop_bindWx .mask{
 
@@ -53,10 +58,11 @@ export default {
     .groupPop_bindWx .popImgContain{
         position: absolute;
         z-index: 101;
-        width: 90vw;
-        margin-left:-45vw;
+        width: 86vw;
+        margin-left:-43vw;
         left:50%;
-        top:14vh;
+        top:20vh;
+        overflow: hidden;
     }
 
     .groupPop_bindWx .popImgContain .popImg{

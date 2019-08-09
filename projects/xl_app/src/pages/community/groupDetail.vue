@@ -1,13 +1,17 @@
 <template>
-    <section class="groupDetailPage">
-        <tit :bak="true"></tit>
+    <section class="groupDetailPage" @touchmove.prevent>
+        <tit :bak="true" :title="groupData.groupName + '详情'"></tit>
+        <section class="bar"></section>
         <section class="groupBaseInfoContain">
             <section class="groupBaseInfo">
                 <div class="avatarContain">
                     <img :src="groupData.groupAvatar"/>
                 </div>
                 <div class="baseInfo">
-                    <div class="groupTitle">{{groupData.groupName}}</div>
+                    <div class="groupTitle">
+                        <img v-if="groupData.groupType==1" src="../../assets/img/community/wx.png"/>
+                        <img v-if="groupData.groupType==2" src="../../assets/img/community/qq.png"/>
+                        &nbsp;{{groupData.groupName}}</div>
                     <div class="groupOwner">群主：{{groupData.ownerName}}</div>
                 </div>
             </section>
@@ -18,7 +22,7 @@
                 </div>
             </section>
         </section>
-        <section class="groupAttrContain">
+        <section class="groupAttrContain" @touchmove.prevent>
             <section class="groupAttr">群标签：{{groupData.labelNames}}</section>
             <section class="groupAttr">群分类：{{groupData.classifyNames}}</section>
         </section>
@@ -53,6 +57,8 @@
         :addRobotInfo="addRobotInfo"
         ></groupPopAddRobot>
 
+        <dataLoading :isShowLoad="isShowLoad"></dataLoading>
+
     </section>
 </template>
 <script>
@@ -60,6 +66,7 @@ import {reqGroup} from "../../utils/request";
 import groupPopAddRobot from "../../components/group/groupPop_addRobot"
 import groupPopBindWx from "../../components/group/groupPop_bindWx"
 import groupPopApplySuccess from "../../components/group/groupPop_applySuccess"
+import dataLoading from "../../components/dataLoading"
 import tit from "../../components/title/title"
 
 export default {
@@ -69,7 +76,8 @@ export default {
            btnClassMap:['failed','start','joined','applying'],
            btnTxtMap:['群已满','加入','已加入','已申请'],
            groupData:{
-               labelNames:""
+               labelNames:"",
+               groupType:""
            },
            joinGroupStatus:0,
            popShow:{
@@ -82,17 +90,22 @@ export default {
                 robotId:"",
                 robotAlias:"" 
             },
+            isShowLoad:false
         }
     },
-    components:{groupPopAddRobot,groupPopBindWx,groupPopApplySuccess,tit},
+    components:{groupPopAddRobot,groupPopBindWx,groupPopApplySuccess,tit,dataLoading},
     created(){
         this.groupId=this.$route.query.groupId;
         this.getGroupDetail();
     },
     methods:{
         getGroupDetail(){
+            this.isShowLoad=true;
             reqGroup.groupDetail({"groupId":this.groupId}).then((res)=>{
                 if(res.code==200){
+                    setTimeout(()=>{
+                            this.isShowLoad=false;
+                    },400);
                     var data=res.data;
                     for(var i in data){
                         this.groupData[i]=data[i];
@@ -100,6 +113,7 @@ export default {
                     if(this.groupData.memberNum>=500){
                         this.groupData.joinGroupStatus=0;
                     }
+                    //this.groupData.groupType=data.groupType;
                     this.groupData.labelNames=this.groupData.labelNames.join(",");
                     this.groupData.classifyNames=this.groupData.classifyNames.join(",");
                     this.joinGroupStatus=this.groupData.joinGroupStatus;
@@ -179,7 +193,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped="scoped" type="text/css">
+
     .groupDetailPage{
         height: 100vh;
         background:#f5f5f5;
@@ -198,6 +213,11 @@ export default {
         align-items: center;
         background: #fff;
         
+    }
+
+    .groupDetailPage .bar{
+        height: 20px;
+        background: #fff;
     }
 
     .groupDetailPage .gotoGroupTalkBtn .btnContain{
@@ -252,7 +272,7 @@ export default {
 
     .groupDetailPage .groupBaseInfoContain{
         background:#fff;
-        margin-top:20px;
+        border-top: 1px solid #eee;/*no*/
     }
 
     .groupDetailPage .groupMemberContain{
@@ -313,13 +333,14 @@ export default {
         width: 90vw;
         display: flex;
         align-items: center;
-        font-size: 32px;
+        font-size: 30px;
         padding:20px 0 20px 0;
+        color: #343434;
     }
 
     .groupDetailPage .groupAttrContain .groupAttr:last-child{
-       
-        border-top:1px solid #e4e4e4;/*no*/
+        color: #343434;
+        border-top:1px solid #eeeeee;/*no*/
     }
 
     .groupDetailPage .groupBaseInfoContain .groupBaseInfo{
@@ -370,6 +391,12 @@ export default {
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+    }
+
+    .groupDetailPage .groupBaseInfoContain .groupBaseInfo .baseInfo .groupTitle img{
+        height: 34px;
+        position: relative;
+        bottom: 1px;
     }
 
     .groupDetailPage .groupBaseInfoContain .groupBaseInfo .baseInfo .groupOwner{

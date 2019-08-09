@@ -89,6 +89,7 @@
                 <span
                   :class="['statusBtn',statusMap[stScope.row.status].textColor]"
                 >{{stScope.row.statusStr}}</span>
+<!--                <span>{{stScope.row.statusStr}}</span>-->
               </template>
             </el-table-column>
             <el-table-column align="center" prop="sort" label="banner顺序"></el-table-column>
@@ -111,7 +112,8 @@
             background
             @current-change="handleCurrentChange"
             :current-page.sync="pageNo"
-            layout="total,prev, pager, next, jumper"
+            @size-change="handleSizeChange"
+            layout="total,prev, pager, next,jumper,sizes"
             :total="total"
           ></el-pagination>
         </div>
@@ -125,6 +127,7 @@ import { getLocalData } from "@/utils/base";
 export default {
   data() {
     return {
+
       sid: getLocalData("hbrj_sid"),
       pageNo: 1,
       pageSize: 8,
@@ -174,6 +177,15 @@ export default {
     this.getChannelData();
   },
   methods: {
+    handleSizeChange(val) {
+      this.pageSize=val;
+      this.getGoodsOnSaleList();
+    },
+    indexMethod (index) {
+      let curpage = this.pageNo     //单前页码，具体看组件取值
+      let limitpage = this.pageSize  //每页条数，具体是组件取值
+      return (index+1) + (curpage-1)*limitpage
+    },
     getData(parms) {
       let params = {
         pageSize: this.pageSize,
@@ -181,8 +193,6 @@ export default {
         ...parms,
         sid: getLocalData("hbrj_uid")
       };
-      console.log(params);
-
       Object.keys(params).forEach(function(item) {
         if (params[item]==="") {
          delete params[item]
@@ -191,20 +201,21 @@ export default {
           delete params.durTime;
         }
       });
-
-      console.log(params);
       let that = this;
       adverSite(params).then(data => {
         if (data.code == 200) {
+    
           that.tableData = data.data.list;
           that.pageNo = data.data.pageIndex;
           that.total = data.data.totalCount;
           that.tableData.forEach(ele => {
             let reg = /([A-Z]|\.\S+)/g;
+            // console.log(that.tableData);
             ele.statusStr = that.statusMap[ele.status].label;
             ele.stTime = ele.startTime.replace(reg, " ");
             ele.edTime = ele.endTime.replace(reg, " ");
           });
+          // console.log(tableData);
         } else {
           that.$message.error(data.msg);
         }

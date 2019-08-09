@@ -1,15 +1,18 @@
 <template>
-  <div class="modifyNewPhoneWrap">
-		<eleTit></eleTit>
+  <div class="nickname">
+		<eleTit>
+
+    </eleTit>
     <!-- <div class="modifyNewPhoneHeader">
       <span class="iconfont iconfanhui btnBack" @click="goBack"></span>
       <span class="title">昵称</span>
     </div> -->
+      <div class="line"></div>
     <div class="myNickName">
       我的昵称
-      <input type="text" v-model="nickname" placeholder="快来设置你的昵称" />
+      <input type="text" class="nickNam" v-model="nickname" placeholder="请输入新的昵称" />
       <!-- 提交按钮 -->
-      <div @click="changeNickname" class="revertPwd">确定</div>
+      <div @click="changeNickname" class="revertPwd">确定修改</div>
     </div>
   </div>
 </template>
@@ -27,7 +30,6 @@ export default {
 		eleTit
 	},
   created() {
-    this.token="b389494d1530103054faacb890973eef3bf23bbea84523e84838fd0915ecb98d";
   },
   methods: {
     goBack() {
@@ -36,17 +38,16 @@ export default {
     changeNickname() {
       var that = this;
       let params = {
-        token: that.token,
         nickname: that.nickname
       };
       console.log(params);
       reqForgetpwd.changeNickname(params).then(res => {
-        console.log(res);
+        if(res.code==200){
+        this.$router.go(-1);
         alert('修改成功');
-        // console.log(res);
-        // if (res.code == 200) {
-        //   console.log(5);
-        // }
+        }else{
+          alert('修改失败');
+        }
       });
     }
   }
@@ -68,6 +69,13 @@ export default {
   box-sizing: border-box;
   border: 1px solid #ebebeb;
 }
+
+.nickname .line{
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px solid #ebebeb;
+  margin-top: 20px;
+}
 .modifyPhoneWrap .modifyPhoneHeader .btnBack {
   font-size: 34px;
   position: absolute;
@@ -77,22 +85,27 @@ export default {
   font-size: 36px;
 }
 
-.modifyNewPhoneWrap .myNickName {
+.nickname .myNickName {
   height: 85px;
   width: 680px;
   float: right;
   line-height: 85px;
   font-size: 28px;
   border-bottom: 1px solid #ebebeb;
+  /* margin-top:px; */
 }
-.modifyNewPhoneWrap .myNickName > input:nth-child(1) {
+.nickname .myNickName .nickNam{
+      z-index: 100;
+      font-size: 28px;
+}
+.nickname .myNickName > input:nth-child(1) {
   margin-left: 40px;
 }
-.modifyNewPhoneWrap .myNickName > input:nth-child(1)::placeholder {
+.nickname .myNickName > input:nth-child(1)::placeholder {
   font-size: 28px;
   filter: opacity(50%);
 }
-.modifyNewPhoneWrap .revertPwd {
+.nickname .revertPwd {
   color: #fff;
   background: #ef4454;
   width: 8rem;

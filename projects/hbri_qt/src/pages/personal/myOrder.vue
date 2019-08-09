@@ -169,6 +169,7 @@ export default{
                 "forecastIncome":"",
                 "pictUrl":""
             },
+
             offlineOrderList:[],
             offlineHasData:true,
             query:{
@@ -261,32 +262,35 @@ export default{
 
         // TODO:  订单列表待确认
 
-        getOnlineOrderListes(){
+        getOnlineOrderList(){
+          // this.onlineOrderList=[];
             let data = {
-                status: 0,
-                type: 0,
-                startTime:　1514736000,
-                endTime: 1561910400
+                status: this.query.status,
+                time:　this.query.time,
+                pageNo: this.query.pageNo,
+                type: this.query.type,
+                pageSize:this.query.pageSize,
             }
-            onlineOrder(data).then(ruq=>{
-                console.log(req);
-                // if(req.code == 200) {
-                //     this.pageTotal = req.data.pageCount;
-                //     if(this.pageIndex == 1){
-                //         this.goodsList = req.data.list;
-                //     }else{
-                //         this.goodsList = this.goodsList.concat(req.data.list);
-                //     }
-                // } else {
-                //     // console.log(req.msg);
-                // }
+            onlineOrder(data).then(res=>{
+
+                if(res.code == 200) {
+                    // this.pageTotal = res.data.pageCount;
+                    if(this.pageIndex == 1){
+                        this.OnlineOrderList = res.data.list;
+                    }else{
+                        this.OnlineOrderList = this.OnlineOrderList.concat(res.data.list);
+                    }
+                } else {
+                  console.log(res.msg);
+                }
             })
         },
         getOffLineOrderList(){
             this.offlineOrderList=[];
             onlineOrder(this.query).then(res=>{
+              console.log(this.offlineOrderList)
                 if(res.code==200){
-                    this.offlineHasData=true?res.data.totalCount>0:false;  
+                    this.offlineHasData=true?res.data.totalCount>0:false;
                     if(this.offlineHasData){
                         var list=res.data.list;
 
@@ -304,10 +308,10 @@ export default{
                             if(this.query.pageNo==1){
                                 this.bindScoll();
                             }
-                            
+
                         }
                     }
-                    
+
                 }else{
                     Toast(res.msg);
                }

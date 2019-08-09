@@ -1,7 +1,7 @@
 <template>
     <section class="groupMemberList">
         <tit :bak="true"></tit>
-        <section class="memberListContain">
+        <section class="memberListContain" :class="{pcTop:sys_env=='pc'}">
             <div v-for="item in list" class="item">
                 <div class="avatar">
                     <img v-lazy="item.memberAvatar"/>
@@ -22,6 +22,7 @@ import tit from "../../components/title/title"
 export default {
     data(){
         return {
+            sys_env: this.sysEnv,
             list:[],
             groupId:"",
             isShowLoad:false
@@ -54,25 +55,28 @@ export default {
 }
 </script>
 
-<style>
+<style scoped="scoped" type="text/css">
     
     .groupMemberList .memberListContain{
         position: fixed;
         width: 100%;
-        top:100px;
+        top:120px;
         height: fill-available;
         height: -webkit-fill-available;
         overflow: auto;
+    }
+    .groupMemberList .pcTop{
+        top:80px;
     }
     .groupMemberList .item{
         width: 100%;
         height: 118px;
         display: flex;
-        border-bottom: 1px solid #e4e4e4;/*no*/
+        border-bottom: 1px solid #eeeeee;/*no*/
     }
 
     .groupMemberList .item:first-child{
-         border-top: 1px solid #e4e4e4;/*no*/
+         border-top: 1px solid #eeeeee;/*no*/
     }
 
     .groupMemberList .item:last-child{

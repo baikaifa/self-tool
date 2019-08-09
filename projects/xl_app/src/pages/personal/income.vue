@@ -1,6 +1,6 @@
 <template>
 	<div class="inco">
-		<eleTit bak="true"></eleTit>
+		<eleTit bak="true" bw="true"></eleTit>
 		<div class="inc_sea">
 			<div class="clear"></div>
 			<div class="inc_sea_inp">
@@ -21,13 +21,40 @@
 				<div class="inc_tit_pri">￥{{userData.quota}}</div>
 				<div class="inc_tit_txt">活动奖励</div>
 			</div>
+			<div :class="{inc_tit_active: !sea.val && tag === 'xlb'}" @click.stop="showList('xlb')" @touch.stop="showList('cos')">
+				<div class="inc_tit_pri">{{xlb}}</div>
+				<div class="inc_tit_txt">喜乐币</div>
+			</div>
 		</div>
 		<!-- 设置优惠券 -->
-		<div>
+		<div v-show="tag === 'amo'">
 			<p class="setQuan" @click="setQuan">
 				<!-- <img src="../../assets/sort.png" /> -->
 				<img src="../../assets/img/personal/sort.png" />
 				设置优惠券</p>
+			<div v-show="isSetQuan" class="quanList">
+				<p class="quanTitle">请选择优先使用的优惠券</p>
+				<div class="couponItem" v-for="(item,index) in couponList" :key="index">
+					<!-- <p data-val="2">优先使用<span>即将过期</span>的优惠券</p> -->
+					<p v-html="item.name"></p>
+					<div class="fx">
+						<div class="btnList"  @click="moveItem('down',index)" v-if="index != couponList.length-1" >
+							<span class="downBtn">下移</span>
+						</div>
+						<div class="btnList" @click="moveItem('up',index)" v-if="index != 0">
+							<span  class="upBtn">上移</span>
+						</div>
+					</div>
+				</div>
+				<div class="sureQuan"><button class="sureQuanBtn" @click="sureQuan">确定</button></div>
+			</div>
+		</div>
+		<!-- 兑换 -->
+		<div v-show="tag === 'xlb'">
+			<p class="setQuan" @click="setDuiHuan">
+				<!-- <img src="../../assets/sort.png" /> -->
+				<!-- <img src="../../assets/img/personal/sort.png" /> -->
+				我要兑换</p>
 			<div v-show="isSetQuan" class="quanList">
 				<p class="quanTitle">请选择优先使用的优惠券</p>
 				<div class="couponItem" v-for="(item,index) in couponList" :key="index">
@@ -112,7 +139,7 @@
 		<div class="itemReason">
 			<div>{{item.tradeTypeDesc}}</div>
 			<div v-if="item.isShowOrderDetail === 1">{{item.orderNum}}</div>
-			<div v-if="item.isShowOrderDetail === 1 || item.isShowOrderDetail === 2" class="spec_font">{{item.commDesc}}</div>
+			<div v-if="item.isShowOrderDetail === 1 || item.isShowOrderDetail === 2 || tag==='xlb'" class="spec_font">{{item.commDesc}}</div>
 			<div v-if="item.settleDesc">结算时间:{{item.settleDesc}}</div>
 		</div>
 		<div class="itemMoney" :class="{unlk_font:item.priceDesc.indexOf('-') !== -1}">{{item.priceDesc}}</div>
@@ -129,6 +156,34 @@
 				</div>
 			</div>
 		</div>
+		<div class="duiHuanModal" v-show="duiHuanModal">
+			<div class="duiHuanWrap">
+				<div class="duiHuanWrapper">
+					<div class="duiHuanHeadr">
+						金币兑换
+					</div>
+					<div class="duiHuanContent">
+						<p>汇率：1000喜乐币=1元优惠券/额度红包</p>
+						<p>我的喜乐币：{{xlb}}</p>
+						<p>额度红包：{{hongbao}}元</p>
+						<div class="duihuaRadio">
+							<div  @click="clickRadio(1)">
+								<img :src="couponImg" alt=""><span>优惠券</span>
+							</div>
+							<div class="duihuaRadioitem" @click="clickRadio(0)">
+								<img :src="redenvImg" alt=""><span>额度红包</span>
+							</div>
+						</div>
+						<div class="duihuanInput">
+							<input type="number" placeholder="输入要兑换的喜乐币金额" v-model="xlbNum">
+							<button class="duihuanBtn" @click="duiHuanHandler">兑换</button>
+						</div>
+						<p class="duiHuanModaltips">提示：优惠券整元兑换</p>
+					</div>
+				</div>
+				<span class="iconfont iconxibguanbi closeBtn" @click="closeDuiHuanModal"></span>
+			</div>
+		</div>
 	</div>
 </template>
 <!-- FIXME: -->
@@ -137,11 +192,12 @@
 import {reqPersonal} from "../../utils/request";
 import eleTit from "@/components/title/title";
 import Vue from "vue"
+import redradioImg from "@/assets/img/personal/radiored.png";
+import whiteradioImg from "@/assets/img/personal/radiowhite.png";
 export default {
 	components:{ eleTit },
 	data:function() {
 		return {
-			token: '',
 			from:'xlyghapp',
 			init: false,
 			enZhid: '',
@@ -171,6 +227,10 @@ export default {
 				amo:{
 					list: [], // 购物红包数据列表
 					page: 1
+				},
+				xlb:{
+					list: [], // 购物红包数据列表
+					page: 1
 				}
 			},
 			sList:[],
@@ -180,21 +240,32 @@ export default {
 				{value:3,name:'优先使用<span class="hightRed">面额高</span>的优惠券'}
 				],
 			couponList:[],
-			isSetQuan:false//是否显示优惠券排序
+			isSetQuan:false,//是否显示优惠券排序
+			duiHuanModal: false,
+			xlb: '0',
+			hongbao: '0',
+			xlbNum: '',
+			couponImg:'',
+			redenvImg:'',
+			currRadio:1
 		}
 	},// end data
 	/**
 	 * TODO: 
 	 */
 	created() { // 初始化相关
+
+	this.couponImg = redradioImg;
+	this.redenvImg = whiteradioImg;
 		// 得到param中数据
-		this.token = 'b389494d1530103054faacb890973eef3bf23bbea84523e84838fd0915ecb98d'
 		this.sea.val = this.$route.query.orderNum;
 		this.sea.txt = this.sea.val;
 		this.tag = this.$route.query.tag;
+		// console.log("tag",this.tag)
 		if (!this.tag) {
 			this.tag = 'inc';
 		}
+		this.getXlb();
 		this.getCouponSort();
 	},
 	/**
@@ -218,6 +289,25 @@ export default {
 	},
 	// TODO:
 	methods: {
+		//点击优惠券
+		clickRadio(d){
+			console.log(d);
+			this.currRadio = d;
+			if(d==1){
+				this.couponImg = redradioImg;
+				this.redenvImg = whiteradioImg;
+			}else if(d==0){
+				this.couponImg = whiteradioImg;
+				this.redenvImg = redradioImg;
+			}
+		},
+		getXlb() {			
+			this.xlb = this.$route.query.xlb || 0;
+			this.transXlb();
+		},
+		transXlb() {
+			this.hongbao = Math.floor(this.xlb/1000);
+		},
 		moveItem(type,index){//移动优惠券
 			if(type== "down"){
 				let item = this.couponList[index];
@@ -233,7 +323,6 @@ export default {
 		getCouponSort(){//得到优惠券的排序
 			let params = {
 				enZhid:this.enZhid,// 用户加密串
-				token: this.token,
 				from: this.from
 			}
 			let that = this;
@@ -258,7 +347,6 @@ export default {
 			let params = {
 				enZhid:this.enZhid,// 用户加密串
 				sort:sortStr,
-				token: this.token,
 				from: this.from
 			}
 			reqPersonal.uploadCouponList(params).then((data) =>{
@@ -274,7 +362,7 @@ export default {
 		 */
 		getUser() {
 			const that = this;
-			reqPersonal.userInfo({enZhid: this.enZhid,token: this.token,from: this.from}).then(res => {
+			reqPersonal.userInfo({enZhid: this.enZhid,from: this.from}).then(res => {
 			// reqPersonal.userInfo({enZhid: this.enZhid}).then(res => {
 				console.log(" bak 1 getUser >>> " , res);
 				that.userData.cumulativeIncome = res.data.totalIncome / 100; // 累计收益
@@ -290,9 +378,10 @@ export default {
 			}
 		},
 		showList(tag) {
+			this.isSetQuan=false;
 			console.log(" to tag ... ", tag);
 			this.tag = tag;
-			this.$router.push({name:'income',query:{enZhid:this.enZhid,tag:tag}});
+			// this.$router.push({name:'income',query:{enZhid:this.enZhid,tag:tag,xlb: this.xlb}});
 			this.refList();
 		},
 		/**
@@ -301,7 +390,7 @@ export default {
 		 */
 		getSea() {
 			const that = this;
-			reqPersonal.search({enZhid: this.enZhid, orderNum: this.sea.val,token: this.token,from: this.from}).then(res => {
+			reqPersonal.search({enZhid: this.enZhid, orderNum: this.sea.val,from: this.from}).then(res => {
 				console.log(" bak 2 getUser >>> " , res);
 				if (res.code !== 200 && res.code !== '200') {
 					that.sea.msg = res.msg;
@@ -323,12 +412,18 @@ export default {
 				// enZhid: this.enZhid,
 				pageNum: (!page || page < 2) ? 1 : page,
 				pageSize: this.dataList.size,
-				token: this.token,
 				from: this.from
 			}
 			reqPersonal[tag + 'List'](param).then(res => {
+				this.sList = [];
 				console.log(" bak 3 getUser >>> " , res);
-				if (res.code === 200) {
+				if (res.code == 200) {
+					if(this.tag == 'xlb') {
+						// this.xlb =2000;
+						res = res.data;
+						this.xlb = res.totalMoney;
+						this.transXlb();
+					}
 					that.resData(res, tag, param.pageNum);
 				} else {
 					console.error(" 数据获取失败... ");
@@ -354,19 +449,28 @@ export default {
 					console.log(e);
 				}
 			}
+			
 			for (let k in res.data) {
 				obj.list.push(res.data[k]);
 			}
+			// for (let k in res.data) {
+			// 	obj.list.push(res.data[k]);
+			// }
 			obj.page = page;
 			this.sList = obj.list;
 			this.init = true;
 			if (res.data.length < this.dataList.size) {
 				this.$nextTick(()=>{
-					this.$refs.incoScro.finishInfinite(true);
+					if(this.$refs.incoScro) {
+						this.$refs.incoScro.finishInfinite(true);
+					}
 				})
 			} else {
 				this.$nextTick(()=>{
-					this.$refs.incoScro.finishInfinite(false);
+					if(this.$refs.incoScro) {
+						this.$refs.incoScro.finishInfinite(false);
+					}
+					// this.$refs.incoScro.finishInfinite(false);
 				})
 				
 			}
@@ -384,6 +488,38 @@ export default {
 		 */
 		lodList() {
 			this.getListData(this.tag, this.dataList[this.tag].page + 1);
+		},
+		// 兑换
+		setDuiHuan() {
+			this.duiHuanModal = true;
+		},
+		// 关闭弹窗
+		closeDuiHuanModal() {
+			this.duiHuanModal = false;
+			this.xlbNum = '';
+		},
+		// 兑换事件
+		duiHuanHandler() {
+			if(this.xlbNum == '' || !this.xlbNum) {
+				alert("请输入正确的兑换币");
+				return;
+			}
+			if(this.xlbNum > this.xlb) {
+				alert("不能超过总的兑换币");
+				return;
+			}
+			let params = {};
+			params.transCount = this.xlbNum;
+			params.type = this.currRadio;
+			reqPersonal.xlbTrans(params).then((res)=>{
+				if(res.code == 200) {
+					alert("金币兑换成功");
+					this.closeDuiHuanModal();
+					this.getXlb();
+					this.refList();
+				}
+			})
+			
 		}
 	},
 	// TODO:
@@ -418,6 +554,7 @@ export default {
 			this.getListData(this.tag);
 		}
 	},
+	
 }
 </script>
 <!-- FIXME: -->
@@ -426,6 +563,12 @@ export default {
 body {
 	top: 0px;
 	height: 100%;
+
+}
+.inco{
+	/*overflow: hidden;*/
+	/*-webkit-overflow-scrolling: touch;*/
+	position: fixed;
 }
 .inco .clear{
 	clear: both
@@ -439,14 +582,19 @@ body {
 .inco {
 	/* height: 100%; */
 }
+.inco .app_head {
+	background-color: #EF4454;
+	color: #ffffff !important;
+}
 /** TODO: 头部搜索部分 */
 .inco .inc_sea {
 	width: 750px;
 	height: 250px;
 	background-color: #EF4454;
-	padding-top: 75px;
+	/* padding-top: 75px; */
 }
 .inco .inc_sea .inc_sea_inp {
+	margin-top: 65px;
 	margin-left: 45px;
 	width: 660px;
 	height: 100px;
@@ -642,7 +790,8 @@ body {
 	border-bottom:1px solid #ebebeb;
 }
 .inco .setQuan{
-	height: 42px;
+	padding: 10px 0;
+	/* height: 42px; */
 	background-color: #fff6d9;
 	font-size: 24px;
 	color: #d0a20b;
@@ -651,8 +800,9 @@ body {
 	line-height: 42px;
 }
 .inco .setQuan img{
-	padding:10px;
-	width:0.6rem;
+	padding:3px 10px 10px 10px;
+	width:24px;
+	background-size: 100%;
 }
 .inco .quanList{
 	height: 340px;
@@ -720,4 +870,101 @@ body {
 	align-items: center;
 	padding:0 20px 0 0;
 }
+/* 兑换弹窗 */
+.duiHuanModal {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0,0,0,.6);
+}
+.duiHuanModal .duiHuanModaltips{
+	padding-top: 30px;
+	color: #ef4454;
+	text-align: left;
+	font-size: 26px;
+	line-height: 1.8;
+}
+.duiHuanModal .duiHuanWrap{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	/* background: #fff; */
+	transform: translate(-50%,-50%);
+	text-align: center;
+	/* padding: 0 60px; */
+	/* width: 90vw; */
+	width: 630px;
+}
+.duiHuanModal .duiHuanWrap .closeBtn{
+	color: #fff;
+	font-size: 66px;
+	margin-top: 40px;
+	display: inline-block;
+}
+.duiHuanModal .duiHuanWrapper{
+	background: #fff;
+	border-radius: 30px;/*no*/
+}
+.duiHuanModal .duiHuanWrapper .duiHuanHeadr{
+	text-align: center;
+	font-size: 70px;
+	color: #fff;
+	padding: 70px 0 110px 0;
+	background: url('../../assets/img/personal/duihuanHeader.png') no-repeat;
+	background-size: contain;
+}
+.duiHuanModal .duiHuanWrapper .duiHuanContent{
+	color: #666;
+	font-size: 28px;
+	padding: 50px 30px 70px 30px;
+}
+.duiHuanModal .duiHuanWrapper .duiHuanContent p{
+	text-align: left;
+	line-height: 1.8;
+}
+.duiHuanModal .duiHuanContent .duihuaRadio {
+	padding-top: 30px;
+	display: flex;
+	align-items: center;
+	font-size: 27.79px;
+}
+.duiHuanModal .duiHuanContent .duihuaRadio .duihuaRadioitem{
+	margin-left: 100px;
+}
+.duiHuanModal .duiHuanContent .duihuaRadio img{
+	height: 30px;
+	margin-top:-3px;
+}
+.duiHuanModal .duiHuanContent .duihuanInput {
+	padding-top: 30px;
+	display: flex;
+	align-items: center;
+}
+.duiHuanModal .duiHuanContent .duihuanInput input {
+	color: #666;
+	font-size: 28px;
+	height: 70px;
+	border: 1px solid #9f9f9f;/*no*/
+	border-radius: 10px;
+	padding: 0 20px;
+	flex: 1;
+}
+.duiHuanModal .duiHuanWrapper .duiHuanContent .duihuanBtn{
+	color: #fff;
+	background: url('../../assets/img/personal/duihuanBtn.png') no-repeat;
+	background-size: cover; 
+	width: 140px;
+	height: 70px;
+	line-height: 1;
+	border: 0;
+	border-radius: 10px;
+	margin-left: 10px;
+}
+</style>
+<style>
+/* .inco .app_head .tit_tit {
+	color: #fff;
+} */
 </style>

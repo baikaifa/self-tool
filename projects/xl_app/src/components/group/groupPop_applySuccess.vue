@@ -1,6 +1,6 @@
 
 <template>
-    <div class="groupPop_applySuccess" v-if="applyShow">
+    <div class="groupPop_applySuccess" v-if="applyShow"  @touchmove.prevent>
             <div class="mask"></div>
             <div class="popImgContain" >
                 <img class="popImg"  src="../../assets/img/community/applyPop.png"/>
@@ -35,9 +35,10 @@ export default {
     .groupPop_applySuccess{
         position: absolute;
         left: 0;
-        top: -90px;
+        top: 0px;
         right: 0;
         bottom: -100px;
+        height:100%;
         
     }
     .groupPop_applySuccess .mask{

@@ -6,10 +6,9 @@
 		</div> -->
 		<eleTit></eleTit>
 		<div class="mall_main_sea">
-			<div class="head_sea_cont">
+			<div class="head_sea_cont" @click.stop="toSearch" @touch.stop="toSearch">
 				<div class="head_sea_txt">
-					<span>&nbsp;</span>
-					<font>快来搜索商品吧</font>
+					<font>搜索商品名称/淘宝宝贝标题</font>
 				</div>
 			</div>
 		</div>
@@ -117,6 +116,10 @@ export default {
 				oJd: false, // 是否开启过京东
 				oVip: false, // 是否开启过唯品会
 				oPdd: false // 是否开启过拼多多
+			},
+			deviceInfo: { // idfi  imei
+				type:'IDFA',
+				val: '111111',
 			}
 		}
 	},
@@ -140,11 +143,31 @@ export default {
 		if (opc.oPdd) {
 			this.nativeStorge.oPdd = true;
 		}
+		// 
+		this.getDeviceInfo();
 	},
 	mounted() {
 		this.getDataList();
 	},
 	methods: {
+		getDeviceInfo() {
+			try {
+				// 获得设备信息
+				switch (this.sysEnv) {
+					case 'ios':
+						this.deviceInfo.type = 'IDFA';
+						this.deviceInfo.val = window.webkit.messageHandlers.getDeviceIdfa.postMessage(null);
+						break;
+					case 'android':
+						this.deviceInfo.type = 'IMEI';
+						this.deviceInfo.val = window.joybuy.getDeviceInfo();
+						break;
+				}
+			} catch (e) {
+				console.log(e);
+			}
+			// alert(" in > getDeviceInfo > " + JSON.stringify(this.deviceInfo));
+		},
 		toBakPlatform(tag) {
 			switch (tag) {
 				case 'tb': // 
@@ -253,16 +276,29 @@ export default {
 		 * @author xwj 2019-07-30
 		 */
 		toCourse(tag) {
-			this.$router.push({name: 'mallCour', pf: tag});
+			this.$router.push({name: 'mallCour', query: {pf: tag}});
+		},
+		/**
+		 * 去到搜索页面
+		 * @author xwj 2019-07-30
+		 */
+		toSearch() {
+			this.$router.push({name: 'mallSearch'});
 		},
 		/**
 		 * 得到数据列表
 		 * @author xwj 2019-07-28
 		 */
 		getDataList(page) {
+			// const param = {
+			// 	pageNo: (!page || page < 2) ? 1 : page,
+			// 	pageSize: this.pr.size,
+			// };
 			const param = {
-				pageNo: (!page || page < 2) ? 1 : page,
-				pageSize: this.pr.size,
+				pageno: (!page || page < 2) ? 1 : page,
+				pagesize: this.pr.size,
+				device_type: this.deviceInfo.type,
+				device_value: this.deviceInfo.val,
 			};
 			const that = this;
 			reqMall.mainList(param).then(res => {
@@ -294,7 +330,7 @@ export default {
 		 * 得到本地数据
 		 * @author xwj 2019-07-30
 		 */
-		getNativeData() {
+		getNativeData(key) {
 			if (localStorage.getItem(key)) {
 				return JSON.parse(localStorage.getItem(key));
 			} else {

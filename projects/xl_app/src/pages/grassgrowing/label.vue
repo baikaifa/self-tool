@@ -1,7 +1,7 @@
 <template>
 	<div class="labelContainer">
     <!-- 标题 -->
-		<eleTit bak="true"></eleTit>
+		<eleTit></eleTit>
     <!--
     <div class="title">
       <i class="iconfont iconfanhui" @click="back"></i>
@@ -9,12 +9,14 @@
     </div>
     -->
     <div class="content">
-      <ul>
-        <li  v-for="(item,index) in list" :key="index">
-          <span class="no1" v-if="item.tagId==1">{{index+1}}</span>
-          <span class="no2" v-if="item.tagId==2">{{index+1}}</span>
-          <span class="no3" v-if="item.tagId==3">{{index+1}}</span>
-          <span class="no4" v-if="item.tagId >= 4">{{index+1}}</span>
+      <ul class="ullist">
+        <li  v-for="(item,index) in list" :key="index" @click.stop="jumpHander(item.tagName)">
+          <div class="spanCenter">
+          <span class="no1" v-if="index===0">{{index+1}}</span>
+          <span class="no2" v-if="index===1">{{index+1}}</span>
+          <span class="no3" v-if="index===2">{{index+1}}</span>
+          <span class="no4" v-if="index >=3">{{index+1}}</span>
+          </div>
 			 <div class="line">
           <span>{{item.tagName}}</span>
           <span>
@@ -38,27 +40,44 @@ export default {
     };
   },
   created() {
-    // this.token ="b389494d1530103054faacb890973eef3bf23bbea84523e84838fd0915ecb98d";
     this.gainLabels();
   },
   methods: {
     back() {
-      console.log(1);
       this.$router.go(-1); //返回上一层
     },
 
     gainLabels() {
-		caoApi.hotSearch().then(res => {
-			if(res.code == 200) {
-				this.list=res.data;
-			}
-		});
+      caoApi.hotSearch().then(res => {
+        if(res.code == 200) {
+          this.list=res.data;
+        }
+      });
+    },
+	jumpHander(tagName){//跳到搜索页面
+		let his = [];
+		if(localStorage.getItem("xl_post_search")){
+			his = his.concat(JSON.parse(localStorage.getItem("xl_post_search")).data);
+			his.unshift(tagName);
+			localStorage.setItem("xl_post_search",JSON.stringify({data:his}));
+		}else{
+			localStorage.setItem("xl_post_search",JSON.stringify({data:tagName}));
+		}
+	 	
+		this.$router.push({name: "gongList", query:{wd: tagName}});
     }
   }
 };
 </script>
 
 <style scoped="scoped" type="text/css" >
+.labelContainer{
+  font-family: "STXihei";
+}
+.labelContainer .ullist{
+  margin-top:20px;
+  border-top:1px solid #eee;/*no*/
+}
 .labelContainer .title {
   /*标题*/
   width: 100%;
@@ -86,37 +105,43 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-
-
+.labelContainer .spanCenter{
+  width: 80px;
+ height: 100%;
+ text-align: center;
+ padding-left: 10px;
+}
 .labelContainer .content > ul li {
   height: 100px;
-  margin-left: 30px;
-width: 100%;
-display: flex;
+  /* padding-left: 30px; */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
 }
 .labelContainer .content > ul li .line{
   border-bottom: 1px solid #eeeeee;/*no*/
-  display: inline-block;
-   height: 100px;
-	flex:1;
-	margin-left: 20px;
+  display: flex;
+  height: 100%;
+  flex:1;
+  justify-content: space-between;
+	/* margin-left: 20px; */
 }
 .labelContainer .content > ul li  span {
-  height: 87px;
-  line-height: 87px;
+  height: 100%;
   font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-}
-.labelContainer .content > ul li .line span:nth-child(1) {
-  margin-left: 30px;
-}
 .labelContainer .content > ul li .line span:nth-child(2) {
-  float: right;
   margin-right: 25px;
+  display: flex;
+  align-items: center;
 }
 .labelContainer .no1 {
-  color: #ef4454;
+  color:  #ef4454;
 }
 .labelContainer .no2 {
   color: #f5c348;

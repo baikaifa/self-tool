@@ -122,4 +122,12 @@ input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     cursor: pointer;
 
 }
+.editNickView input::-webkit-input-placeholder {
+
+  /* placeholder字体大小  */
+  font-size: 0.27rem;
+
+
+}
+
 </style>

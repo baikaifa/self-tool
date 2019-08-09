@@ -38,7 +38,7 @@ export default {
     .loadingIn{
         width: 280px;
         height: 300px;
-        border-radius: 10px;/*no*/
+        border-radius: 10px;
         background: rgba(0,0,0,0.5);
         color: #fff;
         position: absolute;
@@ -55,6 +55,6 @@ export default {
     }
     .loadingIn p{
         padding-top: 20px;
-        font-size: 28px;/*no*/
+        font-size: 28px;
     }
 </style>

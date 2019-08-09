@@ -1,5 +1,5 @@
 <template>
-    <div class="groupPop_addRobot" v-if="addMaskShow">
+    <div class="groupPop_addRobot" v-if="addMaskShow" @touchmove.prevent>
             <div class="mask"></div>
             <div class="popImgContain">
                 <img class="popImg"  src="../../assets/img/community/addFriendPop.png"/>
@@ -50,9 +50,10 @@ export default {
     .groupPop_addRobot{
         position: absolute;
         left: 0;
-        top: -90px;
+        top: 0px;
         right: 0;
         bottom: -100px;
+        height: 100%;
         
     }
     .groupPop_addRobot .mask{

@@ -76,7 +76,7 @@
                 <div class="progressBgd">
                     <div class="progressBar" :style="progressBar">
                         <div class="progressUserNum">
-                            <div>{{data.userGrowth}}</div>
+                            <div >{{data.userGrowth}}</div>
                             <img src="../../assets/img/progressP.png" alt="">
                         </div>
                     </div>
@@ -156,10 +156,10 @@ export default {
         },
         gotoFan(){
   
-            this.$router.push({path:'/myFans'})
+            this.$router.push({name:'myFans',params:{type:'personalCenter'}})
         },
         gotoSetting(){
-            this.$router.push({path:'/setting'});
+            this.$router.push({name:'setting',params:{type:'personalCenter'}});
         },
         toGrowth(){
             this.$router.push({
@@ -394,6 +394,8 @@ export default {
         margin-left: 0.1rem
     }
     .personalCenter .levelProgress{
+      -webkit-user-select: none; /* for Chrome */
+
         padding-top: 0.48rem;
         display: flex;
         position: relative;

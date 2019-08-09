@@ -5,7 +5,8 @@
         <div class="setContain">
             <div class="userImg rowCenter">
                 <div class="editavatar columnCenter" @click="editImg">
-                    <img :src="avatar"/>
+                      <img v-if="avatar" :src="avatar"/>
+                      <img v-if="!avatar" src="@/assets/img/goodsDetail/hb_logo.png"/>
                     <span class="fontgray font24 mtop20">点击修改头像</span>
                     <input type="file" 
                     accept="image/*" ref="uploadAvatar" 
