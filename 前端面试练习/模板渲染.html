@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>        
+<html lang="en">        
+<head>        
+    <meta charset="UTF-8">        
+    <title>超快的模板引擎 artTemplate.js</title>      
+    <style type="text/css">  
+    </style>       
+</head>        
+<body>  
+  <div id="content">
+
+  </div>
+
+  <script type="text/html"  id="test">
+    <h1>{{title}}</h1>
+    <ul>
+        {{each list as value i}}
+            <li>索引 {{i}} {{value}}</li>
+        {{/each}}
+    </ul>
+  </script>
+
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+  <script src="http://cdn.staticfile.org/artTemplate.js/3.0.1/template.js"></script>
+  <script type="text/javascript"> 
+    var data = {
+        title: '标签',
+        list: ['文艺', '博客', '摄影', '电影', '民谣', '旅行', '吉他']
+    };
+    var html = template('test', data);
+    $('#content').html(html);
+  </script>  
+</body>        
+</html> 
