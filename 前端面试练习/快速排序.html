@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- https://www.cnblogs.com/chengxiao/p/6262208.html -->
+    <!-- 三步取关键字    先挑出三个关键字 然后找出中间那个关键字  -->
+    <!-- 优化不必要的交换  -->
+    <script>
+        arr = [4,5,7,8,1,2,3,6];
+        quickSort(arr, 0, arr.length - 1);
+        console.log(arr);
+
+        function quickSort(arr, left = 0, right = arr.length - 1) {
+            if (left >= right) { //如果左边的索引大于等于右边的索引说明整理完毕
+                return
+            } else {
+                console.log(arr);
+                //获取枢纽值，并将其放在当前待处理序列末尾
+                dealPivot(arr, left, right);
+                console.log(arr);
+                //枢纽值被放在序列末尾
+                let pivot = right - 1;
+                //左指针
+                let i = left;
+                //右指针
+                let j = right - 1;
+                while (true) {
+                    console.log(i);
+                    while (arr[++i] < arr[pivot]) {}
+                    console.log(i);
+                    while (j > left && arr[--j] > arr[pivot]) {}
+                    if (i < j) {
+                        console.log(arr);
+                        swap(arr, i, j);
+                        console.log(arr);
+                    } else {
+                        break;
+                    }
+                }
+                console.log(i,j);
+                console.log(right);
+                if (i < right) {//继续从左边进行扫描，寻找大于6的数，此时i和j碰撞，将7和枢纽值6交换
+                    console.log(arr);
+                    swap(arr, i, right - 1);
+                    console.log(arr);
+                }
+                console.log(arr);
+                quickSort(arr, left, i - 1);
+                quickSort(arr, i + 1, right);
+            }
+            /**
+             * 交换元素通用处理
+             *
+             * @param arr
+             * @param a
+             * @param b
+             */
+            function swap(arr, a, b) {
+                var temp = arr[a];
+                arr[a] = arr[b];
+                arr[b] = temp;
+            }
+            /**
+             * 处理枢纽值
+             *
+             * @param arr
+             * @param left
+             * @param right
+             */
+            function dealPivot(arr, left, right) {
+                var mid = Math.floor((left + right) / 2);
+                console.log(mid);
+                if (arr[left] > arr[mid]) {
+                    console.log(1111);
+                    swap(arr, left, mid);
+                }
+                if (arr[left] > arr[right]) {
+                    console.log(2222);
+                    swap(arr, left, right);
+                }
+                if (arr[right] < arr[mid]) {
+                    console.log(3333);
+                    swap(arr, right, mid);
+                }
+                swap(arr, right - 1, mid);
+            }
+        }
+    </script>
+</body>
+
+</html>
