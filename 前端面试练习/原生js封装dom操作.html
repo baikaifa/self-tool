@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="ad-banner">
+sdfasdjklf
+    </div>
+    <script>
+        function $(obj) {
+            var which = obj.substr(0, 1);
+            var newName = obj.split(which)[1];
+            if (which == '#') {
+                return document.getElementById(newName);
+            } else
+            if (which == '.') {
+                return document.getElementsByClassName(newName);
+            } else {
+                return document.getElementsByTagName(obj);
+            }
+        }
+        console.log($('.ad-banner'));
+    </script>
+</body>
+
+</html>
