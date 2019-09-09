@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #box {
+            display: flex;
+            min-height: 100vh;
+            justify-content: space-between;
+            flex-direction: column;
+        }
+
+        header,
+        footer {
+            flex: 0 0 50px;
+            background-color: #7ecef3;
+        }
+
+        #body {
+            display: flex;
+            flex: 1;
+        }
+
+        #body #content {
+            flex: 1;
+            background-color: #53b9be;
+        }
+
+        #body #left-bar {
+            flex: 0 0 200px;
+            order: -1;
+            background-color: #89c997;
+        }
+
+        #body #right-bar {
+            flex: 0 0 200px;
+            background-color: #89c997;
+        }
+    </style>
+
+<body >
+    <div id="box">
+        <header></header>
+        <div id="body">
+            <div id="content"></div>
+            <div id="left-bar"></div>
+            <div id="right-bar"></div>
+        </div>
+    </div>
+    <footer></footer>
+
+</body>
+</head>
+
+</html>
